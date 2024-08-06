@@ -52,3 +52,11 @@ void EldenOverrideHandler::StopOverride()
 	delete handler;
 	handler = nullptr;
 }
+
+bool EldenOverrideHandler::IsOverrideActive()
+{
+	if (EldenOverrideHandler::_instance == nullptr) // nothing to stop
+		return false;
+
+	return true;
+}

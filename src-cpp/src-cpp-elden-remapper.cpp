@@ -16,3 +16,8 @@ SRCCPPELDENREMAPPER_API int StopEldenOverride_Ext(void)
     return 0;
 }
 
+SRCCPPELDENREMAPPER_API bool IsEldenOverrideActive_Ext(void)
+{
+    return EldenOverrideHandler::IsOverrideActive();
+}
+

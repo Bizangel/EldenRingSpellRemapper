@@ -17,6 +17,7 @@ private:
 public:
 	static int StartOverride();
 	static void StopOverride();
+	static bool IsOverrideActive();
 
 
 };
