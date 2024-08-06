@@ -24,12 +24,27 @@
     <ClInclude Include="src-cpp-elden-remapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EldenOverrideHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EldenChordOverrider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EldenChordConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src-cpp-elden-remapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EldenOverrideHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EldenChordOverrider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

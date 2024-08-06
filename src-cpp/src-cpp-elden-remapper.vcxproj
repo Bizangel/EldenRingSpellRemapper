@@ -166,11 +166,16 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EldenChordConfig.h" />
+    <ClInclude Include="EldenChordOverrider.h" />
+    <ClInclude Include="EldenOverrideHandler.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="src-cpp-elden-remapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="EldenChordOverrider.cpp" />
+    <ClCompile Include="EldenOverrideHandler.cpp" />
     <ClCompile Include="src-cpp-elden-remapper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

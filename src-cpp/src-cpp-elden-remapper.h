@@ -8,6 +8,8 @@
 #define SRCCPPELDENREMAPPER_API extern "C" __declspec(dllexport)
 #endif
 
+#include "EldenOverrideHandler.h"
 #include "JoyMacroCore.h"
 
-SRCCPPELDENREMAPPER_API int fnsrccppeldenremapper(void);
+SRCCPPELDENREMAPPER_API int StartEldenOverride_Ext(void);
+SRCCPPELDENREMAPPER_API int StopEldenOverride_Ext(void);
