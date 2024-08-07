@@ -1,6 +1,8 @@
 import { useSortable } from "@dnd-kit/sortable";
 import {CSS} from '@dnd-kit/utilities';
 import "./SpellEntrycard.scss"
+import { useCallback } from "react";
+import { useSpellEntryContextMenu } from "./SpellEntryCardContextMenu";
 
 
 export type SpellEntryCardProps = {
@@ -16,9 +18,17 @@ const SpellEntryCard = ({spellName}: SpellEntryCardProps) =>{
         transition,
     } = useSortable({id: spellName});
 
+    const showContextMenu = useSpellEntryContextMenu(e => e.showContextMenu);
+
+    const onRightClick = useCallback((ev: React.MouseEvent) => {
+        showContextMenu(ev.pageX, ev.pageY);
+        ev.preventDefault();
+    }, [showContextMenu])
+
     return (
         <div className="spell-entry"
             ref={setNodeRef}
+            onContextMenu={onRightClick}
             style={{transform: CSS.Transform.toString(transform), transition: transition}} {...attributes} {...listeners}
         >
             <div className="buttoncombo-wrapper">

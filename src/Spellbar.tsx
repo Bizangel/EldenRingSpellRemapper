@@ -1,4 +1,4 @@
-import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { closestCenter, DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { useCallback, useState } from "react";
 import SpellEntryCard from "./SpellEntryCard";
@@ -8,7 +8,7 @@ type SpellEntry = {
 }
 
 const Spellbar = () => {
-    const sensors = useSensors(useSensor(PointerSensor));
+    const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
     const [spellEntries, setSpellEntries] = useState<SpellEntry[]>([
         {
             id: "Frenzied Flame of the Fell God",
