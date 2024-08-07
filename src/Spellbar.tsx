@@ -11,7 +11,7 @@ const Spellbar = () => {
     const sensors = useSensors(useSensor(PointerSensor));
     const [spellEntries, setSpellEntries] = useState<SpellEntry[]>([
         {
-            id: "Glintstone Stars",
+            id: "Frenzied Flame of the Fell God",
         },
         {
             id: "Glintstone Moon",
