@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import "./SpellEntryCardContextMenu.scss"
 import { useCallback } from "react"
+import { ButtonList, ButtonToImage } from "./common/Buttons"
 
 
 interface SpellEntryCardContextMenuState {
@@ -44,6 +45,11 @@ const SpellEntryCardContextMenu = () => {
         onClick={hideContextMenu} onContextMenu={onRightclick} style={{display: contextMenuVisibility ? "" : "none" }}>
             <div className="spellentry-context-menu" style={{left: menuXPos, top: menuYPos}}>
                 <button className="context-menu-button">Edit Mapping</button>
+                {ButtonList.map(e =>
+                    <div key={e} className="button-context-entry">
+                        <img src={`/buttonicons/XboxOne_${ButtonToImage[e]}.png`} className="responsive-image" />
+                    </div>
+                )}
             </div>
         </div>
     )
