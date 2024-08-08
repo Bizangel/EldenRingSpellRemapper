@@ -48,6 +48,7 @@
     margin: 4px 0px;
     cursor: pointer;
 
+    transition: opacity 200ms ease-in-out;
     &:hover {
         opacity: 0.5;
     }

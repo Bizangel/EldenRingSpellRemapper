@@ -3,12 +3,13 @@
 .settings-page {
     width: 100%;
     height: 100%;
+
+    .back-icon {
+        width: 5%;
+        height: auto;
+        margin: 5px;
+
+        filter: invert(1);
+    }
 }
 
-.back-icon {
-    width: 5%;
-    height: auto;
-    margin: 5px;
-
-    filter: invert(1);
-}

@@ -4,6 +4,7 @@
     height: 100%;
     aspect-ratio: 1;
     background-color: #050c17;
+    border-color: black;
 
     display: flex;
     flex-direction: column;
@@ -11,6 +12,16 @@
     align-items: center;
 
     padding: 10px;
+    user-select: none;
+
+
+    transition: border-color 250ms ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        // opacity: 0.8;
+        border: 1px solid rgb(71, 71, 119);
+    }
 }
 
 .spell-entry .spacing {

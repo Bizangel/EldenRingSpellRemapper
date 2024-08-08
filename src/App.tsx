@@ -2,16 +2,19 @@ import { useCallback, useState } from "react";
 import "./App.scss";
 import SpellMapPage from "./SpellMapPage";
 import SettingsPage from "./SettingsPage";
+import AddSpellPage from "./AddSpellPage";
 
 function App() {
-  const [settingsPageActive, setSettingsPageActive] = useState(false);
-  const goToSettingsPage = useCallback(() => {setSettingsPageActive(true)}, [setSettingsPageActive]);
-  const goBackToSpellPage = useCallback(() => {setSettingsPageActive(false)}, [setSettingsPageActive]);
+  const [activePage, setActivePage] = useState("spell");
+  const goToSettingsPage = useCallback(() => {setActivePage("settings")}, [setActivePage]);
+  const goToAddSpellPage = useCallback(() => {setActivePage("addspell")}, [setActivePage]);
+  const goBackToSpellPage = useCallback(() => {setActivePage("spell")}, [setActivePage]);
 
   return (
     <>
-      {!settingsPageActive && <SpellMapPage {...{goToSettingsPage}}/>}
-      {settingsPageActive && <SettingsPage {...{goBackToSpellPage}}/>}
+      {activePage === "spell" && <SpellMapPage {...{goToSettingsPage, goToAddSpellPage}}/>}
+      {activePage === "settings" && <SettingsPage {...{goBackToSpellPage}}/>}
+      {activePage === "addspell" && <AddSpellPage {...{goBackToSpellPage}}/>}
     </>
   );
 }

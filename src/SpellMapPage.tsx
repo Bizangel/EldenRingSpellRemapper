@@ -5,9 +5,10 @@ import SpellEntryCardContextMenu from "./SpellEntryCardContextMenu";
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,
+    goToAddSpellPage: () => void,
 }
 
-const SpellMapPage = ({goToSettingsPage}: SpellMapPageProps) => {
+const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) => {
     return (
         <div className="spell-page">
             <SpellEntryCardContextMenu/>
@@ -18,7 +19,7 @@ const SpellMapPage = ({goToSettingsPage}: SpellMapPageProps) => {
                 </div>
 
                 <div className="spellpage-button-wrapper">
-                        <button className="spellpage-button">Add Spell</button>
+                        <button className="spellpage-button" onClick={goToAddSpellPage}>Add Spell</button>
                         <button className="spellpage-button start">Start Remapping</button>
                 </div>
             </div>
