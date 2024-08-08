@@ -26,7 +26,7 @@ export type EldenRingRemapperStore = {
 
     reorderSpell: (spellId1: string, spellId2: string) => void,
     deleteSpell: (spellId: string) => void,
-    remapSpell: (spellId: string, mapping: ButtonString) => void,
+    remapSpell: (spellId: string, mapping?: ButtonString) => void,
     addSpell: (spellId: string) => void,
 }
 
