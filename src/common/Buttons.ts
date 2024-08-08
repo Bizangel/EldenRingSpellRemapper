@@ -1,4 +1,4 @@
-export const ButtonList = ["A", "B", "X", "Y", "LB", "RB", "LT", "RT", "START", "SELECT", "DPAD_UP", "DPAD_LEFT", "DPAD_RIGHT", "DPAD_DOWN", "LS", "RS"] as const;
+export const ButtonList = ["A", "B", "X", "Y", "LB", "RB", "LT", "RT", "START", "SELECT", "DPAD_UP", "DPAD_LEFT", "DPAD_RIGHT", "DPAD_DOWN", "LS", "RS", "P1", "P2", "P3", "P4"] as const;
 export type ButtonString = typeof ButtonList[number];
 
 export const ButtonToImage: Record<ButtonString, string> = {
@@ -17,5 +17,9 @@ export const ButtonToImage: Record<ButtonString, string> = {
     "DPAD_LEFT": "Dpad_Left",
     "DPAD_RIGHT": "Dpad_Right",
     "LS": "Left_Stick_Click",
-    "RS": "Right_Stick_Click"
+    "RS": "Right_Stick_Click",
+    "P1": "P1",
+    "P2": "P2",
+    "P3": "P3",
+    "P4": "P4"
 }
