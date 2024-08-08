@@ -2,6 +2,7 @@ import { closestCenter, DndContext, DragEndEvent, KeyboardSensor, PointerSensor,
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { useCallback, useState } from "react";
 import SpellEntryCard from "./SpellEntryCard";
+import { useRemapper } from "./common/RemapConfig";
 
 type SpellEntry = {
     id: string,
@@ -9,25 +10,15 @@ type SpellEntry = {
 
 const Spellbar = () => {
     const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
-    const [spellEntries, setSpellEntries] = useState<SpellEntry[]>([
-        {
-            id: "Frenzied Flame of the Fell God",
-        },
-        {
-            id: "Glintstone Moon",
-        }
-    ]);
+    const spells = useRemapper(e => e.config.spells)
+    const reorderSpell = useRemapper(e => e.reorderSpell)
 
     const handleDragEnd = useCallback((event: DragEndEvent) => {
         const { active, over } = event;
         if (over !== null && active.id !== over.id ) {
-            setSpellEntries((spells) => {
-                const oldIndex = spells.findIndex(e => e.id == active.id);
-                const newIndex = spells.findIndex(e => e.id == over.id);
-                return arrayMove(spells, oldIndex, newIndex);
-            });
+            reorderSpell(active.id as string, over.id as string);
         }
-    }, [])
+    }, [reorderSpell])
 
     return (
         <DndContext
@@ -36,10 +27,10 @@ const Spellbar = () => {
             onDragEnd={handleDragEnd}
         >
             <SortableContext
-                items={spellEntries}
+                items={spells}
                 strategy={horizontalListSortingStrategy}
             >
-                {spellEntries.map(spell => <SpellEntryCard key={spell.id} spellName={spell.id} />)}
+                {spells.map(spell => <SpellEntryCard key={spell.id} {...spell} />)}
             </SortableContext>
         </DndContext>
     )

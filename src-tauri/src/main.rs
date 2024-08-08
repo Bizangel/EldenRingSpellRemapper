@@ -51,41 +51,46 @@ fn main() {
               size: _,
               ..
             } => {
-              println!("system tray received a left click");
-            }
-            SystemTrayEvent::RightClick {
-              position: _,
-              size: _,
-              ..
-            } => {
-              println!("system tray received a right click");
-            }
-            SystemTrayEvent::DoubleClick {
-              position: _,
-              size: _,
-              ..
-            } => {
-              println!("system tray received a double click");
+              // same as below, open both on click and on context menu press
+              let window_label = "main";
+              if let Some(window) = app.get_window(window_label) {
+                  window.show().unwrap();
+                  window.set_focus().unwrap();
+              } else {
+                  let main_window = WindowBuilder::new(
+                      app,
+                      window_label,
+                      tauri::WindowUrl::App("index.html".into())
+                  ).build().unwrap();
+                  main_window.show().unwrap();
+                  main_window.set_focus().unwrap();
+              }
             }
             SystemTrayEvent::MenuItemClick { id, .. } => {
               match id.as_str() {
                 "quit" => {
-                  std::process::exit(0);
+                    // close if needed
+                    if is_elden_override_active() {
+                        stop_elden_override();
+                    }
+
+                    std::process::exit(0);
                 }
                 "open" => {
+                    // same as above
                     let window_label = "main";
-                        if let Some(window) = app.get_window(window_label) {
-                            window.show().unwrap();
-                            window.set_focus().unwrap();
-                        } else {
-                            let main_window = WindowBuilder::new(
-                                app,
-                                window_label,
-                                tauri::WindowUrl::App("index.html".into())
-                            ).build().unwrap();
-                            main_window.show().unwrap();
-                            main_window.set_focus().unwrap();
-                        }
+                    if let Some(window) = app.get_window(window_label) {
+                        window.show().unwrap();
+                        window.set_focus().unwrap();
+                    } else {
+                        let main_window = WindowBuilder::new(
+                            app,
+                            window_label,
+                            tauri::WindowUrl::App("index.html".into())
+                        ).build().unwrap();
+                        main_window.show().unwrap();
+                        main_window.set_focus().unwrap();
+                    }
                 }
                 _ => {}
               }

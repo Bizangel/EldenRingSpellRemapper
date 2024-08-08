@@ -3,21 +3,21 @@ import {CSS} from '@dnd-kit/utilities';
 import "./SpellEntrycard.scss"
 import { useCallback } from "react";
 import { useSpellEntryContextMenu } from "./SpellEntryCardContextMenu";
+import { SpellMapping, useRemapper } from "./common/RemapConfig";
+import { ButtonToImage } from "./common/Buttons";
 
 
-export type SpellEntryCardProps = {
-    spellName: string,
-}
 
-const SpellEntryCard = ({spellName}: SpellEntryCardProps) =>{
+const SpellEntryCard = ({id, buttonCombo}: SpellMapping) =>{
     const {
         attributes,
         listeners,
         setNodeRef,
         transform,
         transition,
-    } = useSortable({id: spellName});
+    } = useSortable({id: id});
 
+    const currentModifier = useRemapper(e => e.config.currentModifier);
     const showContextMenu = useSpellEntryContextMenu(e => e.showContextMenu);
 
     const onRightClick = useCallback((ev: React.MouseEvent) => {
@@ -32,9 +32,9 @@ const SpellEntryCard = ({spellName}: SpellEntryCardProps) =>{
             style={{transform: CSS.Transform.toString(transform), transition: transition}} {...attributes} {...listeners}
         >
             <div className="buttoncombo-wrapper">
-                <img src="/buttonicons/XboxOne_LT.png" className="responsive-image"></img>
+                <img src={`/buttonicons/XboxOne_${ButtonToImage[currentModifier]}.png`} className="responsive-image"></img>
                 +
-                <img src="/buttonicons/XboxOne_A.png" className="responsive-image"></img>
+                <img src={`/buttonicons/XboxOne_${ButtonToImage[buttonCombo]}.png`} className="responsive-image"></img>
             </div>
 
             <div className="spacing"></div>
@@ -43,7 +43,7 @@ const SpellEntryCard = ({spellName}: SpellEntryCardProps) =>{
             </div>
 
             <div className="text-wrapper">
-                {spellName}
+                {id}
             </div>
         </div>
     )

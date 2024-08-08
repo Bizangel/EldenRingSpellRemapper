@@ -1,6 +1,7 @@
 export const ButtonList = ["A", "B", "X", "Y", "LB", "RB", "LT", "RT", "START", "SELECT", "DPAD_UP", "DPAD_LEFT", "DPAD_RIGHT", "DPAD_DOWN", "LS", "RS"] as const;
+export type ButtonString = typeof ButtonList[number];
 
-export const ButtonToImage: Record<(typeof ButtonList)[number], string> = {
+export const ButtonToImage: Record<ButtonString, string> = {
     "A": "A",
     "B": "B",
     "X": "X",
