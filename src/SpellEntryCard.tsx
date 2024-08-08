@@ -19,7 +19,7 @@ const SpellEntryCard = ({id, buttonCombo}: SpellMapping) =>{
     const showContextMenu = useSpellEntryContextMenu(e => e.showContextMenu);
 
     const onRightClick = useCallback((ev: React.MouseEvent) => {
-        showContextMenu(ev.pageX, ev.pageY);
+        showContextMenu(ev.pageX, ev.pageY, id);
         ev.preventDefault();
     }, [showContextMenu])
 
