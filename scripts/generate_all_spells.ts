@@ -75,3 +75,24 @@ await Promise.all(spells.map(async sp => {
 }))
 
 console.log("Download successful!")
+
+const indentSpaces = 2;
+const targetGenPath = "./src/common/Spells.generated.ts"
+const fileStart = `
+
+/* =====================================================
+* This file was automatically generated using
+* "npm run spellgen"
+* See ./scripts/generate_all_spells.ts and README for more info.
+* =====================================================
+*/
+
+const Spells =
+`
+
+const fileEnd = `\n\nexport default Spells;`
+
+const fullSpells = JSON.stringify(spells.map(e => ({...e, imageUrl: `/public/spellsicon/${e.id}.png`}) ), null, 2)
+
+const fullFileContents = fileStart + fullSpells + fileEnd;
+fs.writeFileSync(targetGenPath, fullFileContents, {encoding: "utf8"})

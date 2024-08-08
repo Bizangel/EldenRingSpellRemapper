@@ -28,3 +28,4 @@ dist-ssr
 *.sw?
 
 public/spellsicons/
+src/common/Spells.generated.ts
