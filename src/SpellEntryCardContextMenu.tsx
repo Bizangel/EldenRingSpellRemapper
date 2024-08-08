@@ -57,7 +57,7 @@ const SpellEntryCardContextMenu = () => {
     return (
         <div className="spellentry-context-menu-wrapper"
         onClick={hideContextMenu} onContextMenu={onRightclick} style={{display: contextMenuVisibility ? "" : "none" }}>
-            <div className="spellentry-context-menu" style={{left: xPosition, top: yPosition}}>
+            <div className="spellentry-context-menu" style={{left: xPosition, top: yPosition}} onClick={(ev) => { ev.stopPropagation()}}>
                 <div className="context-menu-title">Edit Mapping</div>
                 {ButtonList.filter(e => e != currentModifier).map(e =>
                     <div key={e} className={`button-context-entry ${ e == currentMapping ? "selected" : ""}`} onClick={() => {onButtonMappingClick(e)}}>
