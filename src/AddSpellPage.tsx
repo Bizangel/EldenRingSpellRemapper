@@ -81,7 +81,7 @@ const AddSpellPage = ({goBackToSpellPage}: AddSpellPageProps) => {
 
             <div className="spell-list">
                 {filterByName(Spells, currentFilter).map(spell =>
-                    <SpellListEntry key={spell.id} {...spell}/>
+                    <SpellListEntry key={spell.id} {...spell} />
                 )}
             </div>
 

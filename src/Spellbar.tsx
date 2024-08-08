@@ -43,6 +43,7 @@ function DraggableSpellEntryCard({activeDragId, ...props}: SpellMapping & {activ
         ref={setNodeRef}
         style={
             {transform: CSS.Transform.toString(transform), transition: transition,
+            cursor: "grab",
             opacity: activeDragId === props.id ? 0 : 1} // display as hidden if currently dragging
         }
         {...attributes} {...listeners}>
@@ -104,7 +105,7 @@ const Spellbar = () => {
 
             <DragOverlay>
                 {activeDragId && draggingSpell ? (
-                    <SpellEntryCard {...draggingSpell} />
+                    <SpellEntryCard isBeingDragged={true} {...draggingSpell} />
                 ): null}
             </DragOverlay>
         </DndContext>

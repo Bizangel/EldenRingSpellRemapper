@@ -51,6 +51,11 @@
     align-items: center;
     padding: 5px;
 
+    transition: opacity 250ms ease-in-out;
+    &:hover {
+        opacity: 0.5;
+    }
+
     cursor: pointer;
 }
 

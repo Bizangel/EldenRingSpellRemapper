@@ -6,13 +6,14 @@ type SpellEntryCardProps = {
     id: string,
     spellName: string,
     buttonCombo?: ButtonString,
+    isBeingDragged?: boolean,
 }
 
-const SpellEntryCard = ({id, spellName, buttonCombo}: SpellEntryCardProps) =>{
+const SpellEntryCard = ({id, spellName, buttonCombo, isBeingDragged: isDragging}: SpellEntryCardProps) =>{
     const currentModifier = useRemapper(e => e.config.currentModifier);
 
     return (
-        <div className="spell-entry">
+        <div className="spell-entry" style={{cursor: isDragging ? "grabbing" : ""}}>
             {
                 buttonCombo &&
                 <div className="buttoncombo-wrapper">
