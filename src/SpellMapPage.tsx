@@ -3,6 +3,7 @@ import './SpellMapPage.scss'
 import Spellbar from "./Spellbar";
 import SpellEntryCardContextMenu from "./SpellEntryCardContextMenu";
 import useSettingsCheck from "./common/settingsCheck";
+import PaddleMapper from "./PaddleMapper";
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,
@@ -29,6 +30,14 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                         {!settingsCheck.ok &&
                             settingsCheck.error
                         }
+                    </div>
+
+                    <div className="extra-controller-mapping-wrapper">
+                        <div className="modifier-replacement-wrapper">
+
+                        </div>
+
+                        <PaddleMapper/>
                     </div>
                 </div>
             </div>

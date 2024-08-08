@@ -118,4 +118,21 @@
     gap: 10px;
 }
 
+.issues-box-wrapper {
+    width: 400px;
+}
+
+.extra-controller-mapping-wrapper {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    // background-color: blue;
+}
+
+.modifier-replacement-wrapper {
+    // background-color: green;
+
+    height: 30%;
+}
 
