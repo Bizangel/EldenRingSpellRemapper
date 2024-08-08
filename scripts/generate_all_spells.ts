@@ -87,12 +87,13 @@ const fileStart = `
 * =====================================================
 */
 
-const Spells =
+export type SpellType = {id: string, spellName: string, imageUrl: string, wikiLink: string }
+const Spells : SpellType[] =
 `
 
 const fileEnd = `\n\nexport default Spells;`
 
-const fullSpells = JSON.stringify(spells.map(e => ({...e, imageUrl: `/public/spellsicon/${e.id}.png`}) ), null, 2)
+const fullSpells = JSON.stringify(spells.map(e => ({...e, imageUrl: `/spellsicons/${e.id}.png`}) ), null, 2)
 
 const fullFileContents = fileStart + fullSpells + fileEnd;
 fs.writeFileSync(targetGenPath, fullFileContents, {encoding: "utf8"})

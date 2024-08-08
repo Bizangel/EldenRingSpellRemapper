@@ -1,17 +1,20 @@
 import arrowBack from "./assets/arrow-left.svg"
 import './AddSpellPage.scss'
+import Spells, { SpellType } from "./common/Spells.generated"
 
 type AddSpellPageProps = {
     goBackToSpellPage: () => void,
 }
 
 
-const SpellListEntry = ({spellid}: {spellid: string}) => {
+const SpellListEntry = ({spellName, imageUrl}: SpellType) => {
     return (
         <div className="spell-list-entry">
-            <img src={"/sample_spell.png"} className="responsive-image"/>
+            <div className="spell-list-entry-image">
+            <img src={imageUrl} className="responsive-image"/>
+            </div>
             <div className="spell-list-entry-text">
-                {spellid}
+                {spellName}
             </div>
         </div>
     )
@@ -26,16 +29,9 @@ const AddSpellPage = ({goBackToSpellPage}: AddSpellPageProps) => {
             </input>
 
             <div className="spell-list">
-                <SpellListEntry spellid="Glintstone stars"/>
-                <SpellListEntry spellid="Glintstone moonlight"/>
-                <SpellListEntry spellid="Frenzied Flame"/>
-                <SpellListEntry spellid="Glintstone moonlight"/>
-                <SpellListEntry spellid="Glintstone moonlight"/>
-                <SpellListEntry spellid="Glintstone moonlight"/>
-                <SpellListEntry spellid="Glintstone moonlight"/>
-                <SpellListEntry spellid="Glintstone moonlight"/>
-                <SpellListEntry spellid="Glintstone moonlight"/>
-                <SpellListEntry spellid="Glintstone moonlight"/>
+                {Spells.map(spell =>
+                    <SpellListEntry key={spell.id} {...spell}/>
+                )}
             </div>
         </div>
     )
