@@ -6,8 +6,6 @@ import { useSpellEntryContextMenu } from "./SpellEntryCardContextMenu";
 import { SpellMapping, useRemapper } from "./common/RemapConfig";
 import { ButtonToImage } from "./common/Buttons";
 
-
-
 const SpellEntryCard = ({id, buttonCombo}: SpellMapping) =>{
     const {
         attributes,

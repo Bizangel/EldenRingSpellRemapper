@@ -14,7 +14,7 @@ interface SpellEntryCardContextMenuState {
 }
 
 
-export const useSpellEntryContextMenu = create<SpellEntryCardContextMenuState>((set) => ({
+export const useSpellEntryContextMenu = create<SpellEntryCardContextMenuState>()((set) => ({
     xPosition: 0,
     yPosition: 0,
     display: false,

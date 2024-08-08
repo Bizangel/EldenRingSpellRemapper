@@ -1,12 +1,8 @@
 import { closestCenter, DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { arrayMove, horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { useCallback, useState } from "react";
+import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
+import { useCallback } from "react";
 import SpellEntryCard from "./SpellEntryCard";
 import { useRemapper } from "./common/RemapConfig";
-
-type SpellEntry = {
-    id: string,
-}
 
 const Spellbar = () => {
     const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
