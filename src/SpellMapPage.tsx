@@ -14,9 +14,7 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
             <SpellEntryCardContextMenu/>
             <img src={cogWheel} className="settings-icon" onClick={goToSettingsPage}/>
             <div className="spell-page-content">
-                <div className="spellbar">
-                    <Spellbar/>
-                </div>
+                <Spellbar/>
 
                 <div className="spellpage-button-wrapper">
                         <button className="spellpage-button" onClick={goToAddSpellPage}>Add Spell</button>
