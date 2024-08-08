@@ -1,6 +1,6 @@
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, KeyboardSensor, PointerSensor, useDroppable, useSensor, useSensors } from "@dnd-kit/core";
 import { horizontalListSortingStrategy, SortableContext, useSortable } from "@dnd-kit/sortable";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import {CSS} from '@dnd-kit/utilities';
 import SpellEntryCard from "./SpellEntryCard";
 import { SpellMapping, useRemapper } from "./common/RemapConfig";
@@ -58,6 +58,7 @@ const Spellbar = () => {
     const deleteSpell = useRemapper(e => e.deleteSpell)
     const [activeDragId, setActiveDragId] = useState<string | number | null>(null)
     const draggingSpell = spells.find((spell) => spell.id === activeDragId)
+    const scrollSpellsRef = useRef<HTMLDivElement>(null);
 
     const handleDragEnd = useCallback((event: DragEndEvent) => {
         const { active, over } = event;
@@ -77,6 +78,11 @@ const Spellbar = () => {
         setActiveDragId(event.active.id)
     }, [setActiveDragId])
 
+    const onScroll = useCallback((ev: React.WheelEvent<HTMLDivElement>) => {
+        if (scrollSpellsRef.current)
+            scrollSpellsRef.current.scrollBy({top: 0, left: ev.deltaY, behavior: "instant"})
+    }, [])
+
     return (
         <DndContext
             sensors={sensors}
@@ -85,7 +91,7 @@ const Spellbar = () => {
             onDragStart={handleDragStart}
         >
             <div className="spellbar">
-                <div className="spellbar-spells">
+                <div className="spellbar-spells" ref={scrollSpellsRef} onWheel={onScroll}>
                     <SortableContext
                         items={spells}
                         strategy={horizontalListSortingStrategy}

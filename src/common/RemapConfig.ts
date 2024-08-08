@@ -2,11 +2,15 @@ import { create } from "zustand";
 import { produce } from 'immer'
 import { ButtonString } from "./Buttons";
 import { createJSONStorage, persist } from "zustand/middleware";
+import Spells from "./Spells.generated";
 
 export type SpellMapping = {
     id: string;
-    buttonCombo: ButtonString;
+    spellName: string;
+    buttonCombo?: ButtonString;
 }
+
+const MAX_SPELL_AMOUNT = 14
 
 // contains all application global state
 export type EldenRingRemapperConfig = {
@@ -20,9 +24,10 @@ export type EldenRingRemapperConfig = {
 export type EldenRingRemapperStore = {
     config: EldenRingRemapperConfig,
 
-    reorderSpell: (spell1: string, spell2: string) => void,
-    deleteSpell: (spell: string) => void,
-    remapSpell: (spell: string, mapping: ButtonString) => void,
+    reorderSpell: (spellId1: string, spellId2: string) => void,
+    deleteSpell: (spellId: string) => void,
+    remapSpell: (spellId: string, mapping: ButtonString) => void,
+    addSpell: (spellId: string) => void,
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
@@ -63,6 +68,27 @@ export const useRemapper = create<EldenRingRemapperStore>()(
                     const i = state.config.spells.findIndex(e => e.id === spell);
                     if (i > -1)
                         state.config.spells.splice(i, 1)
+                })
+            )
+        },
+
+        addSpell : (spell) => {
+            set(
+                produce ((state: EldenRingRemapperStore) => {
+                    // don't add more than maximum
+                    if (get().config.spells.length >= MAX_SPELL_AMOUNT)
+                        return;
+
+                    // ensure spell is not present already
+                    if (get().config.spells.findIndex(e => e.id === spell) !== -1)
+                        return
+
+                    const spellIdx = Spells.findIndex(e => e.id === spell)
+                    if (spellIdx === -1)
+                        return
+
+                    const spellName = Spells[spellIdx].spellName
+                    state.config.spells.push({id: spell, spellName: spellName, buttonCombo: undefined})
                 })
             )
         }

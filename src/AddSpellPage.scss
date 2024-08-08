@@ -20,9 +20,70 @@
     flex-direction: column;
 }
 
+.spell-preview {
+    height: 100px;
+    width: 60%;
+
+    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(141, 141, 42, 0.562);
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: row;
+
+    overflow-x: auto;
+
+    &::-webkit-scrollbar { height: 3px; background-color: #11171b;}
+    &::-webkit-scrollbar-thumb { background-color: #54646f; }
+
+    padding: 10px;
+    gap: 10px
+}
+
+.spell-preview-card {
+    height: 100%;
+    aspect-ratio: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+
+    cursor: pointer;
+}
+
+.spell-preview-image {
+    height: 80%;
+    width: auto;
+}
+
+.spell-preview-text{
+    font-size: 8pt;
+    flex-grow: 1;
+    text-align: center;
+}
+
 .search-spell-box {
     width: 500px;
     height: 40px;
+
+
+    background-color: #2e3b43;
+
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    z-index: 1;
+
+    outline: none;
+
+    border-radius: 5px;
+    border: 1px solid #446275;
+
+    // border: 0;
+    margin: 3px
 }
 
 .spell-list{
@@ -55,6 +116,8 @@
         opacity: 0.5;
         cursor: pointer;
     }
+
+    user-select: none;
 }
 
 .spell-list-entry-text{
