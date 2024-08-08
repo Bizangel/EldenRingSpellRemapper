@@ -21,6 +21,7 @@ export type EldenRingRemapperStore = {
     config: EldenRingRemapperConfig,
 
     reorderSpell: (spell1: string, spell2: string) => void,
+    deleteSpell: (spell: string) => void,
     remapSpell: (spell: string, mapping: ButtonString) => void,
 }
 
@@ -52,6 +53,16 @@ export const useRemapper = create<EldenRingRemapperStore>()(
                     const i = state.config.spells.findIndex(e => e.id === spell);
                     if (i > -1 && button != get().config.currentModifier)
                         state.config.spells[i].buttonCombo = button
+                })
+            )
+        },
+
+        deleteSpell : (spell) => {
+            set(
+                produce ((state: EldenRingRemapperStore) => {
+                    const i = state.config.spells.findIndex(e => e.id === spell);
+                    if (i > -1)
+                        state.config.spells.splice(i, 1)
                 })
             )
         }

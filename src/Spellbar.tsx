@@ -7,15 +7,17 @@ import { SpellMapping, useRemapper } from "./common/RemapConfig";
 import './Spellbar.scss'
 import { useSpellEntryContextMenu } from "./SpellEntryCardContextMenu";
 import draggableCollisionWithThrashArea from "./common/DraggableCollisionWithThrashArea";
+import thrashIcon from "./assets/trash.svg"
 
-function DroppableThrashExample() {
+function DroppableThrashExample({isDragActive} : {isDragActive: boolean}) {
     const {setNodeRef, isOver} = useDroppable({
       id: 'delete-spell-droparea',
     });
-
     return (
-      <div ref={setNodeRef} style={{backgroundColor: isOver ? "red" : ""}}>
-        i am thrash
+      <div ref={setNodeRef}
+        style={{opacity: isDragActive ? 1 : 0}}
+        className={`delete-spell-area ${isOver ? "over" : ""}`}>
+        <img src={thrashIcon} className="responsive-image"/>
       </div>
     );
 }
@@ -53,19 +55,23 @@ const Spellbar = () => {
     const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
     const spells = useRemapper(e => e.config.spells)
     const reorderSpell = useRemapper(e => e.reorderSpell)
+    const deleteSpell = useRemapper(e => e.deleteSpell)
     const [activeDragId, setActiveDragId] = useState<string | number | null>(null)
     const draggingSpell = spells.find((spell) => spell.id === activeDragId)
 
     const handleDragEnd = useCallback((event: DragEndEvent) => {
         const { active, over } = event;
 
-        console.log(over?.id)
         if (over !== null && active.id !== over.id ) {
             reorderSpell(active.id as string, over.id as string);
         }
 
+        if (over !== null && over.id === 'delete-spell-droparea') {
+            deleteSpell(active.id as string)
+        }
+
         setActiveDragId(null);
-    }, [reorderSpell, setActiveDragId])
+    }, [reorderSpell, setActiveDragId, deleteSpell])
 
     const handleDragStart = useCallback((event: DragStartEvent) => {
         setActiveDragId(event.active.id)
@@ -87,7 +93,7 @@ const Spellbar = () => {
                         {spells.map(spell => <DraggableSpellEntryCard key={spell.id} activeDragId={activeDragId} {...spell} />)}
                     </SortableContext>
                 </div>
-                <DroppableThrashExample/>
+                <DroppableThrashExample isDragActive={activeDragId !== null} />
             </div>
 
             <DragOverlay>
