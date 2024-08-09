@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 import './PaddleMapper.scss'
-import right from "./assets/chevron-right.svg"
-import { ButtonToImage } from './common/Buttons';
-import { usePaddleMapperContextMenu } from './PaddleMapperContextMenu';
-import { useRemapper } from './common/RemapConfig';
+import right from "../assets/chevron-right.svg"
+import { ButtonToImage } from '../common/Buttons';
+import { usePaddleMapperContextMenu } from '../PaddleMapperContextMenu';
+import { useRemapper } from '../common/RemapConfig';
 
 const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
     const paddleMapping = useRemapper(e => e.config.paddleMapping);

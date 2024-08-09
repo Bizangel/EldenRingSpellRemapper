@@ -2,12 +2,12 @@ import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, KeyboardSensor, 
 import { horizontalListSortingStrategy, SortableContext, useSortable } from "@dnd-kit/sortable";
 import { useCallback, useRef, useState } from "react";
 import {CSS} from '@dnd-kit/utilities';
-import SpellEntryCard from "./SpellEntryCard";
-import { SpellMapping, useRemapper } from "./common/RemapConfig";
 import './Spellbar.scss'
-import { useSpellEntryContextMenu } from "./SpellEntryCardContextMenu";
-import draggableCollisionWithThrashArea from "./common/DraggableCollisionWithThrashArea";
-import thrashIcon from "./assets/trash.svg"
+import thrashIcon from "../assets/trash.svg"
+import { useSpellEntryContextMenu } from "../SpellEntryCardContextMenu";
+import SpellEntryCard from "./SpellEntryCard";
+import { SpellMapping, useRemapper } from "../common/RemapConfig";
+import draggableCollisionWithThrashArea from "../common/DraggableCollisionWithThrashArea";
 
 function DroppableThrashExample({isDragActive} : {isDragActive: boolean}) {
     const {setNodeRef, isOver} = useDroppable({

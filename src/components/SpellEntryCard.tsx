@@ -1,6 +1,6 @@
 import "./SpellEntrycard.scss"
-import { useRemapper } from "./common/RemapConfig";
-import { ButtonString, ButtonToImage } from "./common/Buttons";
+import { useRemapper } from "../common/RemapConfig";
+import { ButtonString, ButtonToImage } from "../common/Buttons";
 
 type SpellEntryCardProps = {
     id: string,

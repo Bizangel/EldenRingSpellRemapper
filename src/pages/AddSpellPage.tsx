@@ -1,8 +1,8 @@
-import arrowBack from "./assets/arrow-left.svg"
+import arrowBack from "../assets/arrow-left.svg"
 import './AddSpellPage.scss'
-import Spells, { SpellType } from "./common/Spells.generated"
+import Spells, { SpellType } from "../common/Spells.generated"
 import { useCallback, useRef, useState } from "react"
-import { useRemapper } from "./common/RemapConfig"
+import { useRemapper } from "../common/RemapConfig"
 
 type AddSpellPageProps = {
     goBackToSpellPage: () => void,

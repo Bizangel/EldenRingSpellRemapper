@@ -1,4 +1,4 @@
-import arrowBack from "./assets/arrow-left.svg"
+import arrowBack from "../assets/arrow-left.svg"
 import './SettingsPage.scss'
 
 type SettingsPageProps = {

@@ -1,10 +1,10 @@
-import cogWheel from "./assets/cog.svg"
+import cogWheel from "../assets/cog.svg"
 import './SpellMapPage.scss'
-import Spellbar from "./Spellbar";
-import SpellEntryCardContextMenu from "./SpellEntryCardContextMenu";
-import useSettingsCheck from "./common/settingsCheck";
-import PaddleMapper from "./PaddleMapper";
-import PaddleMapperContextMenu from "./PaddleMapperContextMenu";
+import SpellEntryCardContextMenu from "../SpellEntryCardContextMenu";
+import useSettingsCheck from "../common/settingsCheck";
+import PaddleMapper from "../components/PaddleMapper";
+import PaddleMapperContextMenu from "../PaddleMapperContextMenu";
+import Spellbar from "../components/Spellbar";
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,

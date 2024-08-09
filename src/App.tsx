@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import "./App.scss";
-import SpellMapPage from "./SpellMapPage";
-import SettingsPage from "./SettingsPage";
-import AddSpellPage from "./AddSpellPage";
+import SpellMapPage from "./pages/SpellMapPage";
+import SettingsPage from "./pages/SettingsPage";
+import AddSpellPage from "./pages/AddSpellPage";
 
 function App() {
   const [activePage, setActivePage] = useState("spell");
