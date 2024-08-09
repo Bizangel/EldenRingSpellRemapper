@@ -25,7 +25,7 @@ const ModifierReplacementWrapper = () => {
 
     return (
         <div className="modifier-replacement-wrapper">
-                <img src={`/buttonicons/XboxOne_LT.png`} className="responsive-image"></img>
+                <img src={`/buttonicons/XboxOne_${ButtonToImage[currentModifier]}.png`} className="responsive-image"></img>
                 <div className="modifier-plus-wrapper">
                     <img src={plusIcon} className="responsive-image"></img>
                 </div>
@@ -39,7 +39,7 @@ const ModifierReplacementWrapper = () => {
                 </div>
 
                 <img src={right} className="responsive-image" style={{filter: "invert(1)"}}></img>
-                <img src={`/buttonicons/XboxOne_LT.png`} className="responsive-image"></img>
+                <img src={`/buttonicons/XboxOne_${ButtonToImage[currentModifier]}.png`} className="responsive-image"></img>
         </div>
     )
 }
