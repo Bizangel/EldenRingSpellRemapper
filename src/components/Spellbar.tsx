@@ -1,72 +1,12 @@
-import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, KeyboardSensor, PointerSensor, useDroppable, useSensor, useSensors } from "@dnd-kit/core";
-import { horizontalListSortingStrategy, SortableContext, useSortable } from "@dnd-kit/sortable";
+import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { useCallback, useRef, useState } from "react";
-import {CSS} from '@dnd-kit/utilities';
-import './Spellbar.scss'
-import thrashIcon from "../assets/trash.svg"
 import SpellEntryCard from "./SpellEntryCard";
-import { SpellMapping, useRemapper } from "../common/RemapConfig";
+import {  useRemapper } from "../common/RemapConfig";
 import draggableCollisionWithThrashArea from "../common/DraggableCollisionWithThrashArea";
-import { useButtonPickerContextMenu } from "./ButtonPickerContextMenu";
-import { ButtonList, ButtonString } from "../common/Buttons";
-
-function DroppableThrashExample({isDragActive} : {isDragActive: boolean}) {
-    const {setNodeRef, isOver} = useDroppable({
-      id: 'delete-spell-droparea',
-    });
-    return (
-      <div ref={setNodeRef}
-        style={{opacity: isDragActive ? 1 : 0}}
-        className={`delete-spell-area ${isOver ? "over" : ""}`}>
-        <img src={thrashIcon} className="responsive-image"/>
-      </div>
-    );
-}
-
-function DraggableSpellEntryCard({activeDragId, ...props}: SpellMapping & {activeDragId: string | number | null}) {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-    } = useSortable({id: props.id});
-
-    const showContextMenu = useButtonPickerContextMenu();
-    const spells = useRemapper(e => e.config.spells);
-    const rebindSpell = useRemapper(e => e.remapSpell);
-    const currentModifier = useRemapper(e => e.config.currentModifier);
-    const currentMapping = spells[spells.findIndex(e => e.id == props.id )]?.buttonCombo;
-
-    const onRemapPress = useCallback((button?: ButtonString) => {
-        rebindSpell(props.id, button)
-    }, [rebindSpell, props.id])
-
-    const onRightClick = useCallback((ev: React.MouseEvent) => {
-        showContextMenu(ev.pageX, ev.pageY,
-            ButtonList.filter(e => e !== currentModifier), // exclude current modifier
-            onRemapPress,
-            currentMapping,
-            false // open downwards
-        );
-
-        ev.preventDefault();
-    }, [showContextMenu, props.id])
-
-    return (
-        <div
-        onContextMenu={onRightClick}
-        ref={setNodeRef}
-        style={
-            {transform: CSS.Transform.toString(transform), transition: transition,
-            cursor: "grab",
-            opacity: activeDragId === props.id ? 0 : 1} // display as hidden if currently dragging
-        }
-        {...attributes} {...listeners}>
-            <SpellEntryCard {...props}/>
-        </div>
-    );
-}
+import DraggableSpellEntryCard from "./DraggableSpellEntryCard";
+import DroppableThrashArea from "./DroppableThrashArea";
+import './Spellbar.scss'
 
 const Spellbar = () => {
     const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
@@ -116,7 +56,7 @@ const Spellbar = () => {
                         {spells.map(spell => <DraggableSpellEntryCard key={spell.id} activeDragId={activeDragId} {...spell} />)}
                     </SortableContext>
                 </div>
-                <DroppableThrashExample isDragActive={activeDragId !== null} />
+                <DroppableThrashArea isDragActive={activeDragId !== null} />
             </div>
 
             <DragOverlay>
