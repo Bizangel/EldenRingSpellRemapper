@@ -16,7 +16,7 @@ const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
 
     const openContextMenu = useCallback((ev: React.MouseEvent) => {
         showButtonContext(ev.clientX, ev.clientY,
-            ButtonList.filter(e => !["P1","P2","P3","P4"].includes(e)),
+            ButtonList.filter(e => !["P1","P2","P3","P4", "DPAD_UP"].includes(e)),
             onPaddleSwitch,
             currentMapping,
             {openUpwards: true} // open upwards

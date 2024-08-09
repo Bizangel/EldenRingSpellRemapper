@@ -3,6 +3,7 @@ import './SpellMapPage.scss'
 import useSettingsCheck from "../common/settingsCheck";
 import PaddleMapper from "../components/PaddleMapper";
 import Spellbar from "../components/Spellbar";
+import ModifierReplacementWrapper from "../components/ModifierReplacementWrapper";
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,
@@ -31,10 +32,10 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                     </div>
 
                     <div className="extra-controller-mapping-wrapper">
-                        <div className="modifier-replacement-wrapper">
+                        <div className="dpadup-replacement-wrapper">
 
                         </div>
-
+                        <ModifierReplacementWrapper/>
                         <PaddleMapper/>
                     </div>
                 </div>
