@@ -1,27 +1,26 @@
 import { useCallback } from 'react'
 import './PaddleMapper.scss'
 import right from "../assets/chevron-right.svg"
-import { ButtonList, ButtonToImage } from '../common/Buttons';
-import { usePaddleMapperContextMenu } from '../PaddleMapperContextMenu';
+import { ButtonList, ButtonString, ButtonToImage } from '../common/Buttons';
 import { useRemapper } from '../common/RemapConfig';
 import { useButtonPickerContextMenu } from './ButtonPickerContextMenu';
 
 const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
-    // const paddleMapping = useRemapper(e => e.config.paddleMapping);
-    // const currentMapping = paddleMapping[paddleNumber];
-
-    // const showContextMenu = usePaddleMapperContextMenu(e => e.showContextMenu);
-    // const openContextMenu = useCallback((ev: React.MouseEvent) => {
-    //     showContextMenu(ev.pageX, ev.pageY, paddleNumber);
-    //     ev.preventDefault();
-    // }, [showContextMenu, paddleNumber])
-
     const showButtonContext = useButtonPickerContextMenu()
+    const currentMapping = useRemapper(e => e.config.paddleMapping[paddleNumber]);
+    const setPaddleMapping = useRemapper(e => e.setPaddleMapping);
+
+    const onPaddleSwitch = useCallback((button?: ButtonString) => {
+        setPaddleMapping(paddleNumber, button);
+    }, [currentMapping, paddleNumber])
 
     const openContextMenu = useCallback((ev: React.MouseEvent) => {
-        showButtonContext(ev.clientX, ev.clientY, ButtonList, (but) => {
-            console.log(but)
-        });
+        showButtonContext(ev.clientX, ev.clientY,
+            ButtonList.filter(e => !["P1","P2","P3","P4"].includes(e)),
+            onPaddleSwitch,
+            currentMapping,
+            true // open upwards
+        );
 
         ev.preventDefault()
     }, [showButtonContext])
@@ -36,9 +35,9 @@ const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
             </div>
             <div className="paddle-mapping-pair-imagewrap switcheable"
             onClick={openContextMenu} onContextMenu={openContextMenu}>
-                {/* { currentMapping &&
+                { currentMapping &&
                     <img src={`/buttonicons/XboxOne_${ButtonToImage[currentMapping]}.png`} className="responsive-image-w"></img>
-                } */}
+                }
             </div>
         </div>
     )

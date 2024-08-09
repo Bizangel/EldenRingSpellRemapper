@@ -4,10 +4,11 @@ import { useCallback, useRef, useState } from "react";
 import {CSS} from '@dnd-kit/utilities';
 import './Spellbar.scss'
 import thrashIcon from "../assets/trash.svg"
-import { useSpellEntryContextMenu } from "../SpellEntryCardContextMenu";
 import SpellEntryCard from "./SpellEntryCard";
 import { SpellMapping, useRemapper } from "../common/RemapConfig";
 import draggableCollisionWithThrashArea from "../common/DraggableCollisionWithThrashArea";
+import { useButtonPickerContextMenu } from "./ButtonPickerContextMenu";
+import { ButtonList, ButtonString } from "../common/Buttons";
 
 function DroppableThrashExample({isDragActive} : {isDragActive: boolean}) {
     const {setNodeRef, isOver} = useDroppable({
@@ -31,9 +32,24 @@ function DraggableSpellEntryCard({activeDragId, ...props}: SpellMapping & {activ
         transition,
     } = useSortable({id: props.id});
 
-    const showContextMenu = useSpellEntryContextMenu(e => e.showContextMenu);
+    const showContextMenu = useButtonPickerContextMenu();
+    const spells = useRemapper(e => e.config.spells);
+    const rebindSpell = useRemapper(e => e.remapSpell);
+    const currentModifier = useRemapper(e => e.config.currentModifier);
+    const currentMapping = spells[spells.findIndex(e => e.id == props.id )]?.buttonCombo;
+
+    const onRemapPress = useCallback((button?: ButtonString) => {
+        rebindSpell(props.id, button)
+    }, [rebindSpell, props.id])
+
     const onRightClick = useCallback((ev: React.MouseEvent) => {
-        showContextMenu(ev.pageX, ev.pageY, props.id);
+        showContextMenu(ev.pageX, ev.pageY,
+            ButtonList.filter(e => e !== currentModifier), // exclude current modifier
+            onRemapPress,
+            currentMapping,
+            false // open downwards
+        );
+
         ev.preventDefault();
     }, [showContextMenu, props.id])
 

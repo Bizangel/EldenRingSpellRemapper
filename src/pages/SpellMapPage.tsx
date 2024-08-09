@@ -1,9 +1,7 @@
 import cogWheel from "../assets/cog.svg"
 import './SpellMapPage.scss'
-import SpellEntryCardContextMenu from "../SpellEntryCardContextMenu";
 import useSettingsCheck from "../common/settingsCheck";
 import PaddleMapper from "../components/PaddleMapper";
-import PaddleMapperContextMenu from "../PaddleMapperContextMenu";
 import Spellbar from "../components/Spellbar";
 
 type SpellMapPageProps = {
@@ -16,9 +14,6 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
 
     return (
         <div className="spell-page">
-            <SpellEntryCardContextMenu/>
-            <PaddleMapperContextMenu/>
-
             <img src={cogWheel} className="settings-icon" onClick={goToSettingsPage}/>
             <div className="spell-page-content">
                 <Spellbar/>

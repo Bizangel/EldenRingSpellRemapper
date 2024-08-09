@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { ButtonString, ButtonToImage } from "../common/Buttons"
 import { create } from "zustand";
+import './ButtonPickerContextMenu.scss'
 
 interface ButtonContextMenuState {
     xPosition: number,
@@ -8,30 +9,40 @@ interface ButtonContextMenuState {
     display: boolean,
     buttons: readonly ButtonString[]
     onPressCallback: (button?: ButtonString) => void
+    selectedButton?: ButtonString,
+    openUpwards?: boolean,
 
     showContextMenu: (
         xPosition: number, yPosition:number,
         buttons: readonly ButtonString[],
-        onPressCallback: (button?:ButtonString) => void
+        onPressCallback: (button?:ButtonString) => void,
+        selectedButton?: ButtonString,
+        openUpwards?: boolean
     ) => void
 
-    hideContextMenu: () => void
+    hideContextMenu: () => void,
+    updateSelectedInternal: (button?: ButtonString) => void
 }
 
 
-export const useButtonContextMenuState_Internal = create<ButtonContextMenuState>()((set) => ({
+const useButtonContextMenuState_Internal = create<ButtonContextMenuState>()((set) => ({
     xPosition: 0,
     yPosition: 0,
     display: false,
     buttons: [],
+    openUpwards: false,
     onPressCallback: () => {},
 
-    showContextMenu: (xPosition, yPosition, buttons, onPressCallback) => {
-        set({display: true, xPosition, yPosition, buttons, onPressCallback})
+    showContextMenu: (xPosition, yPosition, buttons, onPressCallback, selectedButton, openUpwards) => {
+        set({display: true, xPosition, yPosition, buttons, onPressCallback, selectedButton, openUpwards})
     },
 
     hideContextMenu: () => {
         set({display: false})
+    },
+
+    updateSelectedInternal: (button) => {
+        set({selectedButton: button})
     }
 }))
 
@@ -42,11 +53,20 @@ export const useButtonPickerContextMenu = () => {
 }
 
 const ButtonPickerContextMenu = () => {
-    const contextMenuVisibility = useButtonContextMenuState_Internal(e => e.display)
-    const buttons = useButtonContextMenuState_Internal(e => e.buttons)
-    const xPosition = useButtonContextMenuState_Internal(e => e.xPosition)
-    const yPosition = useButtonContextMenuState_Internal(e => e.yPosition)
-    const onPressCallback = useButtonContextMenuState_Internal(e => e.onPressCallback);
+    const {
+        display: contextMenuVisibility,
+        buttons,
+        xPosition, yPosition,
+        selectedButton,
+        onPressCallback: userOnPressCallback,
+        updateSelectedInternal,
+        openUpwards
+    } = useButtonContextMenuState_Internal(e => e)
+
+    const onButtonPress = useCallback((button?: ButtonString) => {
+        userOnPressCallback(button)
+        updateSelectedInternal(button)
+    }, [userOnPressCallback])
 
     const hideContextMenu = useButtonContextMenuState_Internal(e => e.hideContextMenu)
 
@@ -55,17 +75,27 @@ const ButtonPickerContextMenu = () => {
         ev.preventDefault();
     }, [hideContextMenu])
 
+    const deltaXPos = openUpwards ? 150 : 0;
+    const deltaYPos = openUpwards ? 300 : 0;
+
     return (
-        <div className="paddlemapper-context-menu-wrapper"
-        onClick={hideContextMenu} onContextMenu={onRightclick} style={{display: contextMenuVisibility ? "" : "none" }}>
-            <div className="paddlemapper-context-menu" style={{left: xPosition - 150, top: yPosition - 300}} onClick={(ev) => { ev.stopPropagation()}}>
-                <div className="paddlemapper-context-menu-title">Edit Mapping</div>
-                <div className={`paddlemapper-context-menu-mapping-none}`}
-                onClick={() => {onPressCallback(undefined)}}>
+        <div
+            className="button-context-menu-wrapper"
+            onClick={hideContextMenu} onContextMenu={onRightclick}
+            style={{display: contextMenuVisibility ? "" : "none" }}
+        >
+            <div
+                className="button-context-menu"
+                style={{left: xPosition - deltaXPos, top: yPosition - deltaYPos}}
+                onClick={(ev) => { ev.stopPropagation()}}
+            >
+                <div className="button-context-menu-title">Edit Mapping</div>
+                <div className={`paddlemapper-context-menu-mapping-none ${selectedButton === undefined ? "selected" : ""}`}
+                onClick={() => {userOnPressCallback(undefined)}}>
                     No Mapping
                 </div>
                 {buttons.map(e =>
-                    <div key={e} className={`paddlemapper-button-context-entry`} onClick={() => {onPressCallback(e)}}>
+                    <div key={e} className={`button-context-entry ${selectedButton === e ? "selected" : ""}`} onClick={() => {onButtonPress(e)}}>
                         <img src={`/buttonicons/XboxOne_${ButtonToImage[e]}.png`} className="responsive-image" />
                     </div>
                 )}
