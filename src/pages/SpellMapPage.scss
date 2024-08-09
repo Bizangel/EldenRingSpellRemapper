@@ -99,8 +99,6 @@
     flex-direction: row;
     width: 100%;
     flex-grow: 1;
-
-    // background-color: red;
 }
 
 .spellpage-button-wrapper {
@@ -128,10 +126,5 @@
     flex-direction: column;
 
     justify-content: end;
+    gap: 5px;
 }
-
-.dpadup-replacement-wrapper {
-
-    height: 30%;
-}
-

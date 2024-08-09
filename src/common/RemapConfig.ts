@@ -19,6 +19,7 @@ export type EldenRingRemapperConfig = {
     },
     spells : SpellMapping[],
     currentModifier: ButtonString,
+    dpadUpMapping?: ButtonString,
     modifierOutReplacement?: ButtonString,
     paddleMapping: (ButtonString | undefined)[]
 }
@@ -33,6 +34,7 @@ export type EldenRingRemapperStore = {
 
     setPaddleMapping: (paddle: number, button?: ButtonString) => void,
     setModifierMapping: (button?: ButtonString) => void,
+    setDpadUpMapping: (button?: ButtonString) => void,
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
@@ -44,7 +46,9 @@ export const useRemapper = create<EldenRingRemapperStore>()(
                 pollingDelay: 10,
             },
             spells: [],
-            currentModifier: "LT"
+            currentModifier: "LT",
+            modifierOutReplacement: undefined,
+            dpadUpMapping: undefined,
         },
 
         reorderSpell: (spell1, spell2) => {
@@ -117,6 +121,14 @@ export const useRemapper = create<EldenRingRemapperStore>()(
             set(
                 produce((state: EldenRingRemapperStore) => {
                     state.config.modifierOutReplacement = button
+                })
+            )
+        },
+
+        setDpadUpMapping: (button) => {
+            set(
+                produce((state: EldenRingRemapperStore) => {
+                    state.config.dpadUpMapping = button
                 })
             )
         }
