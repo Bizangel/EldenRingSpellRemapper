@@ -1,19 +1,30 @@
 import { useCallback } from 'react'
 import './PaddleMapper.scss'
 import right from "../assets/chevron-right.svg"
-import { ButtonToImage } from '../common/Buttons';
+import { ButtonList, ButtonToImage } from '../common/Buttons';
 import { usePaddleMapperContextMenu } from '../PaddleMapperContextMenu';
 import { useRemapper } from '../common/RemapConfig';
+import { useButtonPickerContextMenu } from './ButtonPickerContextMenu';
 
 const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
-    const paddleMapping = useRemapper(e => e.config.paddleMapping);
-    const currentMapping = paddleMapping[paddleNumber];
+    // const paddleMapping = useRemapper(e => e.config.paddleMapping);
+    // const currentMapping = paddleMapping[paddleNumber];
 
-    const showContextMenu = usePaddleMapperContextMenu(e => e.showContextMenu);
+    // const showContextMenu = usePaddleMapperContextMenu(e => e.showContextMenu);
+    // const openContextMenu = useCallback((ev: React.MouseEvent) => {
+    //     showContextMenu(ev.pageX, ev.pageY, paddleNumber);
+    //     ev.preventDefault();
+    // }, [showContextMenu, paddleNumber])
+
+    const showButtonContext = useButtonPickerContextMenu()
+
     const openContextMenu = useCallback((ev: React.MouseEvent) => {
-        showContextMenu(ev.pageX, ev.pageY, paddleNumber);
-        ev.preventDefault();
-    }, [showContextMenu, paddleNumber])
+        showButtonContext(ev.clientX, ev.clientY, ButtonList, (but) => {
+            console.log(but)
+        });
+
+        ev.preventDefault()
+    }, [showButtonContext])
 
     return (
         <div className="paddle-mapping-pair">
@@ -25,9 +36,9 @@ const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
             </div>
             <div className="paddle-mapping-pair-imagewrap switcheable"
             onClick={openContextMenu} onContextMenu={openContextMenu}>
-                { currentMapping &&
+                {/* { currentMapping &&
                     <img src={`/buttonicons/XboxOne_${ButtonToImage[currentMapping]}.png`} className="responsive-image-w"></img>
-                }
+                } */}
             </div>
         </div>
     )

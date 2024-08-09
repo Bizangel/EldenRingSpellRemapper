@@ -3,6 +3,7 @@ import "./App.scss";
 import SpellMapPage from "./pages/SpellMapPage";
 import SettingsPage from "./pages/SettingsPage";
 import AddSpellPage from "./pages/AddSpellPage";
+import ButtonPickerContextMenu from "./components/ButtonPickerContextMenu";
 
 function App() {
   const [activePage, setActivePage] = useState("spell");
@@ -12,6 +13,7 @@ function App() {
 
   return (
     <>
+      <ButtonPickerContextMenu />
       {activePage === "spell" && <SpellMapPage {...{goToSettingsPage, goToAddSpellPage}}/>}
       {activePage === "settings" && <SettingsPage {...{goBackToSpellPage}}/>}
       {activePage === "addspell" && <AddSpellPage {...{goBackToSpellPage}}/>}
