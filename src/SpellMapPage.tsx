@@ -4,6 +4,7 @@ import Spellbar from "./Spellbar";
 import SpellEntryCardContextMenu from "./SpellEntryCardContextMenu";
 import useSettingsCheck from "./common/settingsCheck";
 import PaddleMapper from "./PaddleMapper";
+import PaddleMapperContextMenu from "./PaddleMapperContextMenu";
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,
@@ -16,6 +17,8 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
     return (
         <div className="spell-page">
             <SpellEntryCardContextMenu/>
+            <PaddleMapperContextMenu/>
+
             <img src={cogWheel} className="settings-icon" onClick={goToSettingsPage}/>
             <div className="spell-page-content">
                 <Spellbar/>

@@ -19,6 +19,7 @@ export type EldenRingRemapperConfig = {
     },
     spells : SpellMapping[],
     currentModifier: ButtonString,
+    paddleMapping: (ButtonString | undefined)[]
 }
 
 export type EldenRingRemapperStore = {
@@ -28,12 +29,15 @@ export type EldenRingRemapperStore = {
     deleteSpell: (spellId: string) => void,
     remapSpell: (spellId: string, mapping?: ButtonString) => void,
     addSpell: (spellId: string) => void,
+
+    setPaddleMapping: (paddle: number, button?: ButtonString) => void
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
     persist(
         (set, get) => ({
         config: {
+            paddleMapping: [undefined, undefined, undefined, undefined],
             miscConfig: {
                 pollingDelay: 10,
             },
@@ -91,10 +95,24 @@ export const useRemapper = create<EldenRingRemapperStore>()(
                     state.config.spells.push({id: spell, spellName: spellName, buttonCombo: undefined})
                 })
             )
+        },
+
+        setPaddleMapping: (paddle, button) => {
+            if (paddle < 0 || paddle > 3)
+                return;
+
+            if (button !== undefined && ["P1", "P2", "P3", "P4"].includes(button))
+                return;
+
+            set(
+                produce((state: EldenRingRemapperStore) => {
+                state.config.paddleMapping[paddle] = button
+                })
+            )
         }
     }),
     {
-        name: 'food-storage',
+        name: 'debug-storage22',
         storage: createJSONStorage(() => localStorage)
     }
     )

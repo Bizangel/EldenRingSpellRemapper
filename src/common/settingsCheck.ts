@@ -8,9 +8,11 @@ const useSettingsCheck = (): { ok: boolean, error: string } => {
 
     // 2. Check if modifier spell is being used.
 
-    // 2. Check if dpad up
+    // 3. Check if dpad up
 
-    // 3. Check duplicate spells
+    // 4. Check duplicate spells
+
+    // 5. Check for paddle mapping. (duplicates allowed, but can't map to paddles, etc)
 
     return {ok: false, error: "Multiple spells have same binding"}
 }

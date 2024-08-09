@@ -1,5 +1,5 @@
 
-.spellentry-context-menu-wrapper {
+.paddlemapper-context-menu-wrapper {
     position: absolute;
     left: 0;
     right: 0;
@@ -12,7 +12,7 @@
     user-select: none;
 }
 
-.spellentry-context-menu {
+.paddlemapper-context-menu {
     position: absolute;
     z-index: 1;
 
@@ -29,12 +29,12 @@
     &::-webkit-scrollbar-thumb { background-color: #666; }
 }
 
-.spellentry-context-menu-title {
+.paddlemapper-context-menu-title {
     text-align: center;
     padding: 10px;
 }
 
-.spellentry-context-menu-mapping-none {
+.paddlemapper-context-menu-mapping-none {
     height: 30px;
     text-align: center;
     display: flex;
@@ -55,7 +55,7 @@
     }
 }
 
-.spellentry-button-context {
+.paddlemapper-button-context-entry {
     width: auto;
     height: 30px;
 
