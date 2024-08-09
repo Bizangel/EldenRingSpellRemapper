@@ -31,7 +31,7 @@ function DraggableSpellEntryCard({activeDragId, ...props}: SpellMapping & {activ
             ButtonList.filter(e => e !== currentModifier), // exclude current modifier
             onRemapPress,
             currentMapping,
-            false // open downwards
+            {openUpwards: false, modifierButtonDisplay: currentModifier}
         );
 
         ev.preventDefault();

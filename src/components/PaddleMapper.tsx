@@ -19,7 +19,7 @@ const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
             ButtonList.filter(e => !["P1","P2","P3","P4"].includes(e)),
             onPaddleSwitch,
             currentMapping,
-            true // open upwards
+            {openUpwards: true} // open upwards
         );
 
         ev.preventDefault()

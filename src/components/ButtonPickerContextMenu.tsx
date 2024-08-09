@@ -3,6 +3,11 @@ import { ButtonString, ButtonToImage } from "../common/Buttons"
 import { create } from "zustand";
 import './ButtonPickerContextMenu.scss'
 
+type ButtonContextMenuStateOptions = {
+    openUpwards?: boolean,
+    modifierButtonDisplay?: ButtonString
+}
+
 interface ButtonContextMenuState {
     xPosition: number,
     yPosition: number,
@@ -10,14 +15,14 @@ interface ButtonContextMenuState {
     buttons: readonly ButtonString[]
     onPressCallback: (button?: ButtonString) => void
     selectedButton?: ButtonString,
-    openUpwards?: boolean,
+    options?: ButtonContextMenuStateOptions
 
     showContextMenu: (
         xPosition: number, yPosition:number,
         buttons: readonly ButtonString[],
         onPressCallback: (button?:ButtonString) => void,
         selectedButton?: ButtonString,
-        openUpwards?: boolean
+        options?: ButtonContextMenuStateOptions
     ) => void
 
     hideContextMenu: () => void,
@@ -30,11 +35,18 @@ const useButtonContextMenuState_Internal = create<ButtonContextMenuState>()((set
     yPosition: 0,
     display: false,
     buttons: [],
-    openUpwards: false,
+    options: {
+        openUpwards: false,
+        modifierButtonDisplay: undefined,
+    },
+
     onPressCallback: () => {},
 
-    showContextMenu: (xPosition, yPosition, buttons, onPressCallback, selectedButton, openUpwards) => {
-        set({display: true, xPosition, yPosition, buttons, onPressCallback, selectedButton, openUpwards})
+    showContextMenu: (xPosition, yPosition, buttons, onPressCallback, selectedButton, options) => {
+        set({
+            display: true, xPosition, yPosition, buttons, onPressCallback, selectedButton,
+            options: {...options}
+        })
     },
 
     hideContextMenu: () => {
@@ -60,7 +72,7 @@ const ButtonPickerContextMenu = () => {
         selectedButton,
         onPressCallback: userOnPressCallback,
         updateSelectedInternal,
-        openUpwards
+        options
     } = useButtonContextMenuState_Internal(e => e)
 
     const onButtonPress = useCallback((button?: ButtonString) => {
@@ -75,8 +87,8 @@ const ButtonPickerContextMenu = () => {
         ev.preventDefault();
     }, [hideContextMenu])
 
-    const deltaXPos = openUpwards ? 150 : 0;
-    const deltaYPos = openUpwards ? 300 : 0;
+    const deltaXPos = options?.openUpwards ? 150 : 0;
+    const deltaYPos = options?.openUpwards ? 300 : 0;
 
     return (
         <div
@@ -96,6 +108,14 @@ const ButtonPickerContextMenu = () => {
                 </div>
                 {buttons.map(e =>
                     <div key={e} className={`button-context-entry ${selectedButton === e ? "selected" : ""}`} onClick={() => {onButtonPress(e)}}>
+                        {
+                            options?.modifierButtonDisplay &&
+                            <>
+                            <img src={`/buttonicons/XboxOne_${ButtonToImage[options.modifierButtonDisplay]}.png`} className="responsive-image" />
+                            +
+                            </>
+                        }
+
                         <img src={`/buttonicons/XboxOne_${ButtonToImage[e]}.png`} className="responsive-image" />
                     </div>
                 )}
