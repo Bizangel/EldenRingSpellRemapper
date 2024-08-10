@@ -36,6 +36,8 @@ export type EldenRingRemapperStore = {
     setPaddleMapping: (paddle: number, button?: ButtonString) => void,
     setReplacementModifierMapping: (button?: ButtonString) => void,
     setDpadUpMapping: (button?: ButtonString) => void,
+
+    setPollDelay: (newDelay: number) => void
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
@@ -138,6 +140,14 @@ export const useRemapper = create<EldenRingRemapperStore>()(
             set(
                 produce((state: EldenRingRemapperStore) => {
                     state.config.dpadUpMapping = button
+                })
+            )
+        },
+
+        setPollDelay: (newDelay) => {
+            set(
+                produce((state: EldenRingRemapperStore) => {
+                    state.config.miscConfig.pollingDelay = newDelay
                 })
             )
         }

@@ -33,7 +33,43 @@
     width: 500px;
 }
 
-.settings-entry {
+
+.settings-entry-input {
+    width: 100%;
+    aspect-ratio: 8;
+    font-size: 20pt;
+
+    // background-color: green;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    input {
+        height: 100%;
+        aspect-ratio: 1;
+
+        background-color: #283238;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
+        border: 2px solid black;
+
+        font-size: 20pt;
+        color: white;
+        text-align: center;
+
+        margin-left: 10px;
+        margin-right: 5px;
+
+        &:focus {
+            border: 2px solid rgb(70, 84, 116);
+            outline: none;
+            color: gray;
+        }
+    }
+}
+
+.settings-entry-select {
     width: 100%;
     aspect-ratio: 8;
     font-size: 20pt;

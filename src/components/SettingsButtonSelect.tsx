@@ -25,7 +25,7 @@ const SettingsButtonSelect = ({text, value, onChange, buttons, options}: Setting
     }, [showButtonContext])
 
     return (
-        <div className="settings-entry">
+        <div className="settings-entry-select">
             {text}
 
             <div className="settings-entry-select-box" onClick={openContextMenu} onContextMenu={openContextMenu}>
