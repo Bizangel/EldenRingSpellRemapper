@@ -10,7 +10,7 @@ const ModifierReplacementWrapper = () => {
     const showButtonContext = useButtonPickerContextMenu()
     const currentModifier = useRemapper(e => e.config.currentModifier);
     const currentModReplacement = useRemapper(e => e.config.modifierOutReplacement);
-    const setModifierMapping = useRemapper(e => e.setModifierMapping);
+    const setModifierMapping = useRemapper(e => e.setReplacementModifierMapping);
 
     const openContextMenu = useCallback((ev: React.MouseEvent) => {
         showButtonContext(ev.clientX, ev.clientY,

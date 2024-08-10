@@ -3,9 +3,10 @@ import { ButtonString, ButtonToImage } from "../common/Buttons"
 import { create } from "zustand";
 import './ButtonPickerContextMenu.scss'
 
-type ButtonContextMenuStateOptions = {
+export type ButtonContextMenuStateOptions = {
     openUpwards?: boolean,
-    modifierButtonDisplay?: ButtonString
+    modifierButtonDisplay?: ButtonString,
+    hideNoMapping?: boolean,
 }
 
 interface ButtonContextMenuState {
@@ -38,6 +39,7 @@ const useButtonContextMenuState_Internal = create<ButtonContextMenuState>()((set
     options: {
         openUpwards: false,
         modifierButtonDisplay: undefined,
+        hideNoMapping: false,
     },
 
     onPressCallback: () => {},
@@ -102,10 +104,14 @@ const ButtonPickerContextMenu = () => {
                 onClick={(ev) => { ev.stopPropagation()}}
             >
                 <div className="button-context-menu-title">Edit Mapping</div>
-                <div className={`paddlemapper-context-menu-mapping-none ${selectedButton === undefined ? "selected" : ""}`}
-                onClick={() => {userOnPressCallback(undefined)}}>
-                    No Mapping
-                </div>
+                {
+                    !options?.hideNoMapping &&
+                    <div className={`paddlemapper-context-menu-mapping-none ${selectedButton === undefined ? "selected" : ""}`}
+                    onClick={() => {userOnPressCallback(undefined)}}>
+                        No Mapping
+                    </div>
+                }
+
                 {buttons.map(e =>
                     <div key={e} className={`button-context-entry ${selectedButton === e ? "selected" : ""}`} onClick={() => {onButtonPress(e)}}>
                         {

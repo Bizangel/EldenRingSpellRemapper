@@ -4,12 +4,59 @@
     width: 100%;
     height: 100%;
 
-    .back-icon {
-        width: 5%;
-        height: auto;
-        margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        filter: invert(1);
+.settings-back-icon-wrapper {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+
+    top: 0;
+    right: 0;
+    margin: 20px;
+    filter: invert(1);
+
+    cursor: pointer;
+
+    transition: opacity 200ms ease-in-out;
+    &:hover{
+        opacity: 0.5;
     }
 }
 
+.settings-content {
+    width: 500px;
+}
+
+.settings-entry {
+    width: 100%;
+    aspect-ratio: 8;
+    font-size: 20pt;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+
+    white-space: nowrap;
+    gap: 20px;
+}
+
+
+.settings-entry-select-box {
+    height: 100%;
+    aspect-ratio: 1;
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
+    border: 1px solid black;
+    cursor: pointer;
+    transition: opacity 250ms ease-in-out;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}

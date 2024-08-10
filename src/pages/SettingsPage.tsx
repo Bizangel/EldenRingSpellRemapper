@@ -1,4 +1,6 @@
-import arrowBack from "../assets/arrow-left.svg"
+import closeSettings from "../assets/x-letter.svg"
+import { ButtonList } from "../common/Buttons"
+import SettingsButtonSelect from "../components/SettingsButtonSelect"
 import './SettingsPage.scss'
 
 type SettingsPageProps = {
@@ -6,10 +8,23 @@ type SettingsPageProps = {
 }
 
 const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
+
+    // TODO add state to settings modifier buttonselect
     return (
         <div className="settings-page">
-            <h1> Settings Page </h1>
-            <img src={arrowBack} className="back-icon" onClick={goBackToSpellPage}/>
+            <div className="settings-back-icon-wrapper">
+                <img src={closeSettings} className="responsive-image" onClick={goBackToSpellPage}/>
+            </div>
+
+            <div className="settings-content">
+                <SettingsButtonSelect
+                text="Button Modifier"
+                value="A"
+                onChange={() => {}}
+                buttons={ButtonList.filter(e => e !== "DPAD_UP")}
+                options={{hideNoMapping: true}}
+                />
+            </div>
         </div>
     )
 }
