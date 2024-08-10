@@ -6,6 +6,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
+    border: 2px solid black;
 }
 
 .button-mapping-switcheable {
@@ -13,7 +15,7 @@
     aspect-ratio: 1;
 
     box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
-    border: 1px solid black;
+    border: 2px solid black;
     cursor: pointer;
     transition: opacity 250ms ease-in-out;
 

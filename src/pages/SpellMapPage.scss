@@ -99,6 +99,8 @@
     flex-direction: row;
     width: 100%;
     flex-grow: 1;
+
+    container-type: size;
 }
 
 .spellpage-button-wrapper {
@@ -121,10 +123,19 @@
 }
 
 .extra-controller-mapping-wrapper {
-    display: flex;
     flex-grow: 1;
-    flex-direction: column;
+    display: flex;
+    flex-direction: column-reverse;
 
+    height: 100cqh;
+
+    align-items: end;
     justify-content: end;
-    gap: 5px;
+    align-content: flex-start;
+
+    column-gap: 20px;
+    row-gap: 5px;
+    flex-wrap: wrap-reverse;
 }
+
+

@@ -6,12 +6,18 @@
     justify-content: end;
     align-items: end;
 
-    gap: 30px;
+    gap: 5px;
 
     width: min-content;
+    border: 2px solid black;
 }
 
 .paddle-column {
     display: flex;
     flex-direction: column;
+    gap: 5px;
+
+    > .button-mapping-pair-wrapper {
+        border: 0;
+    }
 }

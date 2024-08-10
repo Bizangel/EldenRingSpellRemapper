@@ -43,18 +43,28 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                     </div>
 
                     <div className="extra-controller-mapping-wrapper">
-                        <ButtonMappingPair
-                            mappingSource={"DPAD_UP"}
-                            value={currentDpadMapping}
-                            onValueChange={setDpadUpMapping}
-                            buttons={ButtonList.filter(e => !["P1", "P2", "P3", "P4", "DPAD_UP"].includes(e))}/>
-                        <ButtonModifierMappingPair
-                            modifier={currentModifier}
-                            mappingTarget={currentModifier}
-                            value={currentModReplacement}
-                            onValueChange={setModifierReplacement}
-                            buttons={ButtonList.filter(e => e !== currentModifier)}/>
-                        <PaddleMapper/>
+                            <PaddleMapper/>
+                            {/* Replacement for Modifier */}
+                            <ButtonModifierMappingPair
+                                modifier={currentModifier}
+                                mappingTarget={currentModifier}
+                                value={currentModReplacement}
+                                onValueChange={setModifierReplacement}
+                                buttons={ButtonList.filter(e => e !== currentModifier)}/>
+                            {/* Reset Spell keybind */}
+                            {/* <ButtonModifierMappingPair
+                                modifier={currentModifier}
+                                mappingTarget={currentModifier}
+                                value={currentModReplacement}
+                                onValueChange={setModifierReplacement}
+                                buttons={ButtonList.filter(e => e !== currentModifier)}/> */}
+                            {/* Dpad up mapping replacement */}
+                            <ButtonMappingPair
+                                mappingSource={"DPAD_UP"}
+                                value={currentDpadMapping}
+                                onValueChange={setDpadUpMapping}
+                                buttons={ButtonList.filter(e => !["P1", "P2", "P3", "P4", "DPAD_UP"].includes(e))}/>
+
                     </div>
                 </div>
             </div>
