@@ -5,8 +5,10 @@
     height: 100%;
 
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: start;
     align-items: center;
+    padding: 50px;
 }
 
 .settings-back-icon-wrapper {
