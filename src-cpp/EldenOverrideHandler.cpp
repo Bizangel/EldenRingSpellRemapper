@@ -60,3 +60,13 @@ bool EldenOverrideHandler::IsOverrideActive()
 
 	return true;
 }
+
+std::string EldenOverrideHandler::HandleCommand(std::string payload)
+{
+	return EldenOverrideCommandResponse{ false, "no command handler" }.to_json();
+}
+
+EldenOverrideCommandResponse EldenOverrideHandler::VerifyConfig(std::string config)
+{
+	return EldenOverrideCommandResponse{ true, "good config" };
+}

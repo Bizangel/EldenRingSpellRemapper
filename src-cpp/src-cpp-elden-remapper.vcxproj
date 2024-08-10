@@ -170,6 +170,7 @@
     <ClInclude Include="EldenChordOverrider.h" />
     <ClInclude Include="EldenOverrideHandler.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="src-cpp-elden-remapper.h" />
   </ItemGroup>
   <ItemGroup>
