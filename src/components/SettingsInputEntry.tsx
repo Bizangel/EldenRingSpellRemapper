@@ -26,6 +26,12 @@ const SettingsInputEntry = <T extends AllowedInputTypes>(
         onValidatedChange(internalInputState)
     }, [internalInputState, value, setInternalInputState, onValidatedChange, validateInput])
 
+    // if boolean type, perform submit check on change automatically
+    useEffect(() => {
+        if (typeof internalInputState === "boolean")
+            submitCheck()
+    }, [internalInputState])
+
     return (
         <div className="settings-entry">
             <p>{entryText}</p>
@@ -34,9 +40,11 @@ const SettingsInputEntry = <T extends AllowedInputTypes>(
             checked={typeof internalInputState === "boolean" ? internalInputState : undefined}
             value={typeof internalInputState !== "boolean" ? internalInputState : undefined }
             onChange={(ev) => {
-               typeof internalInputState !== "boolean"
-               ? setInternalInputState(ev.target.value as T) :
-               setInternalInputState(ev.target.checked as T)
+              if (typeof internalInputState !== "boolean") {
+                setInternalInputState(ev.target.value as T)
+              } else {
+                setInternalInputState(ev.target.checked as T)
+              }
             }}
             onBlur={() => { submitCheck(); }}
             onKeyUp={(ev) => {if (ev.key === 'Enter'){ev.currentTarget.blur()}}}

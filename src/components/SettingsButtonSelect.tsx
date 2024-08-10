@@ -11,7 +11,6 @@ type SettingsButtonSelectProps = {
 }
 
 const SettingsButtonSelect = ({text, value, onChange, buttons, options}: SettingsButtonSelectProps) => {
-
     const showButtonContext = useButtonPickerContextMenu()
     const openContextMenu = useCallback((ev: React.MouseEvent) => {
         showButtonContext(ev.clientX, ev.clientY,
@@ -22,7 +21,7 @@ const SettingsButtonSelect = ({text, value, onChange, buttons, options}: Setting
         );
 
         ev.preventDefault()
-    }, [showButtonContext])
+    }, [showButtonContext, value, buttons])
 
     return (
         <div className="settings-entry">

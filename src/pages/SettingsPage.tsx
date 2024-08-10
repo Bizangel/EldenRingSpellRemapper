@@ -41,6 +41,13 @@ const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
     // hidhide automate
     const automateHidHide = useRemapper(e => e.config.miscConfig.automateHidHide)
     const setAutomateHidHide = useRemapper(e => e.setAutomateHidHide)
+
+    const quickCastButtonOption = useRemapper(e => e.config.miscConfig.quickCastButton)
+    const setQuickCastButtonOption = useRemapper(e => e.setQuickcastButton)
+    const onQuickcastCheckboxChanged = useCallback((option: boolean) => {
+        option ? setQuickCastButtonOption("LB") : setQuickCastButtonOption(undefined)
+    }, [setQuickCastButtonOption])
+
     return (
         <div className="settings-page">
             <div className="settings-back-icon-wrapper">
@@ -71,6 +78,26 @@ const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
                     validateInput={() => true}
                     options={{type: "checkbox"}}
                 />
+
+
+                <SettingsInputEntry
+                    entryText="Quickcast: "
+                    value={quickCastButtonOption !== undefined}
+                    onValidatedChange={onQuickcastCheckboxChanged}
+                    validateInput={() => true}
+                    options={{type: "checkbox"}}
+                />
+
+                {
+                    quickCastButtonOption !== undefined &&
+                    <SettingsButtonSelect
+                        text="Quickcast Spellcast Button:"
+                        value={quickCastButtonOption}
+                        onChange={setQuickCastButtonOption}
+                        buttons={["LB", "RB"]}
+                        options={{hideNoMapping: true, openUpwards: true}}
+                    />
+                }
             </div>
         </div>
     )

@@ -17,6 +17,7 @@ export type EldenRingRemapperConfig = {
     miscConfig: {
         pollingDelay: number,
         automateHidHide: boolean
+        quickCastButton?: ButtonString,
     },
     spells : SpellMapping[],
     currentModifier: ButtonString,
@@ -39,7 +40,8 @@ export type EldenRingRemapperStore = {
     setDpadUpMapping: (button?: ButtonString) => void,
 
     setPollDelay: (newDelay: number) => void
-    setAutomateHidHide: (option: boolean) => void
+    setAutomateHidHide: (option: boolean) => void,
+    setQuickcastButton: (buttonString?: ButtonString) => void
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
@@ -162,6 +164,15 @@ export const useRemapper = create<EldenRingRemapperStore>()(
                 })
             )
         },
+
+        setQuickcastButton: (button) => {
+            set(
+                produce((state: EldenRingRemapperStore) => {
+                    if (button === "LB" || button === "RB" || button === undefined )
+                        state.config.miscConfig.quickCastButton = button
+                })
+            )
+        }
     }),
     {
         name: 'debug-storage22',
