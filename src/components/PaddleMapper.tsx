@@ -1,12 +1,10 @@
 import { useCallback } from 'react'
 import './PaddleMapper.scss'
-import right from "../assets/chevron-right.svg"
-import { ButtonList, ButtonString, ButtonToImage } from '../common/Buttons';
+import { ButtonList, ButtonString } from '../common/Buttons';
 import { useRemapper } from '../common/RemapConfig';
-import { useButtonPickerContextMenu } from './ButtonPickerContextMenu';
+import { ButtonMappingPair } from './ButtonMappingPair';
 
 const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
-    const showButtonContext = useButtonPickerContextMenu()
     const currentMapping = useRemapper(e => e.config.paddleMapping[paddleNumber]);
     const setPaddleMapping = useRemapper(e => e.setPaddleMapping);
 
@@ -14,32 +12,13 @@ const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
         setPaddleMapping(paddleNumber, button);
     }, [currentMapping, paddleNumber])
 
-    const openContextMenu = useCallback((ev: React.MouseEvent) => {
-        showButtonContext(ev.clientX, ev.clientY,
-            ButtonList.filter(e => !["P1","P2","P3","P4", "DPAD_UP"].includes(e)),
-            onPaddleSwitch,
-            currentMapping,
-            {openUpwards: true} // open upwards
-        );
-
-        ev.preventDefault()
-    }, [showButtonContext])
-
     return (
-        <div className="paddle-mapping-pair">
-            <div className="paddle-mapping-pair-imagewrap">
-                <img src={`/buttonicons/XboxOne_P${paddleNumber + 1}.png`} className="responsive-image-w"></img>
-            </div>
-            <div className="paddle-mapping-pair-imagewrap arrow">
-                <img src={right} className="responsive-image-w"></img>
-            </div>
-            <div className="paddle-mapping-pair-imagewrap switcheable"
-            onClick={openContextMenu} onContextMenu={openContextMenu}>
-                { currentMapping &&
-                    <img src={`/buttonicons/XboxOne_${ButtonToImage[currentMapping]}.png`} className="responsive-image-w"></img>
-                }
-            </div>
-        </div>
+        <ButtonMappingPair
+            mappingSource={`P${paddleNumber + 1}` as ButtonString}
+            buttons={ButtonList.filter(e => !["P1","P2","P3","P4", "DPAD_UP"].includes(e))}
+            value={currentMapping}
+            onValueChange={onPaddleSwitch}
+        />
     )
 }
 
