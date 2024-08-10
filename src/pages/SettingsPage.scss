@@ -52,7 +52,8 @@
 
         background-color: #283238;
         box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
-        border: 2px solid black;
+        border: 2px solid rgb(53, 72, 109);
+        border-radius: 5px;
 
         font-size: 20pt;
         color: white;
@@ -62,7 +63,7 @@
         margin-right: 5px;
 
         &:focus {
-            border: 2px solid rgb(70, 84, 116);
+            border: 2px solid rgb(36, 41, 50);
             outline: none;
             color: gray;
         }
@@ -90,7 +91,8 @@
     aspect-ratio: 1;
 
     box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
-    border: 2px solid black;
+    border: 2px solid rgb(53, 72, 109);
+    border-radius: 5px;
     cursor: pointer;
     transition: opacity 250ms ease-in-out;
 

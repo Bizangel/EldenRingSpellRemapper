@@ -7,7 +7,10 @@
     justify-content: center;
     align-items: center;
 
-    border: 2px solid black;
+    // border: 2px solid black;
+    // border: 1px solid rgba(141, 141, 42, 0.562);
+    background-color: rgba(18, 19, 29, 0.655);
+    border-radius: 5px;
 }
 
 .button-mapping-switcheable {
@@ -15,7 +18,9 @@
     aspect-ratio: 1;
 
     box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
-    border: 2px solid black;
+    border: 2px solid rgb(53, 72, 109);
+    border-radius: 5px;
+
     cursor: pointer;
     transition: opacity 250ms ease-in-out;
 
