@@ -26,9 +26,17 @@ const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
     const currentPollingDelay = useRemapper(e => e.config.miscConfig.pollingDelay)
     const setPollingDelay = useRemapper(e => e.setPollDelay)
     const validatePollDelay = useValidateInteger(1, 1000)
-    const onDelayChange = useCallback((pollDelay: string) => {
+    const onPollDelayChange = useCallback((pollDelay: string) => {
         setPollingDelay(parseInt(pollDelay))
     }, [setPollingDelay])
+
+    // Frame delay config
+    const spellswitchFrameDelay = useRemapper(e => e.config.miscConfig.spellswitchFrameDelay)
+    const setSwitchFrameDelay = useRemapper(e => e.setSwitchFrameDelay)
+    const validateFrameDelay = useValidateInteger(1, 1000)
+    const onFrameDelayChange = useCallback((pollDelay: string) => {
+        setSwitchFrameDelay(parseInt(pollDelay))
+    }, [setSwitchFrameDelay])
 
     // Modifier config
     const currentModifier = useRemapper(e => e.config.currentModifier)
@@ -66,9 +74,17 @@ const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
                 <SettingsInputEntry
                     entryText="Virtual Controller Polling Delay (ms):"
                     value={currentPollingDelay.toString()}
-                    onValidatedChange={onDelayChange}
+                    onValidatedChange={onPollDelayChange}
                     validateInput={validatePollDelay}
                     options={{type: "number", min: 1, max: 1000}}
+                />
+
+                <SettingsInputEntry
+                    entryText="Spell Switch Frame Delay"
+                    value={spellswitchFrameDelay.toString()}
+                    onValidatedChange={onFrameDelayChange}
+                    validateInput={validateFrameDelay}
+                    options={{type: "number", min: 1, max: 20}}
                 />
 
                 <SettingsInputEntry
