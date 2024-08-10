@@ -1,31 +1,34 @@
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 import closeSettings from "../assets/x-letter.svg"
 import { ButtonList, ButtonString } from "../common/Buttons"
 import { useRemapper } from "../common/RemapConfig"
 import SettingsButtonSelect from "../components/SettingsButtonSelect"
 import './SettingsPage.scss'
+import SettingsInputEntry from "../components/SettingsInputEntry"
 
 type SettingsPageProps = {
     goBackToSpellPage: () => void,
+}
+
+const useValidateInteger = (min:number, max:number) => {
+    return useCallback((pollDelay: string) => {
+        if (pollDelay.includes(",") || pollDelay.includes("."))
+            return false;
+        let polld = parseInt(pollDelay)
+        if (isNaN(polld) || polld < min || polld > max)
+            return false
+        return true
+    }, [min, max])
 }
 
 const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
     // Poll delay config
     const currentPollingDelay = useRemapper(e => e.config.miscConfig.pollingDelay)
     const setPollingDelay = useRemapper(e => e.setPollDelay)
-    const [pollDelayBoxState, setPollDelayBoxState] = useState(currentPollingDelay.toString())
-
-    const submitPollingDelay = useCallback(() => {
-        let polld = parseInt(pollDelayBoxState)
-
-        if (isNaN(polld) || polld < 1 || polld > 1000) // bad return to original display
-            return setPollDelayBoxState(currentPollingDelay.toString());
-
-        console.log(polld)
-        polld = Math.round(polld)
-        setPollingDelay(polld)
-        setPollDelayBoxState(polld.toString())
-    }, [currentPollingDelay, pollDelayBoxState, setPollingDelay, setPollDelayBoxState])
+    const validatePollDelay = useValidateInteger(1, 1000)
+    const onDelayChange = useCallback((pollDelay: string) => {
+        setPollingDelay(parseInt(pollDelay))
+    }, [currentPollingDelay, setPollingDelay])
 
     // Modifier config
     const currentModifier = useRemapper(e => e.config.currentModifier)
@@ -43,25 +46,20 @@ const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
 
             <div className="settings-content">
                 <SettingsButtonSelect
-                text="Button Modifier"
+                text="Button Modifier:"
                 value={currentModifier}
                 onChange={onModifierValueChange}
                 buttons={ButtonList.filter(e => e !== "DPAD_UP")}
                 options={{hideNoMapping: true}}
                 />
 
-                <div className="settings-entry-input">
-                    <p> Virtual Controller Polling Delay:  </p>
-                    <input
-                    min={1}
-                    max={1000}
-                    type = "number"
-                    value={pollDelayBoxState} onChange={(ev) => {setPollDelayBoxState(ev.target.value)}}
-                    onBlur={() => { submitPollingDelay(); }}
-                    onKeyUp={(ev) => {if (ev.key === 'Enter'){ev.currentTarget.blur()}}}/>
-
-                    ms
-                </div>
+                <SettingsInputEntry
+                    entryText="Virtual Controller Polling Delay (ms):"
+                    value={currentPollingDelay.toString()}
+                    onValidatedChange={onDelayChange}
+                    validateInput={validatePollDelay}
+                    options={{type: "number", min: 1, max: 1000}}
+                />
             </div>
         </div>
     )

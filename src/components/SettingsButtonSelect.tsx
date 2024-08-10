@@ -25,10 +25,10 @@ const SettingsButtonSelect = ({text, value, onChange, buttons, options}: Setting
     }, [showButtonContext])
 
     return (
-        <div className="settings-entry-select">
+        <div className="settings-entry">
             {text}
 
-            <div className="settings-entry-select-box" onClick={openContextMenu} onContextMenu={openContextMenu}>
+            <div className="settings-entry-box" onClick={openContextMenu} onContextMenu={openContextMenu}>
                 {value &&
                     <img src={`/buttonicons/XboxOne_${ButtonToImage[value]}.png`} className="responsive-image" />
                 }

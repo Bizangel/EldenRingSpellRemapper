@@ -147,6 +147,7 @@ export const useRemapper = create<EldenRingRemapperStore>()(
         setPollDelay: (newDelay) => {
             set(
                 produce((state: EldenRingRemapperStore) => {
+                    console.log("my dwelay")
                     state.config.miscConfig.pollingDelay = newDelay
                 })
             )

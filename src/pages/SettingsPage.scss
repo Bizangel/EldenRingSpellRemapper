@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
-    align-items: center;
+    align-items: start;
     padding: 50px;
 }
 
@@ -31,65 +31,53 @@
 
 .settings-content {
     width: 500px;
+
+    font-size: 16pt;
 }
 
-
-.settings-entry-input {
+.settings-entry {
+    margin-top: 10px;
     width: 100%;
     aspect-ratio: 8;
-    font-size: 20pt;
-
-    // background-color: green;
-
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    white-space: nowrap;
+
+    padding: 5px 12px;
+    justify-content: space-between;
+
+    border-radius: 5px;
+    background-color: rgba(18, 19, 29, 0.655);
+
 
     input {
-        height: 100%;
-        aspect-ratio: 1;
-
-        background-color: #283238;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
-        border: 2px solid rgb(53, 72, 109);
-        border-radius: 5px;
-
-        font-size: 20pt;
         color: white;
+        font-size: 16pt;
         text-align: center;
-
-        margin-left: 10px;
-        margin-right: 5px;
+        outline: none;
 
         &:focus {
             border: 2px solid rgb(36, 41, 50);
             outline: none;
             color: gray;
         }
+
+        &[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     }
 }
 
-.settings-entry-select {
-    width: 100%;
-    aspect-ratio: 8;
-    font-size: 20pt;
-
-    display: flex;
-    flex-direction: row;
-
-    align-items: center;
-    justify-content: center;
-
-    white-space: nowrap;
-    gap: 20px;
-}
-
-
-.settings-entry-select-box {
+.settings-entry-box {
     height: 100%;
     aspect-ratio: 1;
-
     box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
     border: 2px solid rgb(53, 72, 109);
     border-radius: 5px;
@@ -99,4 +87,6 @@
     &:hover {
         opacity: 0.5;
     }
+
+    background-color: rgba(0,0,0,0);
 }
