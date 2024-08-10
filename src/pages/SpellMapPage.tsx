@@ -7,6 +7,8 @@ import { ButtonMappingPair } from "../components/ButtonMappingPair";
 import { ButtonList } from "../common/Buttons";
 import { useRemapper } from "../common/RemapConfig";
 import { ButtonModifierMappingPair } from "../components/ButtonModifierMappingPair";
+import { useCallback } from "react";
+import OverrideAPI from "../common/OverrideAPI";
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,
@@ -24,6 +26,11 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
     const currentModReplacement = useRemapper(e => e.config.modifierOutReplacement);
     const setModifierReplacement = useRemapper(e => e.setReplacementModifierMapping);
 
+    const onRemappingToggleClick = useCallback(async () => {
+        const cppresponse = await OverrideAPI.sendEldenOverrideCommand("hello again!")
+        console.log("Received cppresponse: ", cppresponse)
+    }, [])
+
     return (
         <div className="spell-page">
             <img src={cogWheel} className="settings-icon" onClick={goToSettingsPage}/>
@@ -33,7 +40,7 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                 <div className="spellpage-bottom-content-wrapper">
                     <div className="spellpage-button-wrapper">
                             <button className="spellpage-button" onClick={goToAddSpellPage}>Add Spell</button>
-                            <button className="spellpage-button start">Start Remapping</button>
+                            <button className="spellpage-button start" onClick={onRemappingToggleClick} >Start Remapping</button>
                     </div>
 
                     <div className="issues-box-wrapper">

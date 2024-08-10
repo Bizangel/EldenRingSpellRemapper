@@ -11,6 +11,6 @@
 #include "EldenOverrideHandler.h"
 #include "JoyMacroCore.h"
 
-SRCCPPELDENREMAPPER_API int StartEldenOverride_Ext(void);
 SRCCPPELDENREMAPPER_API int StopEldenOverride_Ext(void);
 SRCCPPELDENREMAPPER_API bool IsEldenOverrideActive_Ext(void);
+SRCCPPELDENREMAPPER_API const char* EldenOverrideCommand_Ext(const char* config);
