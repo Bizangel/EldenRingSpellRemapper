@@ -21,9 +21,7 @@ const SettingsButtonSelect = ({text, value, onChange, buttons, options}: Setting
         );
 
         ev.preventDefault()
-    }, [showButtonContext])
-
-    const unused = 3;
+    }, [showButtonContext, buttons, onChange, value, options])
 
     return (
         <div className="settings-entry">

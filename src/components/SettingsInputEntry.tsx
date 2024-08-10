@@ -30,7 +30,7 @@ const SettingsInputEntry = <T extends AllowedInputTypes>(
     useEffect(() => {
         if (typeof internalInputState === "boolean")
             submitCheck()
-    }, [internalInputState])
+    }, [internalInputState, submitCheck])
 
     return (
         <div className="settings-entry">

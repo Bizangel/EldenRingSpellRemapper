@@ -22,7 +22,7 @@ export const ButtonMappingPair = ({value, onValueChange, buttons, mappingSource}
             {openUpwards: true} // open upwards
         );
         ev.preventDefault()
-    }, [showButtonContext])
+    }, [showButtonContext, onValueChange, value, buttons])
 
     return (
         <div className="button-mapping-pair-wrapper">

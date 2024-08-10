@@ -21,4 +21,4 @@ export default function draggableCollisionWithThrashArea({
         ...args,
         droppableContainers: droppableContainers.filter(({id} : any) => id !== 'delete-spell-droparea')
     });
-};
+}

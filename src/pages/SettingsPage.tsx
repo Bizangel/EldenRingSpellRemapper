@@ -14,7 +14,7 @@ const useValidateInteger = (min:number, max:number) => {
     return useCallback((integer: string) => {
         if (integer.includes(",") || integer.includes("."))
             return false;
-        let intd = parseInt(integer)
+        const intd = parseInt(integer)
         if (isNaN(intd) || intd < min || intd > max)
             return false
         return true
@@ -28,7 +28,7 @@ const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
     const validatePollDelay = useValidateInteger(1, 1000)
     const onDelayChange = useCallback((pollDelay: string) => {
         setPollingDelay(parseInt(pollDelay))
-    }, [currentPollingDelay, setPollingDelay])
+    }, [setPollingDelay])
 
     // Modifier config
     const currentModifier = useRemapper(e => e.config.currentModifier)

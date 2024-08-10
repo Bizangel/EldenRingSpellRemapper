@@ -35,7 +35,7 @@ function DraggableSpellEntryCard({activeDragId, ...props}: SpellMapping & {activ
         );
 
         ev.preventDefault();
-    }, [showContextMenu, props.id])
+    }, [showContextMenu, currentMapping, currentModifier, onRemapPress])
 
     return (
         <div

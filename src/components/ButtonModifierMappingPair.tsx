@@ -24,7 +24,7 @@ export const ButtonModifierMappingPair = ({modifier, value, onValueChange, butto
             {openUpwards: true} // open upwards
         );
         ev.preventDefault()
-    }, [showButtonContext])
+    }, [showButtonContext, buttons, onValueChange, value])
 
     return (
         <div className="button-mapping-pair-wrapper">

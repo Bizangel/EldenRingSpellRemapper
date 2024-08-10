@@ -16,6 +16,13 @@ export default tseslint.config(
     },
   },
   {
+    rules: {
+      ...tseslint.recommended,
+      ...eslintPluginReact.configs.recommended.rules,
+      ...eslintPluginReactHooks.configs.recommended.rules,
+    },
+  },
+  {
     plugins: {
       'react': eslintPluginReact,
       'react-hooks': eslintPluginReactHooks,
@@ -25,12 +32,10 @@ export default tseslint.config(
             version: 'detect',
         }
     },
-  },
-  {
     rules: {
-      ...tseslint.recommended,
-      ...eslintPluginReact.configs.recommended.rules,
-      ...eslintPluginReactHooks.configs.recommended.rules,
-    },
+      "react/react-in-jsx-scope": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "off" // typescript itself will warn us already
+    }
   },
 );

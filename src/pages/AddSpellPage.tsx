@@ -12,7 +12,7 @@ const SpellListEntry = ({id, spellName, imageUrl}: SpellType) => {
     const addSpell = useRemapper(e => e.addSpell)
     const onEntryClick = useCallback(() => {
         addSpell(id)
-    }, [addSpell])
+    }, [addSpell, id])
 
     return (
         <div className="spell-list-entry" onClick={onEntryClick}>
@@ -27,7 +27,7 @@ const SpellListEntry = ({id, spellName, imageUrl}: SpellType) => {
 }
 
 function filterByName(spells: SpellType[], filter: string) {
-    let filterInternal = filter.toLocaleLowerCase().trim()
+    const filterInternal = filter.toLocaleLowerCase().trim()
     return spells.filter(
         e => e.spellName.toLowerCase().includes(filterInternal),
     )

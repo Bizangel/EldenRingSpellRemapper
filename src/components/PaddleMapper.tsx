@@ -10,7 +10,7 @@ const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
 
     const onPaddleSwitch = useCallback((button?: ButtonString) => {
         setPaddleMapping(paddleNumber, button);
-    }, [currentMapping, paddleNumber])
+    }, [setPaddleMapping, paddleNumber])
 
     return (
         <ButtonMappingPair

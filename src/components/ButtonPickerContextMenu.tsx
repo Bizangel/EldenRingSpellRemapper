@@ -80,7 +80,7 @@ const ButtonPickerContextMenu = () => {
     const onButtonPress = useCallback((button?: ButtonString) => {
         userOnPressCallback(button)
         updateSelectedInternal(button)
-    }, [userOnPressCallback])
+    }, [userOnPressCallback, updateSelectedInternal])
 
     const hideContextMenu = useButtonContextMenuState_Internal(e => e.hideContextMenu)
 
