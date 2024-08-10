@@ -15,7 +15,8 @@ const MAX_SPELL_AMOUNT = 14
 // contains all application global state
 export type EldenRingRemapperConfig = {
     miscConfig: {
-        pollingDelay: number
+        pollingDelay: number,
+        automateHidHide: boolean
     },
     spells : SpellMapping[],
     currentModifier: ButtonString,
@@ -38,6 +39,7 @@ export type EldenRingRemapperStore = {
     setDpadUpMapping: (button?: ButtonString) => void,
 
     setPollDelay: (newDelay: number) => void
+    setAutomateHidHide: (option: boolean) => void
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
@@ -47,6 +49,7 @@ export const useRemapper = create<EldenRingRemapperStore>()(
             paddleMapping: [undefined, undefined, undefined, undefined],
             miscConfig: {
                 pollingDelay: 10,
+                automateHidHide: false,
             },
             spells: [],
             currentModifier: "LT",
@@ -147,11 +150,18 @@ export const useRemapper = create<EldenRingRemapperStore>()(
         setPollDelay: (newDelay) => {
             set(
                 produce((state: EldenRingRemapperStore) => {
-                    console.log("my dwelay")
                     state.config.miscConfig.pollingDelay = newDelay
                 })
             )
-        }
+        },
+
+        setAutomateHidHide: (option) => {
+            set(
+                produce((state: EldenRingRemapperStore) => {
+                    state.config.miscConfig.automateHidHide = option
+                })
+            )
+        },
     }),
     {
         name: 'debug-storage22',

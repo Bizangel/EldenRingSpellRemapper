@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 
-type SettingsInputEntryProps = {
+type AllowedInputTypes = boolean | string
+type SettingsInputEntryProps<T extends AllowedInputTypes> = {
     entryText: string,
-    value: string
-    onValidatedChange: (x: string) => void,
-    validateInput: (x: string) => boolean // whether input is accepted or not,
+    value: T
+    onValidatedChange: (x: T) => void,
+    validateInput: (x: T) => boolean // whether input is accepted or not,
     options?: React.InputHTMLAttributes<HTMLInputElement>
 }
 
-const SettingsInputEntry = (
-    {value, validateInput, onValidatedChange, options, entryText}: SettingsInputEntryProps
+const SettingsInputEntry = <T extends AllowedInputTypes>(
+    {value, validateInput, onValidatedChange, options, entryText}: SettingsInputEntryProps<T>
 ) => {
-    const [internalInputState, setInternalInputState] = useState<string>("");
+    const [internalInputState, setInternalInputState] = useState<T>(value);
 
     useEffect(() => {
         setInternalInputState(value)
@@ -22,7 +23,6 @@ const SettingsInputEntry = (
             setInternalInputState(value) // put back to original
             return;
         }
-
         onValidatedChange(internalInputState)
     }, [internalInputState, value, setInternalInputState, onValidatedChange, validateInput])
 
@@ -31,8 +31,13 @@ const SettingsInputEntry = (
             <p>{entryText}</p>
             <input
             className="settings-entry-box"
-            value={internalInputState}
-            onChange={(ev) => {setInternalInputState(ev.target.value)}}
+            checked={typeof internalInputState === "boolean" ? internalInputState : undefined}
+            value={typeof internalInputState !== "boolean" ? internalInputState : undefined }
+            onChange={(ev) => {
+               typeof internalInputState !== "boolean"
+               ? setInternalInputState(ev.target.value as T) :
+               setInternalInputState(ev.target.checked as T)
+            }}
             onBlur={() => { submitCheck(); }}
             onKeyUp={(ev) => {if (ev.key === 'Enter'){ev.currentTarget.blur()}}}
             {...options}

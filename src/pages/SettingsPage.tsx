@@ -11,11 +11,11 @@ type SettingsPageProps = {
 }
 
 const useValidateInteger = (min:number, max:number) => {
-    return useCallback((pollDelay: string) => {
-        if (pollDelay.includes(",") || pollDelay.includes("."))
+    return useCallback((integer: string) => {
+        if (integer.includes(",") || integer.includes("."))
             return false;
-        let polld = parseInt(pollDelay)
-        if (isNaN(polld) || polld < min || polld > max)
+        let intd = parseInt(integer)
+        if (isNaN(intd) || intd < min || intd > max)
             return false
         return true
     }, [min, max])
@@ -38,6 +38,9 @@ const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
             setModifier(button)
     }, [setModifier])
 
+    // hidhide automate
+    const automateHidHide = useRemapper(e => e.config.miscConfig.automateHidHide)
+    const setAutomateHidHide = useRemapper(e => e.setAutomateHidHide)
     return (
         <div className="settings-page">
             <div className="settings-back-icon-wrapper">
@@ -59,6 +62,14 @@ const SettingsPage = ({goBackToSpellPage}: SettingsPageProps) => {
                     onValidatedChange={onDelayChange}
                     validateInput={validatePollDelay}
                     options={{type: "number", min: 1, max: 1000}}
+                />
+
+                <SettingsInputEntry
+                    entryText="Automate HidHide: "
+                    value={automateHidHide}
+                    onValidatedChange={setAutomateHidHide}
+                    validateInput={() => true}
+                    options={{type: "checkbox"}}
                 />
             </div>
         </div>
