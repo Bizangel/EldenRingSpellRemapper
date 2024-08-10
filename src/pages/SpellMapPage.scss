@@ -8,19 +8,16 @@
     position: absolute;
     right: 10px;
     top: 10px;
-
     height: 40px;
     width: 40px;
     filter: invert(1);
-
     cursor: pointer;
+    z-index: 1;
 
     transition: transform 0.3s ease-in-out;
     &:hover{
         transform: rotate(40deg);
     }
-
-    z-index: 1;
 }
 
 %spellpage-button-styling {

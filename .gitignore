@@ -26,6 +26,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.eslintcache
 
 public/spellsicons/
 src/common/Spells.generated.ts
+

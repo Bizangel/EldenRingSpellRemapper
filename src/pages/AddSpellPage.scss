@@ -2,6 +2,11 @@
     width: 100vw;
     height: 100vh;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
     .back-icon{
         position: absolute;
         top: 0;
@@ -13,11 +18,6 @@
         filter: invert(1);
         cursor: pointer;
     }
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
 .spell-preview {
@@ -31,14 +31,12 @@
 
     display: flex;
     flex-direction: row;
-
     overflow-x: auto;
+    padding: 10px;
+    gap: 10px;
 
     &::-webkit-scrollbar { height: 3px; background-color: #11171b;}
     &::-webkit-scrollbar-thumb { background-color: #54646f; }
-
-    padding: 10px;
-    gap: 10px
 }
 
 .spell-preview-card {
@@ -50,13 +48,12 @@
     justify-content: center;
     align-items: center;
     padding: 5px;
-
+    cursor: pointer;
     transition: opacity 250ms ease-in-out;
+
     &:hover {
         opacity: 0.5;
     }
-
-    cursor: pointer;
 }
 
 .spell-preview-image {
@@ -115,14 +112,12 @@
 
     padding: 5px;
     margin: 5px;
-
     transition: opacity 250ms ease-in-out;
+    user-select: none;
     &:hover {
         opacity: 0.5;
         cursor: pointer;
     }
-
-    user-select: none;
 }
 
 .spell-list-entry-text{
