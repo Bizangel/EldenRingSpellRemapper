@@ -51,7 +51,7 @@ export const ButtonModifierMappingPair = ({modifier, value, onValueChange, butto
             }
 
             {customTargetSrc &&
-                 <img src={customTargetSrc} className="responsive-image"></img>
+                 <img src={customTargetSrc} className="responsive-image" style={{filter: "invert(1)"}}></img>
             }
         </div>
     )

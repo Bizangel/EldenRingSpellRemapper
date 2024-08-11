@@ -9,7 +9,7 @@ import { useRemapper } from "../common/RemapConfig";
 import { ButtonModifierMappingPair } from "../components/ButtonModifierMappingPair";
 import { useCallback } from "react";
 import OverrideAPI from "../common/OverrideAPI";
-import thrash from '../assets/trash.svg'
+import spellReset from '../assets/spell_reset.png'
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,
@@ -71,7 +71,7 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                                 value={currentResetMapping}
                                 onValueChange={(button) => {if(button) setResetMapping(button)}}
                                 buttons={ButtonList.filter(e => e !== currentModifier)}
-                                customTargetSrc={thrash}
+                                customTargetSrc={spellReset}
                                 options={{hideNoMapping: true}}
                                 />
                             {/* Dpad up mapping replacement */}
