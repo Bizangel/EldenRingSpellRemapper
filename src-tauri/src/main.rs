@@ -24,8 +24,7 @@ fn elden_override_send_command(payload: String) -> String {
         let cstr_payload = CString::new(payload).expect("Failed to create CString from given js string payload");
         let result_ptr = EldenOverrideCommand_Ext(cstr_payload.as_ptr());
         let result = CStr::from_ptr(result_ptr).to_string_lossy().into_owned(); // Convert C string to Rust String
-        // Assume that result_ptr is dynamically allocated in C++ and we need to free it
-        libc::free(result_ptr as *mut libc::c_void); // Ensure the memory is freed
+        EldenOverrideCommand_DeAllocString(result_ptr); // free the given str pointer memory
         result
     }
 }
@@ -35,6 +34,7 @@ extern "C" {
     fn StopEldenOverride_Ext() -> i32;
     fn IsEldenOverrideActive_Ext() -> bool;
     fn EldenOverrideCommand_Ext(input: *const std::os::raw::c_char) -> *const std::os::raw::c_char;
+    fn EldenOverrideCommand_DeAllocString(input: *const std::os::raw::c_char) -> ();
 }
 
 fn main() {

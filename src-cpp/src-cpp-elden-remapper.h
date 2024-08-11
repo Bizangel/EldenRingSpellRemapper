@@ -15,3 +15,4 @@
 SRCCPPELDENREMAPPER_API int StopEldenOverride_Ext(void);
 SRCCPPELDENREMAPPER_API bool IsEldenOverrideActive_Ext(void);
 SRCCPPELDENREMAPPER_API const char* EldenOverrideCommand_Ext(const char* config);
+SRCCPPELDENREMAPPER_API void EldenOverrideCommand_DeAllocString(const char* str);

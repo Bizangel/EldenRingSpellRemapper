@@ -28,3 +28,8 @@ SRCCPPELDENREMAPPER_API const char* EldenOverrideCommand_Ext(const char* payload
     return result;
 }
 
+SRCCPPELDENREMAPPER_API void EldenOverrideCommand_DeAllocString(const char* str)
+{
+    delete[] str;
+}
+
