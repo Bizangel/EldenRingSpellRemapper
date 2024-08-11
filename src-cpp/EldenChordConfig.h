@@ -24,6 +24,7 @@ struct EldenRemapperConfig {
     std::string currentModifier;
     std::string dpadUpMapping;
     std::string modifierOutReplacement;
+    std::string resetSpellMapping;
     std::vector<std::string> paddleMapping;
 };
 
@@ -38,4 +39,4 @@ struct EldenChordConfig_OLD {
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(SpellMapping, id, spellName, buttonCombo)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(MiscConfig, pollingDelay, automateHidHide, quickCastButton, spellswitchFrameDelay)
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(EldenRemapperConfig, miscConfig, spells, currentModifier, dpadUpMapping, modifierOutReplacement, paddleMapping)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(EldenRemapperConfig, miscConfig, spells, currentModifier, dpadUpMapping, modifierOutReplacement, resetSpellMapping, paddleMapping)

@@ -24,6 +24,7 @@ export type EldenRingRemapperConfig = {
     currentModifier: ButtonString,
     dpadUpMapping?: ButtonString,
     modifierOutReplacement?: ButtonString,
+    resetSpellMapping: ButtonString,
     paddleMapping: (ButtonString | undefined)[]
 }
 
@@ -45,6 +46,7 @@ export type EldenRingRemapperStore = {
     setQuickcastButton: (buttonString?: ButtonString) => void,
 
     setSwitchFrameDelay: (newDelay: number) => void
+    setResetMapping: (button: ButtonString) => void
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
@@ -62,6 +64,7 @@ export const useRemapper = create<EldenRingRemapperStore>()(
             currentModifier: "LT",
             modifierOutReplacement: undefined,
             dpadUpMapping: undefined,
+            resetSpellMapping: "P4",
         },
 
         reorderSpell: (spell1, spell2) => {
@@ -183,6 +186,15 @@ export const useRemapper = create<EldenRingRemapperStore>()(
             set(
                 produce((state: EldenRingRemapperStore) => {
                     state.config.miscConfig.spellswitchFrameDelay = newDelay
+                })
+            )
+        },
+
+        setResetMapping: (button) => {
+            set(
+                produce((state: EldenRingRemapperStore) => {
+                    if (button)
+                        state.config.resetSpellMapping = button
                 })
             )
         }

@@ -1,7 +1,7 @@
 import { ButtonString, ButtonToImage } from "../common/Buttons"
 import plusIcon from "../assets/plus.svg"
 import right from "../assets/chevron-right.svg"
-import { useButtonPickerContextMenu } from "./ButtonPickerContextMenu"
+import { ButtonContextMenuStateOptions, useButtonPickerContextMenu } from "./ButtonPickerContextMenu"
 import { useCallback } from "react"
 import './ButtonMappingPair.scss'
 
@@ -10,10 +10,13 @@ type ButtonModifierMappingPairProps = {
     value?: ButtonString
     onValueChange: (button?: ButtonString) => void,
     buttons: readonly ButtonString[],
-    mappingTarget: ButtonString
+    mappingTarget: ButtonString,
+
+    options?: ButtonContextMenuStateOptions,
+    customTargetSrc?: string,
 }
 
-export const ButtonModifierMappingPair = ({modifier, value, onValueChange, buttons, mappingTarget}: ButtonModifierMappingPairProps) => {
+export const ButtonModifierMappingPair = ({modifier, value, onValueChange, buttons, mappingTarget, customTargetSrc, options}: ButtonModifierMappingPairProps) => {
     const showButtonContext = useButtonPickerContextMenu()
 
     const openContextMenu = useCallback((ev: React.MouseEvent) => {
@@ -21,10 +24,10 @@ export const ButtonModifierMappingPair = ({modifier, value, onValueChange, butto
             buttons,
             onValueChange,
             value,
-            {openUpwards: true} // open upwards
+            {openUpwards: true, ...options} // open upwards
         );
         ev.preventDefault()
-    }, [showButtonContext, buttons, onValueChange, value])
+    }, [showButtonContext, buttons, onValueChange, value, options])
 
     return (
         <div className="button-mapping-pair-wrapper">
@@ -42,7 +45,14 @@ export const ButtonModifierMappingPair = ({modifier, value, onValueChange, butto
             </div>
 
             <img src={right} className="responsive-image" style={{filter: "invert(1)"}}></img>
-            <img src={`/buttonicons/XboxOne_${ButtonToImage[mappingTarget]}.png`} className="responsive-image"></img>
+
+            {!customTargetSrc &&
+                <img src={`/buttonicons/XboxOne_${ButtonToImage[mappingTarget]}.png`} className="responsive-image"></img>
+            }
+
+            {customTargetSrc &&
+                 <img src={customTargetSrc} className="responsive-image"></img>
+            }
         </div>
     )
 }

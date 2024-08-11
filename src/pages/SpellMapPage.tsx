@@ -9,6 +9,7 @@ import { useRemapper } from "../common/RemapConfig";
 import { ButtonModifierMappingPair } from "../components/ButtonModifierMappingPair";
 import { useCallback } from "react";
 import OverrideAPI from "../common/OverrideAPI";
+import thrash from '../assets/trash.svg'
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,
@@ -21,6 +22,10 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
     // dpad config
     const currentDpadMapping = useRemapper(e => e.config.dpadUpMapping);
     const setDpadUpMapping = useRemapper(e => e.setDpadUpMapping);
+    // reset spell config
+    const setResetMapping = useRemapper(e => e.setResetMapping);
+    const currentResetMapping = useRemapper(e => e.config.resetSpellMapping);
+
     // modifier replacement config
     const currentModifier = useRemapper(e => e.config.currentModifier);
     const currentModReplacement = useRemapper(e => e.config.modifierOutReplacement);
@@ -58,13 +63,17 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                                 value={currentModReplacement}
                                 onValueChange={setModifierReplacement}
                                 buttons={ButtonList.filter(e => e !== currentModifier)}/>
+
                             {/* Reset Spell keybind */}
-                            {/* <ButtonModifierMappingPair
+                            <ButtonModifierMappingPair
                                 modifier={currentModifier}
-                                mappingTarget={currentModifier}
-                                value={currentModReplacement}
-                                onValueChange={setModifierReplacement}
-                                buttons={ButtonList.filter(e => e !== currentModifier)}/> */}
+                                mappingTarget={"P1"}
+                                value={currentResetMapping}
+                                onValueChange={(button) => {if(button) setResetMapping(button)}}
+                                buttons={ButtonList.filter(e => e !== currentModifier)}
+                                customTargetSrc={thrash}
+                                options={{hideNoMapping: true}}
+                                />
                             {/* Dpad up mapping replacement */}
                             <ButtonMappingPair
                                 mappingSource={"DPAD_UP"}
