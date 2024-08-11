@@ -25,7 +25,7 @@ export type EldenRingRemapperConfig = {
     dpadUpMapping?: ButtonString,
     modifierOutReplacement?: ButtonString,
     resetSpellMapping: ButtonString,
-    paddleMapping: (ButtonString | undefined)[]
+    paddleMapping: (ButtonString | "")[]
 }
 
 export type EldenRingRemapperStore = {
@@ -53,7 +53,7 @@ export const useRemapper = create<EldenRingRemapperStore>()(
     persist(
         (set, get) => ({
         config: {
-            paddleMapping: [undefined, undefined, undefined, undefined],
+            paddleMapping: ["", "", "", ""],
             miscConfig: {
                 pollingDelay: 10,
                 automateHidHide: false,
@@ -136,7 +136,10 @@ export const useRemapper = create<EldenRingRemapperStore>()(
 
             set(
                 produce((state: EldenRingRemapperStore) => {
-                state.config.paddleMapping[paddle] = button
+                    if (button)
+                        state.config.paddleMapping[paddle] = button
+                    else
+                        state.config.paddleMapping[paddle] = ""
                 })
             )
         },

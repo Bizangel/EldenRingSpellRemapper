@@ -5,7 +5,8 @@ import { useRemapper } from '../common/RemapConfig';
 import { ButtonMappingPair } from './ButtonMappingPair';
 
 const PaddleMappingPair = ({paddleNumber}: {paddleNumber: number}) => {
-    const currentMapping = useRemapper(e => e.config.paddleMapping[paddleNumber]);
+    const currentMappingStr = useRemapper(e => e.config.paddleMapping[paddleNumber]);
+    const currentMapping = currentMappingStr !== "" ? currentMappingStr : undefined
     const setPaddleMapping = useRemapper(e => e.setPaddleMapping);
 
     const onPaddleSwitch = useCallback((button?: ButtonString) => {
