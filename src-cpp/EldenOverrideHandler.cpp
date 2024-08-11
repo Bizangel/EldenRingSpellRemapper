@@ -63,7 +63,6 @@ bool EldenOverrideHandler::IsOverrideActive()
 
 std::string EldenOverrideHandler::HandleCommand(std::string payload)
 {
-	std::cout << "received payload: " << payload << std::endl;
 	try
 	{
 		auto parsedJson = json::parse(payload);
@@ -73,7 +72,8 @@ std::string EldenOverrideHandler::HandleCommand(std::string payload)
 		if (payload.command == "check-config") {
 			auto configJson = json::parse(payload.payload);
 			auto config = configJson.template get<EldenRemapperConfig>();
-			return json(VerifyConfig(config)).dump();
+			auto configCheckResponse = VerifyConfig(config);
+			return json(EldenOverrideCommandResponse{ true, json(configCheckResponse).dump() }).dump();
 		}
 		
 		return json(EldenOverrideCommandResponse{ false, "Unrecognized Command" }).dump();
@@ -85,7 +85,45 @@ std::string EldenOverrideHandler::HandleCommand(std::string payload)
 	}
 }
 
-EldenOverrideCommandResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig config)
+ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig config)
 {
-	return EldenOverrideCommandResponse{ true, "good config" };
+	std::vector<std::string> errors;
+	// 1. Test MiscConfig values
+	if (config.miscConfig.pollingDelay < 1)
+		errors.push_back(concat("Polling delay cannot be less than 1, found: ", config.miscConfig.pollingDelay));
+
+	if (!ButtonStringUtils::isValidQuickcastButton(config.miscConfig.quickCastButton) )
+		errors.push_back(concat("Invalid Quick cast Button found: ", config.miscConfig.quickCastButton, " must be LB or RB"));
+
+	if (config.miscConfig.spellswitchFrameDelay < 1 || config.miscConfig.spellswitchFrameDelay > 10)
+		errors.push_back(concat("Invalid Spell Switch Frame Delay, must be within 1 and 10, found: ", config.miscConfig.spellswitchFrameDelay));
+
+	// 2. Test everything related to spells.
+	// 2.1. Test no duplicate spell ids
+	for (size_t i = 0; i < config.spells.size(); ++i) {
+		for (size_t j = i + 1; j < config.spells.size(); ++j) {
+			if (config.spells[i].id == config.spells[j].id) {
+				errors.push_back(concat("Duplicate Spell ID found: ", config.spells[i].id));
+			}
+		}
+	}
+
+	// 2.2. Test all spell buttons are valid.
+	for (size_t i = 0; i < config.spells.size(); ++i) {
+		if (!ButtonStringUtils::isValidButtonString(config.spells[i].buttonCombo)) {
+			errors.push_back(concat("Spell " , config.spells[i].spellName, " has invalid button: ", config.spells[i].buttonCombo));
+		}
+	}
+
+	// 3. Test other mappings are okay (currentModifier)
+	if (!ButtonStringUtils::isValidButtonString(config.currentModifier))
+		errors.push_back(concat("Invalid Modifier Button: ", config.currentModifier));
+
+	if (!ButtonStringUtils::isValidButtonString(config.currentModifier))
+		errors.push_back(concat("Invalid Modifier Button: ", config.currentModifier));
+	
+	// TODO: Make a distinction between input mappings and Output mappings.
+	// Input mappings can be whatever. While output mappings cannot be DPAD_UP nor any paddle.
+	
+	return ConfigCheckResponse{ errors.size() == 0, errors };
 }

@@ -8,7 +8,9 @@
 struct SpellMapping {
     std::string id;
     std::string spellName;
-    std::string buttonCombo;
+    
+    // The Modifier + button to trigger the mapping. Can be any button.
+    std::string buttonCombo; 
 };
 
 struct MiscConfig {
@@ -21,11 +23,18 @@ struct MiscConfig {
 struct EldenRemapperConfig {
     MiscConfig miscConfig;
     std::vector<SpellMapping> spells;
+
+    // Current Modifier
     std::string currentModifier;
     std::string dpadUpMapping;
     std::string modifierOutReplacement;
     std::string resetSpellMapping;
     std::vector<std::string> paddleMapping;
+};
+
+struct ConfigCheckResponse {
+    bool configOk;
+    std::vector<std::string> errors;
 };
 
 struct EldenChordConfig_OLD {
@@ -40,3 +49,4 @@ struct EldenChordConfig_OLD {
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(SpellMapping, id, spellName, buttonCombo)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(MiscConfig, pollingDelay, automateHidHide, quickCastButton, spellswitchFrameDelay)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(EldenRemapperConfig, miscConfig, spells, currentModifier, dpadUpMapping, modifierOutReplacement, resetSpellMapping, paddleMapping)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(ConfigCheckResponse, configOk, errors);

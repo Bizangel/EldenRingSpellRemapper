@@ -5,12 +5,49 @@
 #include "json.hpp"
 #include "src-cpp-elden-remapper.h"
 
-int main()
-{
-    std::string hello = "mystring";
-    auto dllResultStr = EldenOverrideCommand_Ext(hello.c_str());
+using json = nlohmann::json;
+
+std::string SendEldenOverrideCommand(std::string& command) {
+    auto dllResultStr = EldenOverrideCommand_Ext(command.c_str());
     std::string dllResult(dllResultStr);
     EldenOverrideCommand_DeAllocString(dllResultStr);
+    return dllResult;
+}
 
-    std::cout << "Response: " << dllResult;
+std::string SendEldenOverrideCommand(json command) {
+    std::string tempStr = command.dump();
+    auto dllResultStr = EldenOverrideCommand_Ext(tempStr.c_str());
+    std::string dllResult(dllResultStr);
+    EldenOverrideCommand_DeAllocString(dllResultStr);
+    return dllResult;
+}
+
+int main()
+{
+    json spellMapping = json::array({
+        {{"id", "glintstone_stars"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", "LB"}},
+        {{"id", "glintstone_pebble"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", "LB"}},
+        {{"id", "moonlight"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", "M3"}},
+    });
+
+    json config = {
+      {"miscConfig", {
+          {"pollingDelay", -1},
+          {"automateHidHide", false},
+          {"quickCastButton", "LB"},
+          {"spellswitchFrameDelay", 100}
+      }},
+      {"spells", spellMapping},
+      {"currentModifier", "M3"},
+      {"dpadUpMapping", "RB"},
+      {"modifierOutReplacement", "RT"},
+      {"resetSpellMapping", "DPAD_DOWN"},
+      {"paddleMapping", {"", "", "", ""}}
+    };
+
+    
+    std::string configStr = config.dump();
+    //std::cout << "config payload " << configStr << std::endl;
+    json command = { {"command", "check-config"}, {"payload", configStr} };
+    std::cout << "Response: " << SendEldenOverrideCommand(command);
 }

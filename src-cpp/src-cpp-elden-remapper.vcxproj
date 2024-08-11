@@ -166,6 +166,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonStringUtils.h" />
     <ClInclude Include="EldenChordConfig.h" />
     <ClInclude Include="EldenChordOverrider.h" />
     <ClInclude Include="EldenOverrideHandler.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="src-cpp-elden-remapper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ButtonStringUtils.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="EldenChordConfig.cpp" />
     <ClCompile Include="EldenChordOverrider.cpp" />
