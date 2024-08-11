@@ -19,12 +19,12 @@ SRCCPPELDENREMAPPER_API bool IsEldenOverrideActive_Ext(void)
 
 SRCCPPELDENREMAPPER_API const char* EldenOverrideCommand_Ext(const char* payload)
 {
-    std::cout << "I received a string C++: " << payload << std::endl;
-    std::string returnstring("Hello from C++");
+    std::string info(payload);        
+    std::string returnString = EldenOverrideHandler::HandleCommand(info);
 
     // Allocate memory for the string on the heap and return a pointer to it
-    char* result = new char[returnstring.size() + 1];
-    strncpy_s(result, returnstring.size() + 1, returnstring.c_str(), returnstring.size());
+    char* result = new char[returnString.size() + 1];
+    strncpy_s(result, returnString.size() + 1, returnString.c_str(), returnString.size());
     return result;
 }
 

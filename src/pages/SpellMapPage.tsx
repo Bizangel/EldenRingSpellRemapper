@@ -27,8 +27,8 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
     const setModifierReplacement = useRemapper(e => e.setReplacementModifierMapping);
 
     const onRemappingToggleClick = useCallback(async () => {
-        const cppresponse = await OverrideAPI.sendEldenOverrideCommand("hello again!")
-        console.log("Received cppresponse: ", cppresponse)
+        const response = await OverrideAPI.checkOverrideConfig()
+        console.log("Received cppresponse: ", response)
     }, [])
 
     return (

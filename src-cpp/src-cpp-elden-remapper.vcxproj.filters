@@ -50,5 +50,8 @@
     <ClCompile Include="EldenChordOverrider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EldenChordConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

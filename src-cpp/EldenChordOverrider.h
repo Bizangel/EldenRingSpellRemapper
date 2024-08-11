@@ -10,7 +10,7 @@ private:
     XINPUT_GAMEPAD prevInput;
     XINPUT_GAMEPAD prevOutput;
 
-    EldenChordConfig chordConfig;
+    EldenChordConfig_OLD chordConfig;
 
     int nSpells; // amount of spells currently equipped
     int boundedChordsCount; // How many spells are bounded
@@ -35,7 +35,7 @@ private:
 
     bool ModifierButtonsLock; // locks buttons with modifiers to be pressed until modifier is fully release
 public:
-    EldenChordOverrider(EldenChordConfig misc,
+    EldenChordOverrider(EldenChordConfig_OLD misc,
         int boundedChordsC, int* boundedButtonsArr,
         int* boundedSpellIdxArr, int nSpells);
 

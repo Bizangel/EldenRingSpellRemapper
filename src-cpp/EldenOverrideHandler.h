@@ -9,18 +9,15 @@ using json = nlohmann::json;
 struct EldenOverrideCommandResponse {
 	bool success;
 	std::string payload;
-
-	// Custom to_json function
-	json to_json() {
-		return nlohmann::json{ {"success", success}, {"payload", payload} };
-	}
-
-	// Custom from_json function
-	//void from_json(const nlohmann::json& j, EldenOverrideCommandResponse& e) {
-	//	j.at("success").get_to(e.success);
-	//	j.at("payload").get_to(e.payload);
-	//}
 };
+
+struct EldenOverrideCommandPayload {
+	std::string command;
+	std::string payload;
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(EldenOverrideCommandResponse, success, payload)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(EldenOverrideCommandPayload, command, payload)
 
 class EldenOverrideHandler
 {

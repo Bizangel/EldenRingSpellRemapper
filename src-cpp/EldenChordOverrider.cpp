@@ -6,7 +6,7 @@ bool isPressed(const WORD& buttonsState, const int& compareAgainst)
 	return ((buttonsState & compareAgainst) != 0);
 }
 
-EldenChordOverrider::EldenChordOverrider(EldenChordConfig misc,
+EldenChordOverrider::EldenChordOverrider(EldenChordConfig_OLD misc,
 	int boundedChordsC, int* boundedButtonsArr,
 	int* boundedSpellIdxArr, int nSpellsCount)
 {

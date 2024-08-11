@@ -175,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="EldenChordConfig.cpp" />
     <ClCompile Include="EldenChordOverrider.cpp" />
     <ClCompile Include="EldenOverrideHandler.cpp" />
     <ClCompile Include="src-cpp-elden-remapper.cpp" />
