@@ -64,31 +64,19 @@ bool EldenOverrideHandler::IsOverrideActive()
 std::string EldenOverrideHandler::HandleCommand(std::string payload)
 {
 	std::cout << "received payload: " << payload << std::endl;
-		
 	try
 	{
 		auto parsedJson = json::parse(payload);
 		auto payload = parsedJson.template get<EldenOverrideCommandPayload>();
-
-		std::cout << "parsed command: " << payload.command << std::endl;
-		std::cout << "parsed payload: " << payload.payload << std::endl;
-
-		// try parsing config
-
-		auto configJson = json::parse(payload.payload);
-		std::cout << "parsed json!" << std::endl;
-		auto config = configJson.template get<EldenRemapperConfig>();
-
-
-		std::cout << "parsed config\n"; 
-		std::cout << "modifier: " << config.currentModifier << std::endl;
-		std::cout << "dpadUpMapping: " << config.dpadUpMapping << std::endl;
-		std::cout << "miscConfig: " << json(config.miscConfig).dump() << std::endl;
-		std::cout << "modifier replacement: " << config.modifierOutReplacement << std::endl;
-		std::cout << "paddle mapping: " << json(config.paddleMapping).dump() << std::endl;
-		std::cout << "paddle spells mapping: " << json(config.spells).dump() << std::endl;
-
-		return json(EldenOverrideCommandResponse{ true, "Able to parse!" }).dump();
+		
+		// Commands
+		if (payload.command == "check-config") {
+			auto configJson = json::parse(payload.payload);
+			auto config = configJson.template get<EldenRemapperConfig>();
+			return json(VerifyConfig(config)).dump();
+		}
+		
+		return json(EldenOverrideCommandResponse{ false, "Unrecognized Command" }).dump();
 	}
 	catch (json::parse_error& ex)
 	{
@@ -97,7 +85,7 @@ std::string EldenOverrideHandler::HandleCommand(std::string payload)
 	}
 }
 
-EldenOverrideCommandResponse EldenOverrideHandler::VerifyConfig(std::string config)
+EldenOverrideCommandResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig config)
 {
 	return EldenOverrideCommandResponse{ true, "good config" };
 }

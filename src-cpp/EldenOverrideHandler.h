@@ -31,7 +31,7 @@ private:
 	JoyMacroOverrideClient* _overrideClient;
 	EldenChordOverrider* _overrider;
 
-	static EldenOverrideCommandResponse VerifyConfig(std::string config);
+	static EldenOverrideCommandResponse VerifyConfig(EldenRemapperConfig config);
 public:
 	static int StartOverride();
 	static void StopOverride();

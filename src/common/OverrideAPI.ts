@@ -17,8 +17,7 @@ const OverrideAPI = {
 
     checkOverrideConfig: async (): Promise<EldenOverrideCommandResponse> => {
         const configState = useRemapper.getState().config
-        console.log(configState)
-        return await sendEldenOverrideCommandPayload("validate-config", configState)
+        return await sendEldenOverrideCommandPayload("check-config", configState)
     },
 }
 
