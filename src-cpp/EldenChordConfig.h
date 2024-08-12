@@ -45,15 +45,6 @@ struct ConfigCheckResponse {
     std::vector<std::string> errors;
 };
 
-struct EldenChordConfig_OLD {
-    int POLLING_DELAY_MS = 8;
-    int MODIFIER_ACTIVATION_THRESHOLD = 125;
-    int CYCLE_DELAY_POLLS = 3;
-    int RESET_POLLS_CYCLE = 30;
-    int REMOVE_LOCK_THRESHOLD = 30;
-    int quickCastButton = -1;
-};
-
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(SpellMapping, id, spellName, buttonCombo)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(MiscConfig, pollingDelay, automateHidHide, quickCastButton, spellswitchFrameDelay)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(EldenRemapperConfig, miscConfig, spells, currentModifier, dpadUpMapping, modifierOutReplacement, resetSpellMapping, paddleMapping)

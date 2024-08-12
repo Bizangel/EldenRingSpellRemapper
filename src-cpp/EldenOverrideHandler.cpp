@@ -135,6 +135,9 @@ ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig confi
 			errors.push_back(concat("Invalid Paddle ", i + 1,  " (Output) Mapping: ", config.paddleMapping[i], " Must be regular Xbox Controller buttons excluding DPAD_UP and paddles."));
 	}
 
+	if (config.paddleMapping.size() != 4)
+		errors.push_back(concat("Found paddle mappings of different size other than 4"));
+
 	// Create all input mappings together. 
 	std::vector<std::pair<std::string, std::string>> inputsMappings;
 	for (int i = 0; i < config.spells.size(); i++) {
