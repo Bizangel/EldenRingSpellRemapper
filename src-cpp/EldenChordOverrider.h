@@ -13,10 +13,8 @@ private:
     std::string modifier;
     std::vector<std::string> inputMappings;
 
-    std::vector<std::string> modifierLockedButtons;
+    std::vector<std::pair<std::string, bool>> isButtonModlocked;
 
-    void removeModlock(std::string button);
-    bool isbuttonModlocked(std::string button);
     void modlockButton(std::string button);
 public:
     EldenChordOverrider(EldenRemapperConfig config);

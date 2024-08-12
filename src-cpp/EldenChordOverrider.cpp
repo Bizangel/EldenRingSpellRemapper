@@ -1,21 +1,5 @@
 #include "EldenChordOverrider.h"
 
-void EldenChordOverrider::removeModlock(std::string button)
-{
-	modifierLockedButtons.erase(std::remove(modifierLockedButtons.begin(), modifierLockedButtons.end(), button), modifierLockedButtons.end());
-}
-
-bool EldenChordOverrider::isbuttonModlocked(std::string button)
-{
-	return std::find(modifierLockedButtons.begin(), modifierLockedButtons.end(), button) != modifierLockedButtons.end();
-}
-
-void EldenChordOverrider::modlockButton(std::string button)
-{
-	if (!isbuttonModlocked(button))
-		modifierLockedButtons.push_back(button);	
-}
-
 EldenChordOverrider::EldenChordOverrider(EldenRemapperConfig config) : config(config)
 {
 	modifier = config.currentModifier;
@@ -32,6 +16,21 @@ EldenChordOverrider::EldenChordOverrider(EldenRemapperConfig config) : config(co
 		inputMappings.push_back(config.modifierOutReplacement);
 	// this one cannot be null
 	inputMappings.push_back(config.resetSpellMapping);
+
+	// Create isButtonModifierLocked
+	isButtonModlocked.clear();
+	for (auto& button : ButtonStringUtils::allButtons)
+		isButtonModlocked.push_back({ button, false });
+}
+
+void EldenChordOverrider::modlockButton(std::string button)
+{
+	for (int i = 0; i < isButtonModlocked.size(); i++) {
+		if (isButtonModlocked[i].first == button) {
+			isButtonModlocked[i].second = true;
+			break;
+		}
+	}
 }
 
 #define PROCESS_PADDLE_MAPPING(paddleNumber) if (config.paddleMapping[##paddleNumber - 1] != "" && pState.P##paddleNumber) {ButtonStringUtils::pressButton(config.paddleMapping[##paddleNumber - 1], gamepadRef, 255); }
@@ -50,23 +49,23 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 		for (std::string& mapping : inputMappings) {
 			ButtonStringUtils::releaseButton(mapping, gamepadRef);
 			// modifier lock them, to avoid accidental presses after releasing modifier
-			modlockButton(mapping);
+			if (ButtonStringUtils::isPressed(mapping, input, pState))
+				modlockButton(mapping);
 		}
 	}
 
-	// Prevent modlocked buttons from reporting
+	// Modlock logic
 	if (!modifierPressed) {
-		// check each modlocked mapping to remove
-		std::vector<std::string> itercopy(modifierLockedButtons);
-		for (std::string& mapping : itercopy) {
-			if (!ButtonStringUtils::isPressed(mapping, input, pState)) {
-				removeModlock(mapping);
-			}
-		}
+		for (auto& mapping : isButtonModlocked) {
+			if (!mapping.second) // not modlocked
+				continue;
 
-		// unpress those still locked
-		for (std::string& mapping : modifierLockedButtons) {
-			ButtonStringUtils::releaseButton(mapping, gamepadRef);
+			if (!ButtonStringUtils::isPressed(mapping.first, input, pState))
+				mapping.second = false; // remove modlock if released
+
+			// unpress those still locked
+			if (mapping.second)
+				ButtonStringUtils::releaseButton(mapping.first, gamepadRef);
 		}
 	}
 

@@ -38,7 +38,7 @@ int main()
           {"spellswitchFrameDelay", 4}
       }},
       {"spells", spellMapping},
-      {"currentModifier", "LT"},
+      {"currentModifier", "LB"},
       {"dpadUpMapping", "X"},
       {"modifierOutReplacement", "RT"},
       {"resetSpellMapping", "LS"},
