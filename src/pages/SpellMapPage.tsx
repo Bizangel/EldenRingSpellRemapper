@@ -35,20 +35,23 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
     const configErrorsCount = useRemapper(e => e.currentConfigErrors.length)
     const isRemapActive = useRemapper(e => e.isRemapActive)
     const setRemapActive = useRemapper(e => e.setRemapActive)
+    const addConfigError = useRemapper(e => e.addConfigError)
 
     const onRemappingToggleClick = useCallback(async () => {
         if (!isRemapActive) {
             const response = await OverrideAPI.startRemapping()
             if (response.success)
                 setRemapActive(true);
-            else
+            else {
                 setRemapActive(false);
+                addConfigError(response.payload)
+            }
         } else { // attempt stop
             await OverrideAPI.stopRemapping()
             setRemapActive(false);
         }
 
-    }, [isRemapActive, setRemapActive])
+    }, [isRemapActive, setRemapActive, addConfigError])
 
     const hideModifierReplacement = modifierCannotBeOutputMapping(currentModifier)
 

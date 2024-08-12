@@ -21,7 +21,7 @@ const ConfigErrorDisplay = () => {
         <div className="issues-box-wrapper">
             {configErrors.length > 0 &&
                 <div className="issues-box">
-                    <h1> Config Error </h1>
+                    <h1> Error{configErrors.length > 1 ? "s" : ""} </h1>
                     {configErrors.map((e, idx) =>
                         <p key={idx}>- {e} </p>
                     )}

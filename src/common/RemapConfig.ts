@@ -53,6 +53,7 @@ export type EldenRingRemapperStore = {
 
     setCurrentConfigErrors: (errors: string[]) => void,
     setRemapActive: (remap: boolean) => void,
+    addConfigError: (error: string) => void,
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
@@ -212,6 +213,10 @@ export const useRemapper = create<EldenRingRemapperStore>()(
 
         setCurrentConfigErrors: (errors) => {
             set({currentConfigErrors: [...errors]})
+        },
+
+        addConfigError: (error: string) => {
+            set({currentConfigErrors: [...get().currentConfigErrors, error]})
         },
 
         setRemapActive: (remap) => {
