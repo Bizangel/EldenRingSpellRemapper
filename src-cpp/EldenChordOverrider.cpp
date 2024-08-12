@@ -29,6 +29,10 @@ EldenChordOverrider::EldenChordOverrider(EldenRemapperConfig config) : config(co
 	desiredTargetSpell = 0;
 	dpadCycleDelay = config.miscConfig.spellswitchFrameDelay;
 	quickCastingIdx = -1;
+
+	// division rounding up
+	cyclesRequiredToHoldReset = (ELDEN_DPAD_UP_RESET_MS + config.miscConfig.pollingDelay - 1) / config.miscConfig.pollingDelay;
+	currentResetCycle = -1;
 }
 
 void EldenChordOverrider::modlockButton(std::string button)
@@ -105,9 +109,16 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 		ButtonStringUtils::pressButton(config.miscConfig.quickCastButton, gamepadRef, 255);
 	}
 
+	// Check for reset mapping requested
+	if (modifierPressed && ButtonStringUtils::isPressed(config.resetSpellMapping, input, pState)) {
+		// start resetting
+		if (currentResetCycle == -1) // if not, then already resetting
+			currentResetCycle = 0;
+	}
 
 	// ==== Dpad cycling logic. =====
-	if (!(currentDpadCycleState == 0 && currentSpellIdx == desiredTargetSpell)) { // don't tick cycler
+	if (currentResetCycle == -1 &&  // don't do any cycling logic if resetting dpad
+		!(currentDpadCycleState == 0 && currentSpellIdx == desiredTargetSpell)) { // don't tick cycler
 		if (currentDpadCycleState == 0) // start to cycle
 		{
 			currentSpellIdx++;
@@ -125,6 +136,20 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 
 		if (currentDpadCycleState == dpadCycleDelay * 2 - 1)
 			currentDpadCycleState = 0;
+	}
+
+	// Dpad Reset logic
+	if (currentResetCycle > -1 ) {
+		currentResetCycle++;
+
+		gamepadRef.wButtons |= XINPUT_GAMEPAD_DPAD_UP; // hold dpad
+		if (currentResetCycle == cyclesRequiredToHoldReset) {
+			// stop
+			currentResetCycle = -1;
+			currentDpadCycleState = 0;
+			currentSpellIdx = 0;
+			desiredTargetSpell = 0;
+		}
 	}
 
 	// Process Outputs Mappings

@@ -6,6 +6,8 @@
 #include "EldenChordConfig.h"
 #include "ButtonStringUtils.h"
 
+#define ELDEN_DPAD_UP_RESET_MS 300
+
 class EldenChordOverrider : public IGamepadOverrider
 {
 private:
@@ -24,6 +26,9 @@ private:
     int nSpells;
     int desiredTargetSpell;
     int dpadCycleDelay;
+
+    int cyclesRequiredToHoldReset;
+    int currentResetCycle;
 
     void modlockButton(std::string button);
 public:
