@@ -4,10 +4,10 @@ import useSettingsCheck from "../common/settingsCheck";
 import PaddleMapper from "../components/PaddleMapper";
 import Spellbar from "../components/Spellbar";
 import { ButtonMappingPair } from "../components/ButtonMappingPair";
-import { ButtonList } from "../common/Buttons";
+import { ButtonList, ButtonString } from "../common/Buttons";
 import { useRemapper } from "../common/RemapConfig";
 import { ButtonModifierMappingPair } from "../components/ButtonModifierMappingPair";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import OverrideAPI from "../common/OverrideAPI";
 import spellReset from '../assets/spell_reset.png'
 
@@ -15,6 +15,10 @@ type SpellMapPageProps = {
     goToSettingsPage: () => void,
     goToAddSpellPage: () => void,
 }
+
+
+const modifierCannotBeOutputMapping = (currentModifier: ButtonString) =>
+    ["P1", "P2", "P3", "P4", "DPAD_UP"].includes(currentModifier);
 
 const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) => {
     const settingsCheck = useSettingsCheck();
@@ -35,6 +39,17 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
         const response = await OverrideAPI.checkOverrideConfig()
         console.log("Received cppresponse: ", response)
     }, [])
+
+    const hideModifierReplacement = modifierCannotBeOutputMapping(currentModifier)
+
+    useEffect(() => {
+        // Ensure modifier replacement is none if it's an output
+        if (modifierCannotBeOutputMapping(currentModifier)){
+            setModifierReplacement(undefined);
+        }
+    }, [currentModifier, setModifierReplacement])
+
+
 
     return (
         <div className="spell-page">
@@ -57,12 +72,15 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                     <div className="extra-controller-mapping-wrapper">
                             <PaddleMapper/>
                             {/* Replacement for Modifier */}
-                            <ButtonModifierMappingPair
-                                modifier={currentModifier}
-                                mappingTarget={currentModifier}
-                                value={currentModReplacement}
-                                onValueChange={setModifierReplacement}
-                                buttons={ButtonList.filter(e => e !== currentModifier)}/>
+                            {
+                                !hideModifierReplacement &&
+                                    <ButtonModifierMappingPair
+                                    modifier={currentModifier}
+                                    mappingTarget={currentModifier}
+                                    value={currentModReplacement}
+                                    onValueChange={setModifierReplacement}
+                                    buttons={ButtonList.filter(e => e !== currentModifier)}/>
+                            }
 
                             {/* Reset Spell keybind */}
                             <ButtonModifierMappingPair
