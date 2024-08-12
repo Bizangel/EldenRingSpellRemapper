@@ -93,42 +93,27 @@ uint8_t ButtonStringUtils::buttonActuationLevel(const std::string& button, const
 	return 0;
 }
 
-#define PRESS_BUTTON(button) if (actuateButton) { gamepadRef.wButtons |= button; }
+#define PRESS_BUTTON_CHECK(buttonStr, buttonMac) if (actuateButton && (button == buttonStr)) { gamepadRef.wButtons |= buttonMac; }
+#define PRESS_BUTTON_CHECKELSEIF(buttonStr, buttonMac) else if (actuateButton && (button == buttonStr)) { gamepadRef.wButtons |= buttonMac; }
 void ButtonStringUtils::pressButton(const std::string& button, XINPUT_GAMEPAD& gamepadRef, uint8_t actuationLevel)
 {
-	bool actuateButton = actuationLevel > 125;
-	if (button == "A")
-		PRESS_BUTTON(XINPUT_GAMEPAD_A)
-	else if (button == "B")
-		PRESS_BUTTON(XINPUT_GAMEPAD_B)
-	else if (button == "X")
-		PRESS_BUTTON(XINPUT_GAMEPAD_X)
-	else if (button == "Y")
-		PRESS_BUTTON(XINPUT_GAMEPAD_Y)
-	else if (button == "LB")
-		PRESS_BUTTON(XINPUT_GAMEPAD_LEFT_SHOULDER)
-	else if (button == "RB")
-		PRESS_BUTTON(XINPUT_GAMEPAD_RIGHT_SHOULDER)
-	else if (button == "LT")
-		gamepadRef.bLeftTrigger = actuationLevel;
-	else if (button == "RT")
-		gamepadRef.bRightTrigger = actuationLevel;
-	else if (button == "START")
-		PRESS_BUTTON(XINPUT_GAMEPAD_START)
-	else if (button == "SELECT")
-		PRESS_BUTTON(XINPUT_GAMEPAD_BACK)
-	else if (button == "DPAD_UP")
-		PRESS_BUTTON(XINPUT_GAMEPAD_DPAD_UP)
-	else if (button == "DPAD_DOWN")
-		PRESS_BUTTON(XINPUT_GAMEPAD_DPAD_DOWN)
-	else if (button == "DPAD_LEFT")
-		PRESS_BUTTON(XINPUT_GAMEPAD_DPAD_LEFT)
-	else if (button == "DPAD_RIGHT")
-		PRESS_BUTTON(XINPUT_GAMEPAD_DPAD_RIGHT)
-	else if (button == "LS")
-		PRESS_BUTTON(XINPUT_GAMEPAD_LEFT_THUMB)
-	else if (button == "RS")
-		PRESS_BUTTON(XINPUT_GAMEPAD_RIGHT_THUMB)
+	bool actuateButton = actuationLevel >= BUTTON_ACTIVATION_THRESHOLD;
+	PRESS_BUTTON_CHECK("A", XINPUT_GAMEPAD_A)
+	PRESS_BUTTON_CHECKELSEIF("B", XINPUT_GAMEPAD_B)
+	PRESS_BUTTON_CHECKELSEIF("X", XINPUT_GAMEPAD_X)
+	PRESS_BUTTON_CHECKELSEIF("Y", XINPUT_GAMEPAD_Y)
+	PRESS_BUTTON_CHECKELSEIF("LB", XINPUT_GAMEPAD_LEFT_SHOULDER)
+	PRESS_BUTTON_CHECKELSEIF("RB", XINPUT_GAMEPAD_RIGHT_SHOULDER)
+	else if (button == "LT") { gamepadRef.bLeftTrigger = actuationLevel;  }
+	else if (button == "RT") { gamepadRef.bRightTrigger = actuationLevel; }
+	PRESS_BUTTON_CHECKELSEIF("START", XINPUT_GAMEPAD_START)
+	PRESS_BUTTON_CHECKELSEIF("SELECT", XINPUT_GAMEPAD_BACK)
+	PRESS_BUTTON_CHECKELSEIF("DPAD_UP", XINPUT_GAMEPAD_DPAD_UP)
+	PRESS_BUTTON_CHECKELSEIF("DPAD_DOWN", XINPUT_GAMEPAD_DPAD_DOWN)
+	PRESS_BUTTON_CHECKELSEIF("DPAD_LEFT", XINPUT_GAMEPAD_DPAD_LEFT)
+	PRESS_BUTTON_CHECKELSEIF("DPAD_RIGHT", XINPUT_GAMEPAD_DPAD_RIGHT)
+	PRESS_BUTTON_CHECKELSEIF("LS", XINPUT_GAMEPAD_LEFT_THUMB)
+	PRESS_BUTTON_CHECKELSEIF("RS", XINPUT_GAMEPAD_RIGHT_THUMB)
 }
 
 #define RELEASE_BUTTON(button) gamepadRef.wButtons &= ~button

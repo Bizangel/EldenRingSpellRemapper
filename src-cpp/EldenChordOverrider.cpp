@@ -46,19 +46,6 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 	}
 
 	// Process Outputs Mappings
-
-	if (pState.P1)
-		std::cout << "P1" << std::endl;
-
-	if (pState.P2)
-		std::cout << "P2" << std::endl;
-
-	if (pState.P3)
-		std::cout << "P3" << std::endl;
-
-	if (pState.P4)
-		std::cout << "P4" << std::endl;
-
 	PROCESS_PADDLE_MAPPING(1)
 	PROCESS_PADDLE_MAPPING(2)
 	PROCESS_PADDLE_MAPPING(3)
