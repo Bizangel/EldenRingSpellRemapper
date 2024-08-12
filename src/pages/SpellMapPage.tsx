@@ -31,9 +31,11 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
     const currentModReplacement = useRemapper(e => e.config.modifierOutReplacement);
     const setModifierReplacement = useRemapper(e => e.setReplacementModifierMapping);
 
+    const configErrorsCount = useRemapper(e => e.currentConfigErrors.length)
+
     const onRemappingToggleClick = useCallback(async () => {
         // const response = await OverrideAPI.checkOverrideConfig()
-        // console.log("Received cppresponse: ", response)
+        console.log("Clicked!")
     }, [])
 
     const hideModifierReplacement = modifierCannotBeOutputMapping(currentModifier)
@@ -54,7 +56,9 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                 <div className="spellpage-bottom-content-wrapper">
                     <div className="spellpage-button-wrapper">
                             <button className="spellpage-button" onClick={goToAddSpellPage}>Add Spell</button>
-                            <button className="spellpage-button start" onClick={onRemappingToggleClick} >Start Remapping</button>
+                            <button className="spellpage-button start"
+                            onClick={onRemappingToggleClick}
+                            disabled={configErrorsCount > 0}>Start Remapping</button>
                     </div>
 
                     <ConfigErrorDisplay/>

@@ -77,6 +77,11 @@
     width: 200px;
     aspect-ratio: 5;
 
+    &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
     @extend %spellpage-button-styling
 }
 
