@@ -21,6 +21,13 @@ EldenChordOverrider::EldenChordOverrider(EldenRemapperConfig config) : config(co
 	isButtonModlocked.clear();
 	for (auto& button : ButtonStringUtils::allButtons)
 		isButtonModlocked.push_back({ button, false });
+
+	// Init help variables
+	currentSpellIdx = 0;
+	nSpells = config.spells.size();
+	currentDpadCycleState = 0;
+	desiredTargetSpell = 0;
+	dpadCycleDelay = config.miscConfig.spellswitchFrameDelay;
 }
 
 void EldenChordOverrider::modlockButton(std::string button)
@@ -81,8 +88,30 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 
 			if (isCurrentlyPressed && !wasPressed) {
 				std::cout << "setting target to spell: " << spell.spellName << " at index: " << i << std::endl;
-			}
+				desiredTargetSpell = i;
+;			}
 		}
+	}
+
+	// ==== Dpad cycling logic. =====
+	if (!(currentDpadCycleState == 0 && currentSpellIdx == desiredTargetSpell)) { // don't tick cycler
+		if (currentDpadCycleState == 0) // start to cycle
+		{
+			currentSpellIdx++;
+			currentSpellIdx %= nSpells;
+			gamepadRef.wButtons |= XINPUT_GAMEPAD_DPAD_UP; // set dpad up
+		}
+		else if (currentDpadCycleState <= dpadCycleDelay - 1) { // hold button
+			gamepadRef.wButtons |= XINPUT_GAMEPAD_DPAD_UP;
+		}
+		else if (currentDpadCycleState <= (dpadCycleDelay * 2 - 1)) { // release
+			gamepadRef.wButtons &= ~XINPUT_GAMEPAD_DPAD_UP;
+		}
+
+		currentDpadCycleState++;
+
+		if (currentDpadCycleState == dpadCycleDelay * 2 - 1)
+			currentDpadCycleState = 0;
 	}
 
 	// Process Outputs Mappings

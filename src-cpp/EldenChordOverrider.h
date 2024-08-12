@@ -15,8 +15,13 @@ private:
     EldenRemapperConfig config;
     std::string modifier;
     std::vector<std::string> inputMappings;
-
     std::vector<std::pair<std::string, bool>> isButtonModlocked;
+
+    int currentDpadCycleState;
+    int currentSpellIdx;
+    int nSpells;
+    int desiredTargetSpell;
+    int dpadCycleDelay;
 
     void modlockButton(std::string button);
 public:

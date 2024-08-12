@@ -143,8 +143,8 @@ ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig confi
 	if (config.miscConfig.quickCastButton != "" && !ButtonStringUtils::isValidQuickcastButton(config.miscConfig.quickCastButton))
 		errors.push_back(concat("Invalid Quick cast Button found: ", config.miscConfig.quickCastButton, " must be LB or RB"));
 
-	if (config.miscConfig.spellswitchFrameDelay < 1 || config.miscConfig.spellswitchFrameDelay > 10)
-		errors.push_back(concat("Invalid Spell Switch Frame Delay, must be within 1 and 10, found: ", config.miscConfig.spellswitchFrameDelay));
+	if (config.miscConfig.spellswitchFrameDelay < 1 || config.miscConfig.spellswitchFrameDelay > 100)
+		errors.push_back(concat("Invalid Spell Switch Frame Delay, must be within 1 and 100, found: ", config.miscConfig.spellswitchFrameDelay));
 
 	// 2. Test everything related to spells.
 	// 2.1. Test no duplicate spell ids
