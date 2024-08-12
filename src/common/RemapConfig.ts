@@ -31,6 +31,8 @@ export type EldenRingRemapperConfig = {
 export type EldenRingRemapperStore = {
     config: EldenRingRemapperConfig,
 
+    currentConfigErrors: string[],
+
     reorderSpell: (spellId1: string, spellId2: string) => void,
     deleteSpell: (spellId: string) => void,
     remapSpell: (spellId: string, mapping?: ButtonString) => void,
@@ -45,8 +47,10 @@ export type EldenRingRemapperStore = {
     setAutomateHidHide: (option: boolean) => void,
     setQuickcastButton: (buttonString?: ButtonString) => void,
 
-    setSwitchFrameDelay: (newDelay: number) => void
-    setResetMapping: (button: ButtonString) => void
+    setSwitchFrameDelay: (newDelay: number) => void,
+    setResetMapping: (button: ButtonString) => void,
+
+    setCurrentConfigErrors: (errors: string[]) => void,
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
@@ -66,6 +70,7 @@ export const useRemapper = create<EldenRingRemapperStore>()(
             dpadUpMapping: undefined,
             resetSpellMapping: "P4",
         },
+        currentConfigErrors: [],
 
         reorderSpell: (spell1, spell2) => {
             set(
@@ -200,7 +205,12 @@ export const useRemapper = create<EldenRingRemapperStore>()(
                         state.config.resetSpellMapping = button
                 })
             )
-        }
+        },
+
+        setCurrentConfigErrors: (errors) => {
+            set({currentConfigErrors: [...errors]})
+        },
+
     }),
     {
         name: 'debug-storage22',

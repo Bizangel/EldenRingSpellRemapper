@@ -1,0 +1,27 @@
+.issues-box-wrapper {
+    width: 450px;
+    padding: 20px;
+}
+
+.issues-box {
+    width: 100%;
+    // border: 1px solid green;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
+    border: 2px solid rgb(121, 41, 41);
+
+    background-color: rgba(18, 19, 29, 0.655);
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > h1 {
+        color: rgb(121, 41, 41);
+        text-align: center;
+    }
+
+    p {
+        padding: 5px;
+    }
+}

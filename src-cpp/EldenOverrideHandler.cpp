@@ -92,7 +92,7 @@ ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig confi
 	if (config.miscConfig.pollingDelay < 1)
 		errors.push_back(concat("Polling delay cannot be less than 1, found: ", config.miscConfig.pollingDelay));
 
-	if (!ButtonStringUtils::isValidQuickcastButton(config.miscConfig.quickCastButton) )
+	if (config.miscConfig.quickCastButton != "" && !ButtonStringUtils::isValidQuickcastButton(config.miscConfig.quickCastButton))
 		errors.push_back(concat("Invalid Quick cast Button found: ", config.miscConfig.quickCastButton, " must be LB or RB"));
 
 	if (config.miscConfig.spellswitchFrameDelay < 1 || config.miscConfig.spellswitchFrameDelay > 10)

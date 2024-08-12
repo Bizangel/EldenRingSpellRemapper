@@ -1,6 +1,5 @@
 import cogWheel from "../assets/cog.svg"
 import './SpellMapPage.scss'
-import useSettingsCheck from "../common/settingsCheck";
 import PaddleMapper from "../components/PaddleMapper";
 import Spellbar from "../components/Spellbar";
 import { ButtonMappingPair } from "../components/ButtonMappingPair";
@@ -8,21 +7,18 @@ import { ButtonList, ButtonString } from "../common/Buttons";
 import { useRemapper } from "../common/RemapConfig";
 import { ButtonModifierMappingPair } from "../components/ButtonModifierMappingPair";
 import { useCallback, useEffect } from "react";
-import OverrideAPI from "../common/OverrideAPI";
 import spellReset from '../assets/spell_reset.png'
+import ConfigErrorDisplay from "../components/ConfigErrorDisplay";
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,
     goToAddSpellPage: () => void,
 }
 
-
 const modifierCannotBeOutputMapping = (currentModifier: ButtonString) =>
     ["P1", "P2", "P3", "P4", "DPAD_UP"].includes(currentModifier);
 
 const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) => {
-    const settingsCheck = useSettingsCheck();
-
     // dpad config
     const currentDpadMapping = useRemapper(e => e.config.dpadUpMapping);
     const setDpadUpMapping = useRemapper(e => e.setDpadUpMapping);
@@ -36,8 +32,8 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
     const setModifierReplacement = useRemapper(e => e.setReplacementModifierMapping);
 
     const onRemappingToggleClick = useCallback(async () => {
-        const response = await OverrideAPI.checkOverrideConfig()
-        console.log("Received cppresponse: ", response)
+        // const response = await OverrideAPI.checkOverrideConfig()
+        // console.log("Received cppresponse: ", response)
     }, [])
 
     const hideModifierReplacement = modifierCannotBeOutputMapping(currentModifier)
@@ -48,8 +44,6 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
             setModifierReplacement(undefined);
         }
     }, [currentModifier, setModifierReplacement])
-
-
 
     return (
         <div className="spell-page">
@@ -63,11 +57,7 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                             <button className="spellpage-button start" onClick={onRemappingToggleClick} >Start Remapping</button>
                     </div>
 
-                    <div className="issues-box-wrapper">
-                        {!settingsCheck.ok &&
-                            settingsCheck.error
-                        }
-                    </div>
+                    <ConfigErrorDisplay/>
 
                     <div className="extra-controller-mapping-wrapper">
                             <PaddleMapper/>
