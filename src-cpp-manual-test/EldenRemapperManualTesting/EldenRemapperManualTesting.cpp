@@ -34,15 +34,15 @@ int main()
       {"miscConfig", {
           {"pollingDelay", 10},
           {"automateHidHide", false},
-          {"quickCastButton", "LB"},
+          {"quickCastButton", ""},
           {"spellswitchFrameDelay", 4}
       }},
       {"spells", spellMapping},
       {"currentModifier", "LT"},
-      {"dpadUpMapping", "X"},
-      {"modifierOutReplacement", "RT"},
+      {"dpadUpMapping", ""},
+      {"modifierOutReplacement", ""},
       {"resetSpellMapping", "LS"},
-      {"paddleMapping", {"B", "B", "B", "B"}}
+      {"paddleMapping", {"", "", "", ""}}
     };
     
     std::string configStr = config.dump();

@@ -25,7 +25,7 @@ int EldenOverrideHandler::StartOverride_Internal(EldenRemapperConfig config)
 
 	_overrideClient->setPollingDelayMs(config.miscConfig.pollingDelay);
 
-	// TODO: Add this to the UI to avoid hardcoded keys mapping. For now use these keys on whatever paddle->key mapping software you use. 
+	// TODO: Add this to the UI to avoid hardcoded keys mapping. For now use these keys on whatever paddle->key mapping software you use.
 	// ref: in US keyboard, in order: P1: single double quotes key, P2: colon/semicolon key, P3: rightbrace/rightbracket key, P4: plus/equal key
 	std::vector<int> paddleKeymapping { 222, 192, 187, 221 };
 	int overrideCode = _overrideClient->StartOverride(overrideIndex, _overrider, paddleKeymapping);
@@ -61,14 +61,14 @@ int EldenOverrideHandler::StartOverride(EldenRemapperConfig config)
 void EldenOverrideHandler::StopOverride()
 {
 	std::cout << "Stop Override C++" << std::endl;
-	EldenOverrideHandler* _instance = EldenOverrideHandler::_instance;
-	if (_instance == nullptr) // nothing to stop
+	EldenOverrideHandler::_instance;
+	if (EldenOverrideHandler::_instance == nullptr) // nothing to stop
 		return;
 
 	// cleanup
-	_instance->StopOverride_Internal();
-	delete _instance;
-	_instance = nullptr;
+	EldenOverrideHandler::_instance->StopOverride_Internal();
+	delete EldenOverrideHandler::_instance;
+	EldenOverrideHandler::_instance = nullptr;
 }
 
 bool EldenOverrideHandler::IsOverrideActive()
@@ -85,7 +85,7 @@ std::string EldenOverrideHandler::HandleCommand(std::string payload)
 	{
 		auto parsedJson = json::parse(payload);
 		auto payload = parsedJson.template get<EldenOverrideCommandPayload>();
-		
+
 		// Commands
 		if (payload.command == "check-config") {
 			auto configJson = json::parse(payload.payload);
@@ -123,7 +123,7 @@ std::string EldenOverrideHandler::HandleCommand(std::string payload)
 			return json(EldenOverrideCommandResponse{ true, "Override Stop Requested" }).dump();
 		}
 
-		
+
 		return json(EldenOverrideCommandResponse{ false, "Unrecognized Command" }).dump();
 	}
 	catch (json::parse_error& ex)
@@ -186,7 +186,7 @@ ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig confi
 	if (config.paddleMapping.size() != 4)
 		errors.push_back(concat("Found paddle mappings of different size other than 4"));
 
-	// Create all input mappings together. 
+	// Create all input mappings together.
 	std::vector<std::pair<std::string, std::string>> inputsMappings;
 	for (int i = 0; i < config.spells.size(); i++) {
 		inputsMappings.push_back({ config.spells[i].spellName, config.spells[i].buttonCombo });
@@ -214,6 +214,6 @@ ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig confi
 				errors.push_back(concat(mapA.first, " and ", mapB.first, " share the same input mapping."));
 		}
 	}
-	
+
 	return ConfigCheckResponse{ errors.size() == 0, errors };
 }
