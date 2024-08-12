@@ -20,6 +20,15 @@ const sendEldenOverrideCommandPayload = async (command: string, payload: any): P
 }
 
 const OverrideAPI = {
+    startRemapping: async (): Promise<EldenOverrideCommandResponse> => {
+        const configState = useRemapper.getState().config
+        return await sendEldenOverrideCommandPayload("start-override", configState)
+    },
+
+    stopRemapping: async (): Promise<EldenOverrideCommandResponse> => {
+        const configState = useRemapper.getState().config
+        return await sendEldenOverrideCommandPayload("stop-override", configState)
+    },
 
     checkOverrideConfig: async (): Promise<ConfigCheckResponse> => {
         const configState = useRemapper.getState().config
@@ -28,7 +37,6 @@ const OverrideAPI = {
             return {configOk: false, errors: ["Unable to contact Elden Remapper C++ Backend"]}
         }
 
-        console.log(resp.payload)
         return JSON.parse(resp.payload) as ConfigCheckResponse;
     },
 }

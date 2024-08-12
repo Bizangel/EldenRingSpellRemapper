@@ -32,6 +32,7 @@ export type EldenRingRemapperStore = {
     config: EldenRingRemapperConfig,
 
     currentConfigErrors: string[],
+    isRemapActive: boolean,
 
     reorderSpell: (spellId1: string, spellId2: string) => void,
     deleteSpell: (spellId: string) => void,
@@ -51,6 +52,7 @@ export type EldenRingRemapperStore = {
     setResetMapping: (button: ButtonString) => void,
 
     setCurrentConfigErrors: (errors: string[]) => void,
+    setRemapActive: (remap: boolean) => void,
 }
 
 export const useRemapper = create<EldenRingRemapperStore>()(
@@ -71,6 +73,7 @@ export const useRemapper = create<EldenRingRemapperStore>()(
             resetSpellMapping: "P4",
         },
         currentConfigErrors: [],
+        isRemapActive: false,
 
         reorderSpell: (spell1, spell2) => {
             set(
@@ -209,6 +212,14 @@ export const useRemapper = create<EldenRingRemapperStore>()(
 
         setCurrentConfigErrors: (errors) => {
             set({currentConfigErrors: [...errors]})
+        },
+
+        setRemapActive: (remap) => {
+            set(
+                produce((state: EldenRingRemapperStore) => {
+                    state.isRemapActive = remap
+                })
+            )
         },
 
     }),

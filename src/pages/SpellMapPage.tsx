@@ -9,6 +9,7 @@ import { ButtonModifierMappingPair } from "../components/ButtonModifierMappingPa
 import { useCallback, useEffect } from "react";
 import spellReset from '../assets/spell_reset.png'
 import ConfigErrorDisplay from "../components/ConfigErrorDisplay";
+import OverrideAPI from "../common/OverrideAPI";
 
 type SpellMapPageProps = {
     goToSettingsPage: () => void,
@@ -32,11 +33,22 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
     const setModifierReplacement = useRemapper(e => e.setReplacementModifierMapping);
 
     const configErrorsCount = useRemapper(e => e.currentConfigErrors.length)
+    const isRemapActive = useRemapper(e => e.isRemapActive)
+    const setRemapActive = useRemapper(e => e.setRemapActive)
 
     const onRemappingToggleClick = useCallback(async () => {
-        // const response = await OverrideAPI.checkOverrideConfig()
-        console.log("Clicked!")
-    }, [])
+        if (!isRemapActive) {
+            const response = await OverrideAPI.startRemapping()
+            if (response.success)
+                setRemapActive(true);
+            else
+                setRemapActive(false);
+        } else { // attempt stop
+            await OverrideAPI.stopRemapping()
+            setRemapActive(false);
+        }
+
+    }, [isRemapActive, setRemapActive])
 
     const hideModifierReplacement = modifierCannotBeOutputMapping(currentModifier)
 
@@ -56,9 +68,11 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                 <div className="spellpage-bottom-content-wrapper">
                     <div className="spellpage-button-wrapper">
                             <button className="spellpage-button" onClick={goToAddSpellPage}>Add Spell</button>
-                            <button className="spellpage-button start"
+                            <button className={`spellpage-button ${isRemapActive ? "stop" : "start"}`}
                             onClick={onRemappingToggleClick}
-                            disabled={configErrorsCount > 0}>Start Remapping</button>
+                            disabled={configErrorsCount > 0}>
+                                {isRemapActive ? "Stop" : "Start"} Remapping
+                            </button>
                     </div>
 
                     <ConfigErrorDisplay/>
