@@ -9,6 +9,9 @@
 class EldenChordOverrider : public IGamepadOverrider
 {
 private:
+    XINPUT_GAMEPAD prevInput;
+    PaddleState prevPState;
+
     EldenRemapperConfig config;
     std::string modifier;
     std::vector<std::string> inputMappings;

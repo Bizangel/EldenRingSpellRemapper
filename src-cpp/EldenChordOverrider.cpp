@@ -69,14 +69,18 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 		}
 	}
 
-
 	// Check for mappings see if one was pressed.
 	if (modifierPressed) {
 		for (int i = 0; i < config.spells.size(); i++) {
 			auto& spell = config.spells[i];
-			if (spell.buttonCombo != "" && ButtonStringUtils::isPressed(spell.buttonCombo, input, pState)) {
+			if (spell.buttonCombo == "")
+				continue;
+
+			bool isCurrentlyPressed = ButtonStringUtils::isPressed(spell.buttonCombo, input, pState);
+			bool wasPressed = ButtonStringUtils::isPressed(spell.buttonCombo, prevInput, prevPState);
+
+			if (isCurrentlyPressed && !wasPressed) {
 				std::cout << "setting target to spell: " << spell.spellName << " at index: " << i << std::endl;
-				break;
 			}
 		}
 	}
@@ -95,4 +99,7 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 		auto replacementActuation = ButtonStringUtils::buttonActuationLevel(config.modifierOutReplacement, input, pState);
 		ButtonStringUtils::pressButton(modifier, gamepadRef, replacementActuation);
 	}
+
+	prevInput = input;
+	prevPState = pState;
 }
