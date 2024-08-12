@@ -34,7 +34,7 @@ int main()
       {"miscConfig", {
           {"pollingDelay", 10},
           {"automateHidHide", false},
-          {"quickCastButton", ""},
+          {"quickCastButton", "LB"},
           {"spellswitchFrameDelay", 4}
       }},
       {"spells", spellMapping},

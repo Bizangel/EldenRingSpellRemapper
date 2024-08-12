@@ -28,6 +28,7 @@ EldenChordOverrider::EldenChordOverrider(EldenRemapperConfig config) : config(co
 	currentDpadCycleState = 0;
 	desiredTargetSpell = 0;
 	dpadCycleDelay = config.miscConfig.spellswitchFrameDelay;
+	quickCastingIdx = -1;
 }
 
 void EldenChordOverrider::modlockButton(std::string button)
@@ -87,11 +88,23 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 			bool wasPressed = ButtonStringUtils::isPressed(spell.buttonCombo, prevInput, prevPState);
 
 			if (isCurrentlyPressed && !wasPressed) {
-				std::cout << "setting target to spell: " << spell.spellName << " at index: " << i << std::endl;
 				desiredTargetSpell = i;
+
+				if (currentSpellIdx == desiredTargetSpell) // means I'm already on desired, cast if quickcast
+					quickCastingIdx = i;
 ;			}
+
+			if (quickCastingIdx == i && wasPressed && !isCurrentlyPressed) { // i.e. when quickcast combo released
+				quickCastingIdx = -1; 
+			}
 		}
 	}
+
+	// Quick cast while held
+	if (config.miscConfig.quickCastButton != "" && quickCastingIdx > -1) {
+		ButtonStringUtils::pressButton(config.miscConfig.quickCastButton, gamepadRef, 255);
+	}
+
 
 	// ==== Dpad cycling logic. =====
 	if (!(currentDpadCycleState == 0 && currentSpellIdx == desiredTargetSpell)) { // don't tick cycler

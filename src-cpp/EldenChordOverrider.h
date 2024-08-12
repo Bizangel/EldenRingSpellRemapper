@@ -17,6 +17,8 @@ private:
     std::vector<std::string> inputMappings;
     std::vector<std::pair<std::string, bool>> isButtonModlocked;
 
+    int quickCastingIdx;
+
     int currentDpadCycleState;
     int currentSpellIdx;
     int nSpells;
