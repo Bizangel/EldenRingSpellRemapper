@@ -40,7 +40,7 @@ int main()
       {"spells", spellMapping},
       {"currentModifier", "LT"},
       {"dpadUpMapping", "X"},
-      {"modifierOutReplacement", ""},
+      {"modifierOutReplacement", "RT"},
       {"resetSpellMapping", "LS"},
       {"paddleMapping", {"B", "B", "B", "B"}}
     };
