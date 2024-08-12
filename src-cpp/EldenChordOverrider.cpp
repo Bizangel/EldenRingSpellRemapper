@@ -1,5 +1,21 @@
 #include "EldenChordOverrider.h"
 
+void EldenChordOverrider::removeModlock(std::string button)
+{
+	modifierLockedButtons.erase(std::remove(modifierLockedButtons.begin(), modifierLockedButtons.end(), button), modifierLockedButtons.end());
+}
+
+bool EldenChordOverrider::isbuttonModlocked(std::string button)
+{
+	return std::find(modifierLockedButtons.begin(), modifierLockedButtons.end(), button) != modifierLockedButtons.end();
+}
+
+void EldenChordOverrider::modlockButton(std::string button)
+{
+	if (!isbuttonModlocked(button))
+		modifierLockedButtons.push_back(button);	
+}
+
 EldenChordOverrider::EldenChordOverrider(EldenRemapperConfig config) : config(config)
 {
 	modifier = config.currentModifier;
@@ -33,12 +49,30 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 		// unrelease all modifier buttons (input mappings)
 		for (std::string& mapping : inputMappings) {
 			ButtonStringUtils::releaseButton(mapping, gamepadRef);
+			// modifier lock them, to avoid accidental presses after releasing modifier
+			modlockButton(mapping);
 		}
 	}
 
+	// Prevent modlocked buttons from reporting
+	if (!modifierPressed) {
+		// check each modlocked mapping to remove
+		std::vector<std::string> itercopy(modifierLockedButtons);
+		for (std::string& mapping : itercopy) {
+			if (!ButtonStringUtils::isPressed(mapping, input, pState)) {
+				removeModlock(mapping);
+			}
+		}
+
+		// unpress those still locked
+		for (std::string& mapping : modifierLockedButtons) {
+			ButtonStringUtils::releaseButton(mapping, gamepadRef);
+		}
+	}
+
+
 	// Check for mappings see if one was pressed.
 	if (modifierPressed) {
-		// unrelease all modifier buttons (input mappings)
 		for (int i = 0; i < config.spells.size(); i++) {
 			auto& spell = config.spells[i];
 			if (spell.buttonCombo != "" && ButtonStringUtils::isPressed(spell.buttonCombo, input, pState)) {
