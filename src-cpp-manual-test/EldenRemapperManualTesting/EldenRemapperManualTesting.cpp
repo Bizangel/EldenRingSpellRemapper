@@ -27,7 +27,7 @@ int main()
     json spellMapping = json::array({
         {{"id", "glintstone_stars"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", "LB"}},
         {{"id", "glintstone_pebble"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", "LB"}},
-        {{"id", "moonlight"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", "M3"}},
+        {{"id", "moonlight"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", ""}},
     });
 
     json config = {
@@ -38,11 +38,11 @@ int main()
           {"spellswitchFrameDelay", 100}
       }},
       {"spells", spellMapping},
-      {"currentModifier", "M3"},
+      {"currentModifier", "RT"},
       {"dpadUpMapping", "M"},
       {"modifierOutReplacement", "RT"},
       {"resetSpellMapping", "M3"},
-      {"paddleMapping", {"", "M3", "P1", "DPAD_UP"}}
+      {"paddleMapping", {"", "", "P1", "DPAD_UP"}}
     };
 
     

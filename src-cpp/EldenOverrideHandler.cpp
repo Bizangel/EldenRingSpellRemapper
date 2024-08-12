@@ -110,7 +110,7 @@ ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig confi
 
 	// 2.2. Test all spell buttons are valid. (Input Mappings)
 	for (size_t i = 0; i < config.spells.size(); ++i) {
-		if (!ButtonStringUtils::isValidButtonString(config.spells[i].buttonCombo)) {
+		if (config.spells[i].buttonCombo != "" && !ButtonStringUtils::isValidButtonString(config.spells[i].buttonCombo)) {
 			errors.push_back(concat("Spell " , config.spells[i].spellName, " has invalid button: ", config.spells[i].buttonCombo));
 		}
 	}
@@ -135,9 +135,34 @@ ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig confi
 			errors.push_back(concat("Invalid Paddle ", i + 1,  " (Output) Mapping: ", config.paddleMapping[i], " Must be regular Xbox Controller buttons excluding DPAD_UP and paddles."));
 	}
 
-	// TODO: Make a distinction between input mappings and Output mappings.
-	// Input mappings can be whatever. While output mappings cannot be DPAD_UP nor any paddle.
+	// Create all input mappings together. 
+	std::vector<std::pair<std::string, std::string>> inputsMappings;
+	for (int i = 0; i < config.spells.size(); i++) {
+		inputsMappings.push_back({ config.spells[i].spellName, config.spells[i].buttonCombo });
+	}
+	inputsMappings.push_back({ "Modifier Replacement Mapping", config.modifierOutReplacement });
+	inputsMappings.push_back({ "Reset Spell Mapping", config.resetSpellMapping });
 
+	// 4. Check no input mappings contain modifier.
+	for (size_t i = 0; i < inputsMappings.size(); ++i) {
+		auto& map = inputsMappings[i];
+		if (map.second != "" && map.second == config.currentModifier)
+			errors.push_back(concat(map.first, " has an invalid modifier (Double Modifier)"));
+	}
+
+	// 5. Check no Input mappings contain same mapping.
+	for (size_t i = 0; i < inputsMappings.size(); ++i) {
+		for (size_t j = i + 1; j < inputsMappings.size(); ++j) {
+			auto& mapA = inputsMappings[i];
+			auto& mapB = inputsMappings[j];
+
+			if (mapA.second == "" || mapB.second == "") // ignore empty mappings. no conflict there.
+				continue;
+
+			if (mapA.second == mapB.second)
+				errors.push_back(concat(mapA.first, " and ", mapB.first, " share the same input mapping."));
+		}
+	}
 	
 	return ConfigCheckResponse{ errors.size() == 0, errors };
 }
