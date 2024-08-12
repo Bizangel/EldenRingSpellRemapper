@@ -26,8 +26,8 @@ int EldenOverrideHandler::StartOverride_Internal(EldenRemapperConfig config)
 	_overrideClient->setPollingDelayMs(config.miscConfig.pollingDelay);
 
 	// TODO: Add this to the UI to avoid hardcoded keys mapping. For now use these keys on whatever paddle->key mapping software you use. 
-	// ref: in US keyboard, in order: P1: rightbrace/rightbracket key, P2: plus/equal key, P3: single double quotes key, P4: colon/semicolon key
-	std::vector<int> paddleKeymapping { 187, 221, 222, 192 };
+	// ref: in US keyboard, in order: P1: single double quotes key, P2: colon/semicolon key, P3: rightbrace/rightbracket key, P4: plus/equal key
+	std::vector<int> paddleKeymapping { 222, 192, 187, 221 };
 	int overrideCode = _overrideClient->StartOverride(overrideIndex, _overrider, paddleKeymapping);
 	return overrideCode;
 }
