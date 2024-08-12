@@ -39,10 +39,10 @@ int main()
       }},
       {"spells", spellMapping},
       {"currentModifier", "M3"},
-      {"dpadUpMapping", "RB"},
+      {"dpadUpMapping", "M"},
       {"modifierOutReplacement", "RT"},
-      {"resetSpellMapping", "DPAD_DOWN"},
-      {"paddleMapping", {"", "", "", ""}}
+      {"resetSpellMapping", "M3"},
+      {"paddleMapping", {"", "M3", "P1", "DPAD_UP"}}
     };
 
     

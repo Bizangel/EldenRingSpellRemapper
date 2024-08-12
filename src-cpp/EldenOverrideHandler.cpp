@@ -108,7 +108,7 @@ ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig confi
 		}
 	}
 
-	// 2.2. Test all spell buttons are valid.
+	// 2.2. Test all spell buttons are valid. (Input Mappings)
 	for (size_t i = 0; i < config.spells.size(); ++i) {
 		if (!ButtonStringUtils::isValidButtonString(config.spells[i].buttonCombo)) {
 			errors.push_back(concat("Spell " , config.spells[i].spellName, " has invalid button: ", config.spells[i].buttonCombo));
@@ -116,14 +116,28 @@ ConfigCheckResponse EldenOverrideHandler::VerifyConfig(EldenRemapperConfig confi
 	}
 
 	// 3. Test other mappings are okay (currentModifier)
+	// Input Mappings
 	if (!ButtonStringUtils::isValidButtonString(config.currentModifier))
 		errors.push_back(concat("Invalid Modifier Button: ", config.currentModifier));
 
-	if (!ButtonStringUtils::isValidButtonString(config.currentModifier))
-		errors.push_back(concat("Invalid Modifier Button: ", config.currentModifier));
-	
+	if (config.modifierOutReplacement != "" && !ButtonStringUtils::isValidButtonString(config.modifierOutReplacement))
+		errors.push_back(concat("Invalid Modifier Replacement Mapping: ", config.modifierOutReplacement));
+
+	if (!ButtonStringUtils::isValidButtonString(config.resetSpellMapping))
+		errors.push_back(concat("Invalid Reset Spell Mapping: ", config.resetSpellMapping));
+
+	// Output Mappings
+	if (config.dpadUpMapping != "" && !ButtonStringUtils::isValidOutputMapping(config.dpadUpMapping))
+		errors.push_back(concat("Invalid Dpad Up (Output) Mapping: ", config.dpadUpMapping, " Must be regular Xbox Controller buttons excluding DPAD_UP and paddles."));
+
+	for (int i = 0; i < config.paddleMapping.size(); i++) {
+		if (config.paddleMapping[i] != "" && !ButtonStringUtils::isValidOutputMapping(config.paddleMapping[i]))
+			errors.push_back(concat("Invalid Paddle ", i + 1,  " (Output) Mapping: ", config.paddleMapping[i], " Must be regular Xbox Controller buttons excluding DPAD_UP and paddles."));
+	}
+
 	// TODO: Make a distinction between input mappings and Output mappings.
 	// Input mappings can be whatever. While output mappings cannot be DPAD_UP nor any paddle.
+
 	
 	return ConfigCheckResponse{ errors.size() == 0, errors };
 }

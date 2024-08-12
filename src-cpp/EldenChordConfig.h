@@ -20,12 +20,20 @@ struct MiscConfig {
     int spellswitchFrameDelay;
 };
 
+// Input Mappings are: Spell mappings, ModifierOutReplacement, ResetSpellMapping
+// Output Mappings are: PaddleMappings, DpadUp Mapping.
+
+// Input mappings can be anything. (All of them are modifier + something). But they cannot repeat the combo themselves.
+// Output mappings cannot be DPAD_UP (overriding spell switching) 
+// nor paddle mappings (as they're not present in the virtual controller)
+// They CAN be shared if you want. (Player might want all paddles to map to B).
 struct EldenRemapperConfig {
     MiscConfig miscConfig;
     std::vector<SpellMapping> spells;
 
-    // Current Modifier
+    // Current button modifier. Can be any button
     std::string currentModifier;
+    // Output mapping assigned to dpadup.
     std::string dpadUpMapping;
     std::string modifierOutReplacement;
     std::string resetSpellMapping;
