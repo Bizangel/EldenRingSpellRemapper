@@ -6,6 +6,7 @@
 // defined with this macro as being exported.
 #ifdef SRCCPPELDENREMAPPER_EXPORTS
 #include "EldenOverrideHandler.h"
+#include "EldenChordConfig.h"
 #include "JoyMacroCore.h"
 #define SRCCPPELDENREMAPPER_API extern "C" __declspec(dllexport)
 #else

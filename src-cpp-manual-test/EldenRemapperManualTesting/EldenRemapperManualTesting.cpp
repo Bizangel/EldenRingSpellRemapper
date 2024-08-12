@@ -25,29 +25,33 @@ std::string SendEldenOverrideCommand(json command) {
 int main()
 {
     json spellMapping = json::array({
-        {{"id", "glintstone_stars"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", "LB"}},
-        {{"id", "glintstone_pebble"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", "LB"}},
-        {{"id", "moonlight"}, {"spellName", "Glintstone Stars"}, {"buttonCombo", ""}},
+        {{"id", "spell1"}, {"spellName", "Spell 1"}, {"buttonCombo", "A"}},
+        {{"id", "spell2"}, {"spellName", "Spell 2"}, {"buttonCombo", "B"}},
+        {{"id", "spell3"}, {"spellName", "Spell 3"}, {"buttonCombo", "Y"}},
     });
 
     json config = {
       {"miscConfig", {
-          {"pollingDelay", -1},
+          {"pollingDelay", 10},
           {"automateHidHide", false},
-          {"quickCastButton", "LB"},
-          {"spellswitchFrameDelay", 100}
+          {"quickCastButton", ""},
+          {"spellswitchFrameDelay", 4}
       }},
       {"spells", spellMapping},
-      {"currentModifier", "RT"},
-      {"dpadUpMapping", "M"},
-      {"modifierOutReplacement", "RT"},
-      {"resetSpellMapping", "M3"},
-      {"paddleMapping", {"", "", "P1", "DPAD_UP"}}
+      {"currentModifier", "LT"},
+      {"dpadUpMapping", "X"},
+      {"modifierOutReplacement", ""},
+      {"resetSpellMapping", "LS"},
+      {"paddleMapping", {"B", "B", "B", "B"}}
     };
-
     
     std::string configStr = config.dump();
-    //std::cout << "config payload " << configStr << std::endl;
-    json command = { {"command", "check-config"}, {"payload", configStr} };
-    std::cout << "Response: " << SendEldenOverrideCommand(command);
+
+    json command = { {"command", "start-override"}, {"payload", configStr} };
+    std::cout << "Start Override Response: " << SendEldenOverrideCommand(command);
+
+    system("pause");
+
+    command = { {"command", "stop-override"}, {"payload", ""}};
+    std::cout << "Stop Override Response: " << SendEldenOverrideCommand(command);
 }

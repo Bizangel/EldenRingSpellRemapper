@@ -2,7 +2,7 @@
 
 EldenOverrideHandler* EldenOverrideHandler::_instance = nullptr;
 
-EldenOverrideHandler* EldenOverrideHandler::EnsureResetInstance()
+void EldenOverrideHandler::EnsureResetInstance()
 {
 	if (EldenOverrideHandler::_instance != nullptr) {
 		// if calling start for some reason, cleanup first
@@ -10,47 +10,65 @@ EldenOverrideHandler* EldenOverrideHandler::EnsureResetInstance()
 		delete _instance;
 	}
 
-	return new EldenOverrideHandler();
+	auto _instance = new EldenOverrideHandler();
+	EldenOverrideHandler::_instance = _instance;
 }
 
-int EldenOverrideHandler::StartOverride_Internal()
+int EldenOverrideHandler::StartOverride_Internal(EldenRemapperConfig config)
 {
-	//_overrider = new EldenChordOverrider()
-	//_overrideClient = new JoyMacroOverrideClient();
-	//_overrideClient->StartOverride(_overrider);
-	// remember to check exit code. if non zero no need to close, cleanup properly
-	return 0;
+	_overrider = new EldenChordOverrider(config);
+	_overrideClient = new JoyMacroOverrideClient();
+	int overrideIndex = _overrideClient->getFirstActiveControllerIndex();
+
+	if (!config.miscConfig.automateHidHide)
+		_overrideClient->disableHidHide();
+
+	_overrideClient->setPollingDelayMs(config.miscConfig.pollingDelay);
+
+	// TODO: Add this to the UI to avoid hardcoded keys mapping. For now use these keys on whatever paddle->key mapping software you use. 
+	// ref: in US keyboard, in order: P1: rightbrace/rightbracket key, P2: plus/equal key, P3: single double quotes key, P4: colon/semicolon key
+	std::vector<int> paddleKeymapping { 187, 221, 222, 192 };
+	int overrideCode = _overrideClient->StartOverride(overrideIndex, _overrider, paddleKeymapping);
+	return overrideCode;
 }
 
 void EldenOverrideHandler::StopOverride_Internal()
 {
-	//_overrideClient->StopOverride();
-	//delete _overrideClient;
-	//_overrideClient = nullptr;
-
-	//delete _overrider;
+	_overrideClient->StopOverride();
+	delete _overrideClient;
+	_overrideClient = nullptr;
+	delete _overrider;
+	_overrider = nullptr;
 }
 
-int EldenOverrideHandler::StartOverride()
+int EldenOverrideHandler::StartOverride(EldenRemapperConfig config)
 {
 	std::cout << "Start Override C++ " << std::endl;
-	// Ensure every config here is available.
+	EnsureResetInstance(); // ensure instance is fresh.
+	EldenOverrideHandler* handler = EldenOverrideHandler::_instance;
+	int overrideCode = handler->StartOverride_Internal(config);
+	if (overrideCode != 0) {
+		// cleanup everything
+		delete handler->_overrider;
+		delete handler->_overrideClient;
+		delete _instance;
+		_instance = nullptr;
+	}
 
-	EldenOverrideHandler* handler = EnsureResetInstance(); // ensure instance is fresh.
-	return handler->StartOverride_Internal();
+	return overrideCode;
 }
 
 void EldenOverrideHandler::StopOverride()
 {
 	std::cout << "Stop Override C++" << std::endl;
-	EldenOverrideHandler* handler = EldenOverrideHandler::_instance;
-	if (handler == nullptr) // nothing to stop
+	EldenOverrideHandler* _instance = EldenOverrideHandler::_instance;
+	if (_instance == nullptr) // nothing to stop
 		return;
 
 	// cleanup
-	handler->StopOverride_Internal();
-	delete handler;
-	handler = nullptr;
+	_instance->StopOverride_Internal();
+	delete _instance;
+	_instance = nullptr;
 }
 
 bool EldenOverrideHandler::IsOverrideActive()
@@ -75,6 +93,36 @@ std::string EldenOverrideHandler::HandleCommand(std::string payload)
 			auto configCheckResponse = VerifyConfig(config);
 			return json(EldenOverrideCommandResponse{ true, json(configCheckResponse).dump() }).dump();
 		}
+
+		if (payload.command == "start-override") {
+			auto configJson = json::parse(payload.payload);
+			auto config = configJson.template get<EldenRemapperConfig>();
+			auto configCheckResponse = VerifyConfig(config);
+			if (!configCheckResponse.configOk)
+				return json(EldenOverrideCommandResponse{ false, "Invalid Override Config given" }).dump();
+
+			int overrideCode = StartOverride(config);
+			switch (overrideCode) {
+				case JoyMacroExitCode::SUCCESS:
+					return json(EldenOverrideCommandResponse{ true, "Successfully started override!" }).dump();
+				case JoyMacroExitCode::ALREADY_INITIALIZED:
+					return json(EldenOverrideCommandResponse{ false, "Override already initialized!" }).dump();
+				case JoyMacroExitCode::VIGEM_UNABLE_INITIALIZE:
+					return json(EldenOverrideCommandResponse{ false, "Unable to initialize VigemBusDriver! Is Vigem Installed?" }).dump();
+				case JoyMacroExitCode::VIGEM_UNABLE_PLUG_CONTROLLER:
+					return json(EldenOverrideCommandResponse{ false, "Unable to instantiate VigemBusDriver controller" }).dump();
+				case JoyMacroExitCode::HID_HIDE_MISSING:
+					return json(EldenOverrideCommandResponse{ false, "Unable to find HidHide, has HidHide been installed?" }).dump();
+				default:
+					return json(EldenOverrideCommandResponse{ false, "Unable to start override" }).dump();
+			}
+		}
+
+		if (payload.command == "stop-override") {
+			StopOverride();
+			return json(EldenOverrideCommandResponse{ true, "Override Stop Requested" }).dump();
+		}
+
 		
 		return json(EldenOverrideCommandResponse{ false, "Unrecognized Command" }).dump();
 	}

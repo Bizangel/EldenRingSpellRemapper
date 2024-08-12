@@ -44,17 +44,17 @@ class EldenOverrideHandler
 {
 private: 
 	static EldenOverrideHandler* _instance;
-	static EldenOverrideHandler* EnsureResetInstance();
+	static void EnsureResetInstance();
 
-	int StartOverride_Internal();
+	int StartOverride_Internal(EldenRemapperConfig config);
 	void StopOverride_Internal();
 
 	JoyMacroOverrideClient* _overrideClient;
 	EldenChordOverrider* _overrider;
 
 	static ConfigCheckResponse VerifyConfig(EldenRemapperConfig config);
+	static int StartOverride(EldenRemapperConfig config);
 public:
-	static int StartOverride();
 	static void StopOverride();
 	static bool IsOverrideActive();
 
