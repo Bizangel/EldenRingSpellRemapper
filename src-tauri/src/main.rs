@@ -2,6 +2,9 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use std::ffi::{CStr, CString};
 use tauri::{CustomMenuItem, SystemTray, SystemTrayMenu, SystemTrayEvent, Manager, WindowBuilder};
+use named_lock::NamedLock;
+use named_lock::Result;
+use std::process;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -37,7 +40,15 @@ extern "C" {
     fn EldenOverrideCommand_DeAllocString(input: *const std::os::raw::c_char) -> ();
 }
 
-fn main() {
+fn main() -> Result<()> {
+    let lock = NamedLock::create("elden-remapper-config-lock")?;
+    if lock.try_lock().is_err() {
+        println!("Another instance is already running");
+        process::exit(1);
+    }
+
+    let _guard = lock.lock()?;
+
     let open = CustomMenuItem::new("open".to_string(), "Open Interface");
     let quit = CustomMenuItem::new("quit".to_string(), "Quit");
 
@@ -112,4 +123,6 @@ fn main() {
         .invoke_handler(tauri::generate_handler![stop_elden_override, is_elden_override_active, elden_override_send_command])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+
+    Ok(())
 }
