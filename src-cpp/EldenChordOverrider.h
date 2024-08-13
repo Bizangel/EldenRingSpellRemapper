@@ -6,7 +6,7 @@
 #include "EldenChordConfig.h"
 #include "ButtonStringUtils.h"
 
-#define ELDEN_DPAD_UP_RESET_MS 300
+#define ELDEN_DPAD_UP_RESET_MS 700
 
 class EldenChordOverrider : public IGamepadOverrider
 {
