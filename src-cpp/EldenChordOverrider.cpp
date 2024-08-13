@@ -45,21 +45,23 @@ void EldenChordOverrider::modlockButton(std::string button)
 	}
 }
 
-#define PROCESS_PADDLE_MAPPING(paddleNumber) if (config.paddleMapping[##paddleNumber - 1] != "" && pState.P##paddleNumber) {ButtonStringUtils::pressButton(config.paddleMapping[##paddleNumber - 1], gamepadRef, 255); }
+#define PROCESS_PADDLE_MAPPING(paddleNumber) if (config.paddleMapping[##paddleNumber - 1] != "" && outPStateForProcessing.P##paddleNumber) {ButtonStringUtils::pressButton(config.paddleMapping[##paddleNumber - 1], gamepadRef, 255); }
 
 void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const PaddleState& pState)
 {
 	// Save unaltered input
 	const XINPUT_GAMEPAD input(gamepadRef);
 
-	ButtonStringUtils::releaseButton(modifier, gamepadRef); // modifier by default input shouldn't be processed.
+	PaddleState outPStateForProcessing(pState);
+
+	ButtonStringUtils::releaseButton(modifier, gamepadRef, outPStateForProcessing); // modifier by default input shouldn't be processed.
 	//ButtonStringUtils::releaseButton("DPAD_UP", gamepadRef); // edit: you need dpad up for menu's navigations etc, forgot about that :p DPAD_UP by default shouldn't be enabled. Let cycler logic below handle it.
 	uint8_t modifierActuationLevel = ButtonStringUtils::buttonActuationLevel(modifier, input, pState);
 	bool modifierPressed = ButtonStringUtils::isPressed(modifier, input, pState);
 	if (modifierPressed) {
 		// unrelease all modifier buttons (input mappings)
 		for (std::string& mapping : inputMappings) {
-			ButtonStringUtils::releaseButton(mapping, gamepadRef);
+			ButtonStringUtils::releaseButton(mapping, gamepadRef, outPStateForProcessing);
 			// modifier lock them, to avoid accidental presses after releasing modifier
 			if (ButtonStringUtils::isPressed(mapping, input, pState))
 				modlockButton(mapping);
@@ -77,7 +79,7 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 
 			// unpress those still locked
 			if (mapping.second)
-				ButtonStringUtils::releaseButton(mapping.first, gamepadRef);
+				ButtonStringUtils::releaseButton(mapping.first, gamepadRef, outPStateForProcessing);
 		}
 	}
 
@@ -154,6 +156,7 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 		}
 	}
 
+	// Out PState is used here! This avoid conflict mappings with native paddle mappings and other combos.
 	// Process Outputs Mappings
 	PROCESS_PADDLE_MAPPING(1)
 	PROCESS_PADDLE_MAPPING(2)

@@ -117,7 +117,7 @@ void ButtonStringUtils::pressButton(const std::string& button, XINPUT_GAMEPAD& g
 }
 
 #define RELEASE_BUTTON(button) gamepadRef.wButtons &= ~button
-void ButtonStringUtils::releaseButton(const std::string& button, XINPUT_GAMEPAD& gamepadRef)
+void ButtonStringUtils::releaseButton(const std::string& button, XINPUT_GAMEPAD& gamepadRef, PaddleState& pState)
 {
 	if (button == "A")
 		RELEASE_BUTTON(XINPUT_GAMEPAD_A);
@@ -151,4 +151,12 @@ void ButtonStringUtils::releaseButton(const std::string& button, XINPUT_GAMEPAD&
 		RELEASE_BUTTON(XINPUT_GAMEPAD_LEFT_THUMB);
 	else if (button == "RS")
 		RELEASE_BUTTON(XINPUT_GAMEPAD_RIGHT_THUMB);
+	else if (button == "P1")
+		pState.P1 = false;
+	else if (button == "P2")
+		pState.P2 = false;
+	else if (button == "P3")
+		pState.P3 = false;
+	else if (button == "P4")
+		pState.P4 = false;
 }

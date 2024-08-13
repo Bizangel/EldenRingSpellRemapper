@@ -20,6 +20,6 @@ public:
 	static uint8_t buttonActuationLevel(const std::string& button, const XINPUT_GAMEPAD& gamepadRef, const PaddleState& pState);
 
 	static void pressButton(const std::string& button, XINPUT_GAMEPAD& gamepadRef, uint8_t actuationLevel);
-	static void releaseButton(const std::string& button, XINPUT_GAMEPAD& gamepadRef);
+	static void releaseButton(const std::string& button, XINPUT_GAMEPAD& gamepadRef, PaddleState& pState);
 };
 
