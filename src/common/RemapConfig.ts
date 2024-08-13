@@ -229,7 +229,7 @@ export const useRemapper = create<EldenRingRemapperStore>()(
 
     }),
     {
-        name: 'debug-storage22',
+        name: 'elden-config-remapper-storage',
         storage: createJSONStorage(() => localStorage)
     }
     )
