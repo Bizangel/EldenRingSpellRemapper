@@ -98,10 +98,12 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 					quickCastingIdx = i;
 ;			}
 
-			if (quickCastingIdx == i && wasPressed && !isCurrentlyPressed) { // i.e. when quickcast combo released
-				quickCastingIdx = -1; 
-			}
+
 		}
+	}
+
+	if (!modifierPressed && quickCastingIdx > -1) { // i.e. when quickcast combo released
+		quickCastingIdx = -1;
 	}
 
 	// Quick cast while held
