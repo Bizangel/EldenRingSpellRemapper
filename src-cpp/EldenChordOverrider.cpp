@@ -104,8 +104,14 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 		}
 	}
 
-	if (!modifierPressed && quickCastingIdx > -1) { // i.e. when quickcast combo released
-		quickCastingIdx = -1;
+	if (config.miscConfig.quickCastButton != "" && quickCastingIdx > -1) {
+		for (int i = 0; i < config.spells.size(); i++) { // check for quickcast releases
+			if (i == quickCastingIdx) { 
+				if (!ButtonStringUtils::isPressed(config.spells[i].buttonCombo, input, pState))
+					quickCastingIdx = -1;
+				break;
+			}
+		}
 	}
 
 	// Quick cast while held
