@@ -53,7 +53,7 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 	const XINPUT_GAMEPAD input(gamepadRef);
 
 	ButtonStringUtils::releaseButton(modifier, gamepadRef); // modifier by default input shouldn't be processed.
-	ButtonStringUtils::releaseButton("DPAD_UP", gamepadRef); // DPAD_UP by default shouldn't be enabled. Let cycler logic below handle it.
+	//ButtonStringUtils::releaseButton("DPAD_UP", gamepadRef); // edit: you need dpad up for menu's navigations etc, forgot about that :p DPAD_UP by default shouldn't be enabled. Let cycler logic below handle it.
 	uint8_t modifierActuationLevel = ButtonStringUtils::buttonActuationLevel(modifier, input, pState);
 	bool modifierPressed = ButtonStringUtils::isPressed(modifier, input, pState);
 	if (modifierPressed) {
@@ -158,8 +158,9 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 	PROCESS_PADDLE_MAPPING(3)
 	PROCESS_PADDLE_MAPPING(4)
 
-	if (config.dpadUpMapping != "" && ButtonStringUtils::isPressed("DPAD_UP", input, pState))
-		ButtonStringUtils::pressButton(config.dpadUpMapping, gamepadRef, 255);
+	// ignore dpad up mapping
+	//if (config.dpadUpMapping != "" && ButtonStringUtils::isPressed("DPAD_UP", input, pState))
+	//	ButtonStringUtils::pressButton(config.dpadUpMapping, gamepadRef, 255);
 
 	// Process modifier output
 	if (modifierPressed && config.modifierOutReplacement != "") {
