@@ -30,4 +30,5 @@ dist-ssr
 
 public/spellsicons/
 src/common/Spells.generated.ts
+out/
 
