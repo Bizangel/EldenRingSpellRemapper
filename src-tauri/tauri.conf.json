@@ -38,6 +38,9 @@
       "identifier": "com.bizangel.eldenringspellremapper.dev",
       "icon": [
         "icons/elden_remapper.ico"
+      ],
+      "resources": [
+        "./elden-remapper.dll"
       ]
     }
   }
