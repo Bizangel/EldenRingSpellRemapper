@@ -29,6 +29,7 @@
     }
 }
 
+
 .settings-content {
     width: 500px;
 
@@ -90,6 +91,19 @@
     }
 }
 
+
+@media screen and (max-height: 500px) {
+    .settings-content {
+        width: 300px;
+        font-size: 11pt;
+    }
+
+    .settings-entry {
+        input {
+            font-size: 11pt;
+        }
+    }
+}
 
 // ===== Fancy checkbox adapted from: https://stackoverflow.com/questions/68789475/how-can-i-style-checkbox-with-css
 .settings-entry input {

@@ -11,6 +11,12 @@
     border-radius: 5px;
 }
 
+@media screen and (max-height: 500px) {
+    .button-mapping-pair-wrapper {
+      height: 50px;
+    }
+}
+
 .button-mapping-switcheable {
     height: 100%;
     aspect-ratio: 1;

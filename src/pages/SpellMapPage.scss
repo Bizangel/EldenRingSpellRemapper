@@ -82,8 +82,16 @@
         cursor: not-allowed;
     }
 
-    @extend %spellpage-button-styling
+    @extend %spellpage-button-styling;
 }
+
+@media screen and (max-height: 500px) {
+    .spellpage-button {
+        width: 130px;
+        font-size: 11pt;
+    }
+}
+
 
 .spell-page-content{
     display: flex;

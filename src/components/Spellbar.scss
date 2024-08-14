@@ -17,7 +17,6 @@
     &::-webkit-scrollbar-thumb { background-color: #54646f; }
 }
 
-
 .spellbar {
     display: flex;
     flex-direction: row;
@@ -29,6 +28,16 @@
 
 
     align-items: end;
+}
+
+@media screen and (max-height: 500px) {
+    .spellbar-spells {
+        height: 130px;
+    }
+
+    .spellbar {
+        height: 130px;
+    }
 }
 
 .delete-spell-area {

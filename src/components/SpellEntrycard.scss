@@ -38,6 +38,12 @@
     font-size: 13pt;
 }
 
+@media screen and (max-height: 500px) {
+    .text-wrapper {
+        font-size: 10pt;
+    }
+}
+
 .buttoncombo-wrapper {
     position: absolute;
     top: 0;
