@@ -103,13 +103,6 @@ const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) =
                                 customTargetSrc={spellReset}
                                 options={{hideNoMapping: true}}
                                 />
-                            {/* Dpad up mapping replacement */}
-                            <ButtonMappingPair
-                                mappingSource={"DPAD_UP"}
-                                value={currentDpadMapping}
-                                onValueChange={setDpadUpMapping}
-                                buttons={ButtonList.filter(e => !["P1", "P2", "P3", "P4", "DPAD_UP"].includes(e))}/>
-
                     </div>
                 </div>
             </div>
