@@ -13,8 +13,16 @@
     gap: 10px;
 
     overflow-x: auto;
+
+
     &::-webkit-scrollbar { height: 3px; background-color: #11171b;}
     &::-webkit-scrollbar-thumb { background-color: #54646f; }
+
+    @media (hover: none) and (pointer: coarse) {
+        &::-webkit-scrollbar { height: 12px; }
+    }
+
+    touch-action: none;
 }
 
 .spellbar {
