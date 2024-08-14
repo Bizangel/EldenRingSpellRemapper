@@ -2,7 +2,6 @@ import cogWheel from "../assets/cog.svg"
 import './SpellMapPage.scss'
 import PaddleMapper from "../components/PaddleMapper";
 import Spellbar from "../components/Spellbar";
-import { ButtonMappingPair } from "../components/ButtonMappingPair";
 import { ButtonList, ButtonString } from "../common/Buttons";
 import { useRemapper } from "../common/RemapConfig";
 import { ButtonModifierMappingPair } from "../components/ButtonModifierMappingPair";
@@ -20,9 +19,6 @@ const modifierCannotBeOutputMapping = (currentModifier: ButtonString) =>
     ["P1", "P2", "P3", "P4", "DPAD_UP"].includes(currentModifier);
 
 const SpellMapPage = ({goToSettingsPage, goToAddSpellPage}: SpellMapPageProps) => {
-    // dpad config
-    const currentDpadMapping = useRemapper(e => e.config.dpadUpMapping);
-    const setDpadUpMapping = useRemapper(e => e.setDpadUpMapping);
     // reset spell config
     const setResetMapping = useRemapper(e => e.setResetMapping);
     const currentResetMapping = useRemapper(e => e.config.resetSpellMapping);
