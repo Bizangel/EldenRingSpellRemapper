@@ -119,11 +119,17 @@ void EldenChordOverrider::OverrideInput(XINPUT_GAMEPAD& gamepadRef, const Paddle
 		ButtonStringUtils::pressButton(config.miscConfig.quickCastButton, gamepadRef, 255);
 	}
 
+
 	// Check for reset mapping requested
-	if (modifierPressed && ButtonStringUtils::isPressed(config.resetSpellMapping, input, pState)) {
-		// start resetting
-		if (currentResetCycle == -1) // if not, then already resetting
-			currentResetCycle = 0;
+	if (modifierPressed)
+	{
+		bool isCurrentlyPressed = ButtonStringUtils::isPressed(config.resetSpellMapping, input, pState);
+		bool wasPressed = ButtonStringUtils::isPressed(config.resetSpellMapping, prevInput, prevPState);
+
+		if (isCurrentlyPressed && !wasPressed) {
+			if (currentResetCycle == -1) // if not, then already resetting
+				currentResetCycle = 0;
+		}
 	}
 
 	// ==== Dpad cycling logic. =====
